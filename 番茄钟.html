@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍅 番茄钟</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --focus: #e74c3c;
+    --break: #2ecc71;
+    --long-break: #3498db;
+    --bg: #f8f9fa;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #95a5a6;
+    --radius: 16px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+  }
+  .container {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    padding: 40px 36px 36px;
+    width: 400px;
+    max-width: 94vw;
+    text-align: center;
+  }
+
+  /* tabs */
+  .tabs { display: flex; gap: 4px; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 32px; }
+  .tab {
+    flex: 1; padding: 8px 0; border: none; border-radius: 8px; cursor: pointer;
+    font-size: 14px; font-weight: 500; background: transparent; color: var(--muted);
+    transition: all .2s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--card); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .tab[data-mode="focus"].active { color: var(--focus); }
+  .tab[data-mode="short"].active { color: var(--break); }
+  .tab[data-mode="long"].active { color: var(--long-break); }
+
+  /* timer */
+  .timer {
+    font-size: 88px; font-weight: 700; font-variant-numeric: tabular-nums;
+    letter-spacing: 2px; line-height: 1; margin-bottom: 8px;
+    transition: color .3s;
+  }
+  .timer.focus { color: var(--focus); }
+  .timer.short { color: var(--break); }
+  .timer.long { color: var(--long-break); }
+
+  .mode-label { font-size: 16px; color: var(--muted); margin-bottom: 4px; }
+  .tomato-count { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .tomato-count span { color: var(--focus); font-weight: 600; }
+
+  /* controls */
+  .controls { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
+  .btn {
+    border: none; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600;
+    padding: 12px 32px; transition: all .15s; font-family: inherit;
+  }
+  .btn:active { transform: scale(.96); }
+  .btn-primary {
+    background: var(--focus); color: #fff; min-width: 130px;
+  }
+  .timer.short ~ .controls .btn-primary,
+  .focus-indicator.short ~ .controls .btn-primary { background: var(--break); }
+  .timer.long ~ .controls .btn-primary { background: var(--long-break); }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-secondary {
+    background: #f1f3f5; color: var(--text);
+  }
+  .btn-secondary:hover { background: #e9ecef; }
+
+  /* progress bar */
+  .progress-track { height: 4px; background: #f1f3f5; border-radius: 2px; overflow: hidden; margin-top: 8px; }
+  .progress-fill {
+    height: 100%; width: 100%; border-radius: 2px; transition: width 1s linear;
+    background: var(--focus);
+  }
+  .progress-fill.short { background: var(--break); }
+  .progress-fill.long { background: var(--long-break); }
+
+  /* responsive */
+  @media (max-width: 480px) {
+    .container { padding: 28px 20px 24px; }
+    .timer { font-size: 64px; }
+    .btn { padding: 10px 20px; font-size: 14px; }
+    .btn-primary { min-width: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="番茄钟应用">
+  <!-- mode tabs -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-mode="focus" role="tab" aria-selected="true">专注</button>
+    <button class="tab" data-mode="short" role="tab" aria-selected="false">短休息</button>
+    <button class="tab" data-mode="long" role="tab" aria-selected="false">长休息</button>
+  </div>
+
+  <!-- timer display -->
+  <div class="mode-label" id="modeLabel">专注时间</div>
+  <div class="timer focus" id="timerDisplay" aria-live="polite">25:00</div>
+  <div class="tomato-count" id="tomatoCount">已完成番茄 · <span id="countNum">0</span></div>
+
+  <!-- controls -->
+  <div class="controls" id="controls">
+    <button class="btn btn-primary" id="mainBtn" aria-label="开始倒计时">开始</button>
+    <button class="btn btn-secondary" id="resetBtn" aria-label="重置倒计时">重置</button>
+  </div>
+
+  <!-- progress -->
+  <div class="progress-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-fill focus" id="progressFill"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // ─── config ────────────────────────────────────────────────
+  const DEFAULTS = { focus: 25 * 60, short: 5 * 60, long: 15 * 60 };
+  const LONG_BREAK_AFTER = 4;
+
+  // ─── state ─────────────────────────────────────────────────
+  let mode = 'focus';            // focus | short | long
+  let timeLeft = DEFAULTS.focus;
+  let totalTime = DEFAULTS.focus;
+  let isRunning = false;
+  let timerId = null;
+  let completedPomodoros = 0;
+
+  // ─── DOM refs ──────────────────────────────────────────────
+  const $ = id => document.getElementById(id);
+  const timerDisplay = $('timerDisplay');
+  const modeLabel = $('modeLabel');
+  const countNum = $('countNum');
+  const mainBtn = $('mainBtn');
+  const resetBtn = $('resetBtn');
+  const progressFill = $('progressFill');
+  const tabs = document.querySelectorAll('.tab');
+
+  // ─── audio ─────────────────────────────────────────────────
+  let audioCtx = null;
+  function playBeep() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.frequency.value = 800;
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.6);
+    } catch (_) { /* silent fallback */ }
+  }
+
+  // ─── notification ──────────────────────────────────────────
+  function sendNotification(title, body) {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'granted') {
+      new Notification(title, { body, icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🍅</text></svg>' });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
+    // blink title
+    const orig = document.title;
+    document.title = `⏰ ${title}`;
+    setTimeout(() => { document.title = orig; }, 3000);
+  }
+
+  // ─── helpers ───────────────────────────────────────────────
+  function formatTime(sec) {
+    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+    const s = String(sec % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function getModeConfig(m) {
+    return { focus: { label: '专注时间', cls: 'focus', dur: DEFAULTS.focus },
+             short: { label: '短休息',   cls: 'short', dur: DEFAULTS.short },
+             long:  { label: '长休息',   cls: 'long',  dur: DEFAULTS.long   } }[m];
+  }
+
+  // ─── render ────────────────────────────────────────────────
+  function updateUI() {
+    const cfg = getModeConfig(mode);
+    timerDisplay.textContent = formatTime(timeLeft);
+    timerDisplay.className = `timer ${cfg.cls}`;
+    modeLabel.textContent = cfg.label;
+    progressFill.className = `progress-fill ${cfg.cls}`;
+    const pct = totalTime > 0 ? ((totalTime - timeLeft) / totalTime) * 100 : 0;
+    progressFill.style.width = `${pct}%`;
+    mainBtn.textContent = isRunning ? '暂停' : '开始';
+    if (isRunning) {
+      document.title = `🍅 ${formatTime(timeLeft)} — ${cfg.label}`;
+    } else {
+      document.title = '🍅 番茄钟';
+    }
+  }
+
+  function updateTomatoCount() {
+    countNum.textContent = completedPomodoros;
+  }
+
+  function updateTabs() {
+    tabs.forEach(t => {
+      const active = t.dataset.mode === mode;
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-selected', active);
+    });
+  }
+
+  // ─── timer logic ───────────────────────────────────────────
+  function stopTimer() {
+    if (timerId) { clearInterval(timerId); timerId = null; }
+    isRunning = false;
+    updateUI();
+  }
+
+  function startTimer() {
+    if (timerId) stopTimer();
+    if (timeLeft <= 0) return;
+    isRunning = true;
+    updateUI();
+    timerId = setInterval(() => {
+      timeLeft--;
+      updateUI();
+      if (timeLeft <= 0) {
+        stopTimer();
+        onComplete();
+      }
+    }, 1000);
+  }
+
+  function toggleTimer() {
+    if (isRunning) { stopTimer(); return; }
+    startTimer();
+  }
+
+  function resetTimer() {
+    const wasRunning = isRunning;
+    stopTimer();
+    timeLeft = totalTime;
+    updateUI();
+    if (wasRunning) startTimer();
+  }
+
+  function switchMode(m) {
+    if (m === mode && timeLeft > 0) return; // already in this mode with time left
+    stopTimer();
+    mode = m;
+    totalTime = DEFAULTS[m];
+    timeLeft = totalTime;
+    updateTabs();
+    updateUI();
+    saveState();
+  }
+
+  // ─── completion ────────────────────────────────────────────
+  function onComplete() {
+    playBeep();
+    if (mode === 'focus') {
+      completedPomodoros++;
+      updateTomatoCount();
+      sendNotification('专注完成！', `已完成 ${completedPomodoros} 个番茄`);
+      // auto-advance to break
+      if (completedPomodoros % LONG_BREAK_AFTER === 0) {
+        switchMode('long');
+      } else {
+        switchMode('short');
+      }
+    } else {
+      sendNotification('休息结束', '该开始新的专注了');
+      switchMode('focus');
+    }
+    saveState();
+  }
+
+  // ─── persistence ───────────────────────────────────────────
+  function saveState() {
+    try {
+      localStorage.setItem('pomodoro_completed', String(completedPomodoros));
+      localStorage.setItem('pomodoro_mode', mode);
+    } catch (_) {}
+  }
+
+  function loadState() {
+    try {
+      const c = localStorage.getItem('pomodoro_completed');
+      if (c !== null) completedPomodoros = parseInt(c, 10) || 0;
+      const m = localStorage.getItem('pomodoro_mode');
+      if (m && DEFAULTS[m]) mode = m;
+    } catch (_) {}
+    updateTomatoCount();
+  }
+
+  // ─── init ──────────────────────────────────────────────────
+  loadState();
+  totalTime = DEFAULTS[mode];
+  timeLeft = totalTime;
+  updateTabs();
+  updateUI();
+
+  // ─── events ────────────────────────────────────────────────
+  mainBtn.addEventListener('click', toggleTimer);
+  resetBtn.addEventListener('click', resetTimer);
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => switchMode(tab.dataset.mode));
+  });
+
+  // keyboard shortcut — space to toggle
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      toggleTimer();
+    }
+  });
+})();
+</script>
+</body>
+</html>

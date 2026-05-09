@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "id": "2e805a6c",
+      "cron": "0 9 * * *",
+      "prompt": "第一步：使用 daily-policy-briefing skill 生成今日三轨备考文稿。\n第二步：三轨全部完成后，使用 daily-plan-organizer skill 询问用户今日安排并生成计划清单HTML。",
+      "createdAt": 1778300525794,
+      "recurring": true,
+      "createdBySessionId": "6ef702c3-1266-4fbd-8e33-6be70ca0f29b",
+      "createdByPid": 29604,
+      "createdByProcStart": "639139200591617370"
+    },
+    {
+      "id": "e7530a00",
+      "cron": "37 8 * * 6",
+      "prompt": "健康检查+自续：\n\n1. 用CronList列出所有定时任务。\n2. 检查每日备考任务（每日9:00）是否仍在列表中且状态正常。如已过期或丢失，按以下重建：cron=\"0 9 * * *\", recurring=true, durable=true, prompt=\"第一步：使用 daily-policy-briefing skill 生成今日三轨备考文稿。\\n第二步：三轨全部完成后，使用 daily-plan-organizer skill 询问用户今日安排并生成计划清单HTML。\"\n3. 检查本健康检查任务自身：删除自身旧记录，然后用相同参数重建一个新的健康检查任务（cron=\"37 8 * * 6\", recurring=true, durable=true, prompt与此完全一致），确保下周继续执行。\n4. 简洁报告用户：简报任务状态 + 健康检查已自续。",
+      "createdAt": 1778300543154,
+      "recurring": true,
+      "createdBySessionId": "6ef702c3-1266-4fbd-8e33-6be70ca0f29b",
+      "createdByPid": 29604,
+      "createdByProcStart": "639139200591617370"
+    }
+  ]
+}

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日计划 · 2026年5月9日</title>
+<style>
+  :root {
+    --bg: #f8f7f4; --card: #ffffff; --text: #2c2c2c; --muted: #8c8c8c;
+    --accent: #2563eb; --border: #e8e5e0; --check: #3a7d44;
+    --morning: #fef9e7; --afternoon: #eff6ff; --evening: #f5f0fa;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh;
+  }
+  .container { max-width: 640px; margin: 0 auto; padding: 20px 16px 120px; }
+  .header { text-align: center; padding: 24px 0 16px; }
+  .header .date { font-size: 26px; font-weight: 700; }
+  .header .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .header .divider { width: 36px; height: 3px; background: var(--accent); margin: 14px auto 0; border-radius: 2px; }
+
+  .progress-wrap { margin: 0 0 20px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .progress-bar { height: 4px; background: #e8e5e0; border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.35s; }
+
+  /* Time block */
+  .block { margin-bottom: 20px; }
+  .block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 15px; font-weight: 600; margin-bottom: 8px; padding: 0 2px;
+  }
+  .block-header .label { display: flex; align-items: center; gap: 6px; }
+  .block.morning .block-header { color: #92400e; }
+  .block.afternoon .block-header { color: #1e40af; }
+  .block.evening .block-header { color: #5b21b6; }
+  .block-header .count { font-size: 12px; font-weight: 400; color: var(--muted); }
+
+  .add-btn {
+    width: 26px; height: 26px; border-radius: 50%; border: 1.5px dashed #ccc;
+    background: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: #aaa; transition: all 0.15s;
+  }
+  .add-btn:hover { border-color: var(--accent); color: var(--accent); background: #eff6ff; }
+
+  .task-list { min-height: 8px; border-radius: 8px; transition: background 0.2s; }
+  .task-list.drag-over { background: rgba(37,99,235,0.06); outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+  .task {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px 14px; background: var(--card); border-radius: 8px;
+    margin-bottom: 6px; box-shadow: var(--shadow);
+    cursor: grab; transition: all 0.2s; border-left: 3px solid transparent;
+    user-select: none;
+  }
+  .task:active { cursor: grabbing; }
+  .task.dragging { opacity: 0.4; transform: scale(0.97); }
+  .task.morning { border-left-color: #f0c040; }
+  .task.afternoon { border-left-color: #60a5fa; }
+  .task.evening { border-left-color: #a78bfa; }
+
+  .check-box {
+    width: 20px; height: 20px; border: 2px solid #ccc; border-radius: 50%;
+    flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; cursor: pointer;
+  }
+  .check-box:hover { border-color: var(--check); }
+  .task-body { flex: 1; min-width: 0; }
+  .task-text { font-size: 14px; word-break: break-word; }
+  .task-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .delete-btn {
+    flex-shrink: 0; width: 20px; height: 20px; border: none; background: none;
+    cursor: pointer; color: #ccc; font-size: 14px; line-height: 1;
+    border-radius: 50%; transition: all 0.15s; padding: 0; opacity: 0;
+  }
+  .task:hover .delete-btn { opacity: 1; }
+  .delete-btn:hover { color: #e53e3e; background: #fff5f5; }
+
+  /* Add form */
+  .add-form {
+    display: none; padding: 10px 14px; background: #fff; border-radius: 8px;
+    margin-bottom: 6px; box-shadow: var(--shadow); border: 1px solid var(--accent);
+  }
+  .add-form.active { display: block; }
+  .add-form input {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px;
+    font-size: 14px; font-family: inherit; outline: none; margin-bottom: 6px;
+  }
+  .add-form input:focus { border-color: var(--accent); }
+  .add-form .form-actions { display: flex; gap: 6px; justify-content: flex-end; }
+  .add-form .form-actions button {
+    padding: 5px 14px; border-radius: 6px; border: 1px solid var(--border);
+    font-size: 13px; cursor: pointer; background: #fff;
+  }
+  .add-form .form-actions .confirm {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+  .add-form .form-actions .confirm:hover { background: #1d4ed8; }
+
+  /* Done section */
+  .done-section { margin-top: 28px; }
+  .done-header {
+    font-size: 13px; font-weight: 600; color: #999; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+  }
+  .done-header .arrow { transition: transform 0.2s; font-size: 10px; }
+  .done-section.collapsed .done-list { display: none; }
+  .done-section.collapsed .arrow { transform: rotate(-90deg); }
+
+  .done-list .task {
+    opacity: 0.6; background: #fafaf9; cursor: pointer;
+  }
+  .done-list .task .check-box { background: var(--check); border-color: var(--check); }
+  .done-list .task .check-box::after { content: "✓"; color: #fff; font-size: 11px; font-weight: 700; }
+  .done-list .task .task-text { text-decoration: line-through; }
+  .done-list .task:hover { opacity: 0.85; }
+
+  /* Briefing ref */
+  .ref-section {
+    margin-top: 28px; padding: 14px 16px;
+    background: #fafaf7; border-radius: 8px;
+    border: 1px solid var(--border); font-size: 13px; color: var(--muted);
+  }
+  .ref-section .ref-title { font-weight: 600; color: #999; margin-bottom: 4px; font-size: 12px; }
+  .ref-section a { color: var(--muted); margin-right: 10px; white-space: nowrap; }
+
+  .reset-link { display: block; text-align: center; margin-top: 16px; font-size: 12px; color: #ddd; cursor: pointer; background: none; border: none; width: 100%; }
+  .reset-link:hover { color: #999; }
+
+  @media (max-width: 480px) {
+    .container { padding: 12px 10px 100px; }
+    .header .date { font-size: 22px; }
+    .task { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="date">2026年5月9日 <span style="font-weight:400;color:var(--muted)">周五</span></div>
+    <div class="sub" id="taskSummary"></div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>今日进度</span><span id="progressText">0/0</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width:0%"></div></div>
+  </div>
+
+  <!-- 上午 -->
+  <div class="block morning" data-block="morning">
+    <div class="block-header">
+      <span class="label">☀️ 上午 <span class="count"></span></span>
+      <button class="add-btn" onclick="showAddForm('morning')" title="添加任务">+</button>
+    </div>
+    <div class="add-form" id="form-morning">
+      <input type="text" id="input-morning" placeholder="任务内容…" onkeydown="if(event.key==='Enter')addTask('morning')">
+      <div class="form-actions">
+        <button onclick="hideAddForm('morning')">取消</button>
+        <button class="confirm" onclick="addTask('morning')">添加</button>
+      </div>
+    </div>
+    <div class="task-list" id="list-morning"
+         ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event,'morning')"></div>
+  </div>
+
+  <!-- 下午 -->
+  <div class="block afternoon" data-block="afternoon">
+    <div class="block-header">
+      <span class="label">📄 下午 <span class="count"></span></span>
+      <button class="add-btn" onclick="showAddForm('afternoon')" title="添加任务">+</button>
+    </div>
+    <div class="add-form" id="form-afternoon">
+      <input type="text" id="input-afternoon" placeholder="任务内容…" onkeydown="if(event.key==='Enter')addTask('afternoon')">
+      <div class="form-actions">
+        <button onclick="hideAddForm('afternoon')">取消</button>
+        <button class="confirm" onclick="addTask('afternoon')">添加</button>
+      </div>
+    </div>
+    <div class="task-list" id="list-afternoon"
+         ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event,'afternoon')"></div>
+  </div>
+
+  <!-- 晚间 -->
+  <div class="block evening" data-block="evening">
+    <div class="block-header">
+      <span class="label">🌙 晚间 <span class="count"></span></span>
+      <button class="add-btn" onclick="showAddForm('evening')" title="添加任务">+</button>
+    </div>
+    <div class="add-form" id="form-evening">
+      <input type="text" id="input-evening" placeholder="任务内容…" onkeydown="if(event.key==='Enter')addTask('evening')">
+      <div class="form-actions">
+        <button onclick="hideAddForm('evening')">取消</button>
+        <button class="confirm" onclick="addTask('evening')">添加</button>
+      </div>
+    </div>
+    <div class="task-list" id="list-evening"
+         ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event,'evening')"></div>
+  </div>
+
+  <!-- 已完成 -->
+  <div class="done-section" id="doneSection">
+    <div class="done-header" onclick="document.getElementById('doneSection').classList.toggle('collapsed')">
+      <span class="arrow">▼</span> ✅ 已完成 <span id="doneCount" style="font-weight:400;color:var(--muted)"></span>
+    </div>
+    <div class="done-list" id="doneList"></div>
+  </div>
+
+  <div class="ref-section" id="refSection" style="display:none">
+    <div class="ref-title">📋 今日备考简报</div>
+    <a href="../备考日报/A-时效快报/2026-05-09-快报.md" target="_blank">A轨·时效快报</a> · <a href="../备考日报/B-政策专题/" target="_blank">B轨·政策专题</a> · <a href="../备考日报/C-省情专题/" target="_blank">C轨·省情专题</a> · <a href="../备考日报/备考日报.html" target="_blank">阅读器</a>
+  </div>
+
+  <button class="reset-link" onclick="if(confirm('确认重置今日所有任务和打卡记录？')){resetAll();}">重置今日全部</button>
+</div>
+
+<script>
+const TODAY = '2026-05-09';
+const INITIAL_TASKS = [{"id":1,"text":"学习B站AI相关视频","note":"自行安排具体课程","block":"morning","done":false},{"id":2,"text":"修改论文，准备重投稿","note":"关注审稿意见逐条修改","block":"afternoon","done":false},{"id":3,"text":"梳理毕业论文思路","note":"框架 + 核心论点 + 文献方向","block":"evening","done":false}];
+
+// Data layer
+function load() {
+  try {
+    const raw = localStorage.getItem('plan-' + TODAY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  // First time: use initial tasks
+  const data = { tasks: INITIAL_TASKS || [], nextId: (INITIAL_TASKS || []).length + 1 };
+  save(data);
+  return data;
+}
+function save(data) { localStorage.setItem('plan-' + TODAY, JSON.stringify(data)); }
+function resetAll() { localStorage.removeItem('plan-' + TODAY); location.reload(); }
+
+// Render
+let dragId = null;
+
+function render() {
+  const data = load();
+  const tasks = data.tasks;
+  const active = tasks.filter(t => !t.done);
+  const done = tasks.filter(t => t.done);
+
+  // Clear lists
+  ['morning','afternoon','evening'].forEach(block => {
+    document.getElementById('list-' + block).innerHTML = '';
+    document.querySelector(`.block.${block} .count`).textContent = '';
+  });
+  document.getElementById('doneList').innerHTML = '';
+
+  // Render active tasks
+  active.forEach(t => {
+    const el = createTaskEl(t);
+    document.getElementById('list-' + t.block).appendChild(el);
+  });
+
+  // Render done tasks
+  done.forEach(t => {
+    const el = createTaskEl(t);
+    document.getElementById('doneList').appendChild(el);
+  });
+
+  // Counts
+  ['morning','afternoon','evening'].forEach(block => {
+    const n = active.filter(t => t.block === block).length;
+    const countEl = document.querySelector(`.block.${block} .count`);
+    if (countEl) countEl.textContent = n ? n + '项' : '';
+  });
+
+  const doneCount = done.length;
+  document.getElementById('doneCount').textContent = doneCount ? doneCount + '项' : '';
+  document.getElementById('doneSection').style.display = (done.length === 0 && active.length > 0) ? 'none' : '';
+
+  // Progress
+  const total = tasks.length;
+  const doneN = done.length;
+  const pct = total > 0 ? Math.round(doneN / total * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = doneN + '/' + total;
+  document.getElementById('taskSummary').textContent = total + ' 项任务 · ' + doneN + ' 已完成';
+}
+
+function createTaskEl(t) {
+  const div = document.createElement('div');
+  div.className = 'task ' + t.block;
+  div.draggable = true;
+  div.dataset.id = t.id;
+  div.addEventListener('dragstart', function(e) {
+    if (t.done) return;
+    dragId = t.id;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  div.addEventListener('dragend', function(e) {
+    this.classList.remove('dragging');
+    dragId = null;
+  });
+
+  // Checkbox
+  const cb = document.createElement('div');
+  cb.className = 'check-box';
+  cb.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleDone(t.id);
+  });
+
+  // Body
+  const body = document.createElement('div');
+  body.className = 'task-body';
+  const text = document.createElement('div');
+  text.className = 'task-text';
+  text.textContent = t.text;
+  body.appendChild(text);
+  if (t.note) {
+    const note = document.createElement('div');
+    note.className = 'task-note';
+    note.textContent = t.note;
+    body.appendChild(note);
+  }
+
+  // Delete
+  const del = document.createElement('button');
+  del.className = 'delete-btn';
+  del.textContent = '×';
+  del.addEventListener('click', function(e) {
+    e.stopPropagation();
+    deleteTask(t.id);
+  });
+
+  div.appendChild(cb);
+  div.appendChild(body);
+  div.appendChild(del);
+  return div;
+}
+
+// Actions
+function toggleDone(id) {
+  const data = load();
+  const t = data.tasks.find(x => x.id === id);
+  if (t) { t.done = !t.done; }
+  save(data);
+  render();
+}
+
+function deleteTask(id) {
+  const data = load();
+  data.tasks = data.tasks.filter(x => x.id !== id);
+  save(data);
+  render();
+}
+
+function addTask(block) {
+  const input = document.getElementById('input-' + block);
+  const text = input.value.trim();
+  if (!text) return;
+  const data = load();
+  data.tasks.push({ id: data.nextId, text: text, note: '', block: block, done: false });
+  data.nextId++;
+  save(data);
+  input.value = '';
+  hideAddForm(block);
+  render();
+}
+
+function showAddForm(block) {
+  document.querySelectorAll('.add-form').forEach(f => f.classList.remove('active'));
+  const form = document.getElementById('form-' + block);
+  form.classList.add('active');
+  const input = document.getElementById('input-' + block);
+  input.value = '';
+  input.focus();
+}
+function hideAddForm(block) {
+  document.getElementById('form-' + block).classList.remove('active');
+}
+
+// Drag & drop
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function handleDragLeave(e) {
+  e.target.closest('.task-list')?.classList.remove('drag-over');
+}
+function handleDrop(e, block) {
+  e.preventDefault();
+  e.target.closest('.task-list')?.classList.remove('drag-over');
+  if (dragId === null) return;
+  const data = load();
+  const t = data.tasks.find(x => x.id === dragId);
+  if (t && !t.done) { t.block = block; }
+  save(data);
+  render();
+  dragId = null;
+}
+
+// Briefing links visible only if today has a briefing
+(function checkBriefing() {
+  // Show ref section if we think briefing exists (always show for convenience)
+  const ref = document.getElementById('refSection');
+  ref.style.display = 'block';
+})();
+
+// Init
+render();
+</script>
+</body>
+</html>

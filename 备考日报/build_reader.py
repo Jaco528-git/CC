@@ -14,6 +14,9 @@ import sys
 import json
 import hashlib
 from datetime import datetime
+
+# Windows UTF-8 编码修复：强制 stdout 使用 UTF-8，避免 GBK 乱码
+sys.stdout.reconfigure(encoding='utf-8')
 from pathlib import Path
 from collections import Counter
 

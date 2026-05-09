@@ -8,6 +8,9 @@
 import json
 import sys
 import os
+
+sys.stdout.reconfigure(encoding='utf-8')
+
 import urllib.request
 import urllib.parse
 import urllib.error

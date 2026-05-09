@@ -1,14 +1,21 @@
 #!/usr/bin/env python3
 """
-每日备考简报 — HTML 阅读器构建脚本
+每日备考简报 — HTML 阅读器构建脚本 + 质量检查
 读取 daily/ 和 policy-review/ 中的 Markdown 文件，生成精美的单页阅读器。
 支持浏览器直接打开，自带打印样式（打印即 PDF 导出）。
+
+质量检查：默认构建时自动运行，也可 --check 单独运行。
+检查项：完整性（是否缺报/空文件）、格式规范（标题/重要度/范文）、
+        链接有效性（可选）、内容去重（可选）。
 """
 import os
 import re
+import sys
 import json
+import hashlib
 from datetime import datetime
 from pathlib import Path
+from collections import Counter
 
 SCRIPT_DIR = Path(__file__).parent
 DAILY_DIR = SCRIPT_DIR / "A-时效快报"
@@ -215,6 +222,222 @@ def get_c_track_files():
                 files.append((int(match.group(1)), match.group(2), str(f)))
     files.sort(key=lambda x: x[0])
     return files
+
+# ═══════════════════════════════════════════════
+# 质量检查模块
+# ═══════════════════════════════════════════════
+
+REQUIRED_SECTIONS = ["申论范文", "面试模拟"]
+REQUIRED_META = ["考试重要度", "覆盖"]
+
+def extract_urls(text):
+    """提取 Markdown 文本中所有裸 URL 和链接 URL"""
+    urls = set()
+    urls.update(re.findall(r"https?://[^\s\)\]>\"'，。）]+", text))
+    urls.update(re.findall(r'\[([^\]]*)\]\((https?://[^\)]+)\)', text))
+    return urls
+
+def check_file_format(filepath, track_label):
+    """检查单个文件的格式规范，返回问题列表"""
+    issues = []
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            text = f.read()
+    except Exception as e:
+        return [f"无法读取: {e}"]
+
+    lines = text.split("\n")
+    fname = Path(filepath).name
+
+    # 1. 一级标题
+    if not lines or not lines[0].startswith("# "):
+        issues.append("缺少一级标题（# 开头）")
+
+    # 2. 内容长度
+    content = "\n".join(l for l in lines if l.strip() and not l.startswith("#"))
+    if len(content) < 500:
+        issues.append(f"正文过短 ({len(content)} 字符)")
+
+    # 3. B/C 轨专项：考试重要度
+    if track_label in ("B", "C"):
+        if not re.search(r"考试重要度：[★☆]+", text):
+            issues.append("缺少「考试重要度」标记")
+        if not re.search(r"覆盖：", text):
+            issues.append("缺少「覆盖」范围说明")
+
+    # 4. 必备章节（申论范文）
+    for section in REQUIRED_SECTIONS:
+        if section not in text:
+            issues.append(f"缺少「{section}」章节")
+
+    return issues
+
+def check_completeness(a_files, b_files, c_files):
+    """检查内容完整性，返回问题列表"""
+    issues = []
+
+    # A 轨：检查今天是否有快报
+    today = datetime.now().strftime("%Y-%m-%d")
+    a_dates = [d for d, _ in a_files]
+    if today not in a_dates:
+        issues.append(f"A 轨缺少今日快报（{today}）")
+
+    # A 轨：检查最近连续天数
+    if a_dates:
+        latest = datetime.strptime(a_dates[0], "%Y-%m-%d")
+        expected = datetime.now()
+        missing_days = (expected - latest).days
+        if missing_days > 1:
+            issues.append(f"A 轨最近快报是 {a_dates[0]}，已间隔 {missing_days} 天")
+
+    # B 轨：至少 4 个专题
+    if len(b_files) < 4:
+        issues.append(f"B 轨专题数量不足（{len(b_files)}/4）")
+
+    # C 轨：至少 4 个专题
+    if len(c_files) < 4:
+        issues.append(f"C 轨省情专题数量不足（{len(c_files)}/4）")
+
+    return issues
+
+def check_duplicates(a_files):
+    """检查 A 轨相邻简报的标题相似度，返回问题列表"""
+    issues = []
+    if len(a_files) < 2:
+        return issues
+
+    for i in range(len(a_files) - 1):
+        _, path1 = a_files[i]
+        _, path2 = a_files[i + 1]
+        try:
+            with open(path1, "r", encoding="utf-8") as f:
+                t1 = f.read()
+            with open(path2, "r", encoding="utf-8") as f:
+                t2 = f.read()
+        except Exception:
+            continue
+
+        # 比较标题行
+        h1 = t1.split("\n")[0].lstrip("# ").strip()
+        h2 = t2.split("\n")[0].lstrip("# ").strip()
+        if h1 == h2:
+            issues.append(f"A 轨连续两天标题重复: {Path(path1).stem} ≅ {Path(path2).stem}")
+
+        # 比较内容哈希（宽松：仅比较 ## 标题结构）
+        s1_headers = "|".join(re.findall(r"^## (.+)$", t1, re.MULTILINE))
+        s2_headers = "|".join(re.findall(r"^## (.+)$", t2, re.MULTILINE))
+        if s1_headers and s2_headers and s1_headers == s2_headers:
+            h1_hash = hashlib.md5(s1_headers.encode()).hexdigest()[:8]
+            issues.append(f"A 轨相邻两报结构完全一致: {Path(path1).stem} ≅ {Path(path2).stem}")
+
+    return issues
+
+def run_quality_checks(check_links=False, check_dupes=True):
+    """运行全部质量检查，返回 (通过数, 问题数, 报告文本)"""
+    a_files = get_a_track_files()
+    b_files = get_b_track_files()
+    c_files = get_c_track_files()
+
+    all_issues = {}
+    warnings = {}
+
+    # 1. 完整性
+    for issue in check_completeness(a_files, b_files, c_files):
+        all_issues.setdefault("完整性", []).append(issue)
+
+    # 2. 格式规范（每个文件）
+    format_ok = 0
+    format_bad = 0
+    for date_str, path in a_files:
+        issues = check_file_format(path, "A")
+        if issues:
+            all_issues.setdefault(f"A轨格式 — {Path(path).name}", []).extend(issues)
+            format_bad += 1
+        else:
+            format_ok += 1
+
+    for num, name, path in b_files:
+        issues = check_file_format(path, "B")
+        if issues:
+            all_issues.setdefault(f"B轨格式 — {Path(path).name}", []).extend(issues)
+            format_bad += 1
+        else:
+            format_ok += 1
+
+    for num, name, path in c_files:
+        issues = check_file_format(path, "C")
+        if issues:
+            all_issues.setdefault(f"C轨格式 — {Path(path).name}", []).extend(issues)
+            format_bad += 1
+        else:
+            format_ok += 1
+
+    # 3. 内容去重
+    if check_dupes:
+        for issue in check_duplicates(a_files):
+            warnings.setdefault("内容去重", []).append(issue)
+
+    # 4. 链接检查（可选，较慢）
+    if check_links:
+        all_urls = set()
+        for _, path in a_files + [(0, "", p) for _, _, p in b_files] + [(0, "", p) for _, _, p in c_files]:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    all_urls.update(extract_urls(f.read()))
+            except Exception:
+                pass
+        if all_urls:
+            import urllib.request
+            broken = []
+            for url in sorted(all_urls):
+                try:
+                    req = urllib.request.Request(url, method="HEAD")
+                    urllib.request.urlopen(req, timeout=5)
+                except Exception:
+                    broken.append(url)
+            if broken:
+                all_issues.setdefault("失效链接", []).extend(broken)
+            else:
+                warnings.setdefault("链接检查", []).append(f"全部 {len(all_urls)} 个链接可达")
+
+    # 生成报告
+    total_issues = sum(len(v) for v in all_issues.values())
+    total_warnings = sum(len(v) for v in warnings.values())
+    passed = (format_ok > 0 and total_issues == 0)
+
+    report_lines = []
+    report_lines.append("=" * 52)
+    report_lines.append("  备考日报 · 质量检查报告")
+    report_lines.append(f"  {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report_lines.append("=" * 52)
+    report_lines.append(f"  文件总数: A轨{len(a_files)} B轨{len(b_files)} C轨{len(c_files)}")
+    report_lines.append(f"  格式通过: {format_ok}  格式问题: {format_bad}")
+    report_lines.append("")
+
+    if all_issues:
+        report_lines.append(f"  [!!] 发现 {total_issues} 个问题：")
+        report_lines.append("")
+        for category, items in all_issues.items():
+            report_lines.append(f"  [{category}]")
+            for item in items:
+                report_lines.append(f"    - {item}")
+            report_lines.append("")
+
+    if warnings:
+        report_lines.append(f"  [i] {total_warnings} 条提醒：")
+        report_lines.append("")
+        for category, items in warnings.items():
+            for item in items:
+                report_lines.append(f"    - {item}")
+            report_lines.append("")
+
+    if not all_issues and not warnings:
+        report_lines.append("  [OK] 全部检查通过，未发现问题。")
+        report_lines.append("")
+
+    report_lines.append("=" * 52)
+
+    return passed, total_issues, "\n".join(report_lines)
 
 def build_article_html(title, body_html, meta_info=""):
     """构建单篇文章的 HTML"""
@@ -863,5 +1086,18 @@ function printArticle(id) {{
     print(f"     B-track: {b_count} articles")
     print(f"     C-track: {c_count} articles")
 
+    # 构建后自动质量检查
+    print()
+    passed, issue_count, report = run_quality_checks()
+    print(report)
+
 if __name__ == "__main__":
+    check_links = "--check-links" in sys.argv
+    check_only = "--check" in sys.argv
+
+    if check_only:
+        _, issue_count, report = run_quality_checks(check_links=check_links)
+        print(report)
+        sys.exit(0 if issue_count == 0 else 1)
+
     build_reader()

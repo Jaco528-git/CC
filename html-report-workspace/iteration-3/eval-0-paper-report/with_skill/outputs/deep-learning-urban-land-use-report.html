@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>基于深度学习的城市土地利用遥感分类方法研究</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+/* ── 设计系统 ── */
+:root {
+  --bg: #f8f6f2; --card: #ffffff; --text: #2c2c2c; --muted: #7a7a7a;
+  --border: #e0ddd8; --accent: #8b3a3a; --accent2: #3a6b8f; --accent3: #3d7a5a;
+  --accent4: #b8860b;
+  --shadow: 0 2px 6px rgba(0,0,0,0.05);
+  --font-sans: "PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --font-serif: "Noto Serif SC","STSong","SimSun",serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; font-family: var(--font-sans); background: var(--bg); color: var(--text); }
+.deck { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+
+/* ═══ 幻灯片基础 ═══ */
+.slide {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  padding: 4% 5%; opacity: 0; transform: scale(0.96);
+  transition: opacity .4s ease, transform .4s ease;
+  pointer-events: none; overflow-y: auto;
+  display: flex; flex-direction: column;
+  justify-content: flex-start; align-items: stretch;
+}
+.slide.active { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 10; }
+.slide.center { justify-content: center; align-items: center; }
+
+.slide h1 { font-size: clamp(1.8rem, 4.5vw, 3.5rem); font-weight: 700; letter-spacing: 2px; margin-bottom: .3em; text-align: center; }
+.slide h2 { font-size: clamp(1.4rem, 2.8vw, 2.2rem); font-weight: 600; margin-bottom: .3em; text-align: center; line-height: 1.3; }
+.slide h3 { font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 600; margin-bottom: .3em; }
+.slide .sub { font-size: clamp(0.95rem, 1.5vw, 1.15rem); color: var(--muted); text-align: center; max-width: min(85vw, 900px); margin: 0 auto; line-height: 1.7; }
+
+/* ── 内容容器 ── */
+.content { width: min(92vw, 1200px); margin: 0 auto; flex: 1; display: flex; flex-direction: column; }
+
+/* ── 卡片 ── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 18px; box-shadow: var(--shadow);
+}
+.card-accent { border-left: 4px solid var(--accent); }
+.card-blue { border-left: 4px solid var(--accent2); }
+.card-green { border-left: 4px solid var(--accent3); }
+.card-gold { border-left: 4px solid var(--accent4); }
+
+/* ── 网格 ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; width: 100%; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; width: 100%; }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; width: 100%; }
+
+/* ── 大数字 ── */
+.stat-number { font-size: clamp(2.2rem, 4.5vw, 4rem); font-weight: 800; line-height: 1.1; }
+.stat-label { font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--muted); margin-top: 4px; }
+.stat-sub { font-size: clamp(0.75rem, 1vw, 0.9rem); color: rgba(0,0,0,0.35); margin-top: 2px; }
+
+/* ── 分割线 ── */
+.divider { width: 50px; height: 3px; background: var(--accent); margin: 12px auto; border-radius: 2px; }
+.divider-sm { width: 30px; height: 2px; background: var(--accent); margin: 6px 0 10px; border-radius: 2px; }
+
+/* ── 编号圆圈 ── */
+.num-circle {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 600; color: #fff; flex-shrink: 0;
+}
+
+/* ── 底部引用 ── */
+.ref-list { font-size: clamp(0.7rem, 1vw, 0.85rem); color: var(--muted); line-height: 1.6; }
+.ref-list p { margin-bottom: 2px; }
+.ref-list strong { color: rgba(0,0,0,0.5); }
+
+/* ── 翻页提示动画 ── */
+.hint {
+  position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+  font-size: 0.75rem; color: rgba(0,0,0,0.2); letter-spacing: 1px;
+  animation: fadeHint 3s ease-in-out infinite;
+}
+@keyframes fadeHint {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+}
+
+/* ── 页面指示器 ── */
+.pager { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; gap: 8px; align-items: center; background: rgba(255,255,255,0.7); backdrop-filter: blur(4px); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(0,0,0,0.15); cursor: pointer; transition: all .3s; }
+.dot.active { background: var(--accent); width: 22px; border-radius: 3px; }
+.page-num { font-size: 11px; color: rgba(0,0,0,0.3); letter-spacing: 1px; margin-left: 4px; user-select: none; }
+
+/* ── 标签 ── */
+.tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: clamp(0.7rem, 1vw, 0.8rem); font-weight: 500; }
+.tag-accent { background: rgba(139,58,58,0.1); color: var(--accent); }
+.tag-blue { background: rgba(58,107,143,0.1); color: var(--accent2); }
+.tag-green { background: rgba(61,122,90,0.1); color: var(--accent3); }
+.tag-gold { background: rgba(184,134,11,0.1); color: var(--accent4); }
+
+/* ── 地板线条装饰 ── */
+.floor-line { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 8px 0; }
+
+/* ── 印刷 ── */
+@media print {
+  @page { margin: 1cm; size: landscape; }
+  body { background: white; }
+  .slide { position: relative; opacity: 1 !important; transform: none !important; pointer-events: none; page-break-after: always; display: flex; height: auto; min-height: 100vh; }
+  .slide.active { z-index: auto; }
+  .pager, .dot, .page-num, .hint { display: none !important; }
+  .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ════════════════ 第 1 页：封面 ════════════════ -->
+<section class="slide center" style="background:radial-gradient(ellipse at 50% 30%,rgba(139,58,58,0.06) 0%,transparent 65%),var(--bg);">
+  <div style="text-align:center;max-width:90vw;">
+    <div style="font-size:clamp(0.75rem,1vw,0.9rem);color:var(--muted);letter-spacing:4px;margin-bottom:20px;text-transform:uppercase;">Research Report</div>
+    <h1 style="font-size:clamp(1.8rem,4.5vw,3.5rem);font-weight:700;letter-spacing:3px;line-height:1.3;padding:0 4%;">基于深度学习的城市土地利用<br>遥感分类方法研究</h1>
+    <div class="divider"></div>
+    <p style="font-size:clamp(0.9rem,1.4vw,1.15rem);color:var(--muted);line-height:1.6;">Deep Learning-Based Remote Sensing Classification<br>for Urban Land Use: A Systematic Review</p>
+    <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:rgba(0,0,0,0.4);margin-top:28px;">导师汇报 · 2026</p>
+  </div>
+  <p class="hint">点击 / 方向键翻页</p>
+</section>
+
+<!-- ════════════════ 第 2 页：概述 ════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:6px;">研究概述</h2>
+  <p class="sub" style="margin-bottom:16px;">背景 · 方法 · 核心结论</p>
+
+  <div class="content">
+    <!-- 摘要卡 -->
+    <div class="card" style="width:100%;padding:18px 22px;margin-bottom:16px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="font-size:1.8rem;color:var(--accent);line-height:1;flex-shrink:0;opacity:0.5;">&#8220;</div>
+        <p style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--text);line-height:1.7;font-style:italic;">
+          随着高分辨率遥感影像的普及，基于深度学习的遥感影像分类方法在城市土地利用研究中展现出巨大潜力。
+          本文系统梳理了<strong>CNN</strong>、<strong>U-Net</strong>、<strong>DeepLab系列</strong>等模型的应用进展，
+          总结了各类方法的优势与局限性。研究认为，<strong>多源数据融合</strong>、<strong>小样本学习</strong>和
+          <strong>可解释性分析</strong>将是未来重点方向。
+        </p>
+      </div>
+    </div>
+
+    <!-- 汇报纲要网格 2x2 -->
+    <div class="grid-2" style="flex:1;">
+      <div class="card" style="text-align:center;padding:20px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--accent);line-height:1;">01</div>
+        <div class="divider-sm"></div>
+        <div style="font-size:clamp(0.95rem,1.4vw,1.2rem);font-weight:500;">深度学习方法概览</div>
+        <div style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:4px;">CNN / U-Net / DeepLab / Transformer</div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--accent2);line-height:1;">02</div>
+        <div class="divider-sm" style="background:var(--accent2);"></div>
+        <div style="font-size:clamp(0.95rem,1.4vw,1.2rem);font-weight:500;">核心性能发现</div>
+        <div style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:4px;">精度指标与适用场景</div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--accent3);line-height:1;">03</div>
+        <div class="divider-sm" style="background:var(--accent3);"></div>
+        <div style="font-size:clamp(0.95rem,1.4vw,1.2rem);font-weight:500;">四类模型对比</div>
+        <div style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:4px;">优势 · 局限 · 适用场景</div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-size:1.8rem;font-weight:700;color:var(--accent4);line-height:1;">04</div>
+        <div class="divider-sm" style="background:var(--accent4);"></div>
+        <div style="font-size:clamp(0.95rem,1.4vw,1.2rem);font-weight:500;">未来研究方向</div>
+        <div style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:4px;">多源融合 · 小样本 · 可解释性</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 第 3 页：核心发现 ════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:4px;">核心发现</h2>
+  <p class="sub" style="margin-bottom:14px;">四种深度学习架构在城市土地利用分类中的性能表现</p>
+
+  <div class="content" style="gap:12px;">
+    <!-- 4个大数字卡片网格 -->
+    <div class="grid-4" style="flex:0 0 auto;">
+      <div class="card card-accent" style="text-align:center;padding:18px 12px;">
+        <div class="tag tag-accent" style="margin-bottom:8px;">CNN 系列</div>
+        <div class="stat-number" style="color:var(--accent);">85–92%</div>
+        <div class="stat-label">总体精度 (OA)</div>
+        <div class="stat-sub">中等分辨率影像 · 稳定可靠</div>
+      </div>
+      <div class="card card-blue" style="text-align:center;padding:18px 12px;">
+        <div class="tag tag-blue" style="margin-bottom:8px;">U-Net 系列</div>
+        <div class="stat-number" style="color:var(--accent2);">0.72–0.85</div>
+        <div class="stat-label">平均交并比 (mIoU)</div>
+        <div class="stat-sub">边界提取优势明显</div>
+      </div>
+      <div class="card card-green" style="text-align:center;padding:18px 12px;">
+        <div class="tag tag-green" style="margin-bottom:8px;">Transformer</div>
+        <div class="stat-number" style="color:var(--accent3);">90–96%</div>
+        <div class="stat-label">总体精度 (OA)</div>
+        <div class="stat-sub">大范围场景泛化更强</div>
+      </div>
+      <div class="card card-gold" style="text-align:center;padding:18px 12px;">
+        <div class="tag tag-gold" style="margin-bottom:8px;">DeepLab 系列</div>
+        <div class="stat-number" style="color:var(--accent4);">88–93%</div>
+        <div class="stat-label">总体精度 (OA)</div>
+        <div class="stat-sub">多尺度特征捕获利器</div>
+      </div>
+    </div>
+
+    <!-- 下半部分：详细发现要点 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;">
+      <div class="card" style="padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <div class="num-circle" style="background:var(--accent);">1</div>
+        <div>
+          <strong style="font-size:clamp(0.95rem,1.3vw,1.1rem);">CNN 基准性能</strong>
+          <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:3px;line-height:1.5;">
+            在中等分辨率遥感影像上表现稳定，计算效率高，适合大规模业务化应用。
+          </p>
+        </div>
+      </div>
+      <div class="card" style="padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <div class="num-circle" style="background:var(--accent2);">2</div>
+        <div>
+          <strong style="font-size:clamp(0.95rem,1.3vw,1.1rem);">U-Net 边界优势</strong>
+          <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:3px;line-height:1.5;">
+            编码器-解码器结构在建筑物、道路等边界提取任务中表现优异。
+          </p>
+        </div>
+      </div>
+      <div class="card" style="padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <div class="num-circle" style="background:var(--accent3);">3</div>
+        <div>
+          <strong style="font-size:clamp(0.95rem,1.3vw,1.1rem);">Transformer 全局建模</strong>
+          <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:3px;line-height:1.5;">
+            自注意力机制在大范围场景下泛化能力更强，尤其适用于复杂城市场景。
+          </p>
+        </div>
+      </div>
+      <div class="card" style="padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <div class="num-circle" style="background:var(--accent4);">4</div>
+        <div>
+          <strong style="font-size:clamp(0.95rem,1.3vw,1.1rem);">DeepLab 多尺度</strong>
+          <p style="font-size:clamp(0.8rem,1.1vw,0.95rem);color:var(--muted);margin-top:3px;line-height:1.5;">
+            空洞空间金字塔池化（ASPP）有效捕获多尺度上下文信息。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 第 4 页：模型对比 + 图表 ════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:4px;">四类模型深度对比</h2>
+  <p class="sub" style="margin-bottom:12px;">精度指标 · 核心优势 · 适用场景</p>
+
+  <div class="content" style="gap:12px;">
+    <!-- 上半：图表 -->
+    <div class="card" style="width:100%;padding:14px 18px 10px;">
+      <canvas id="compareChart" style="max-height:200px;width:100%;"></canvas>
+    </div>
+
+    <!-- 下半：四列对比卡片 -->
+    <div class="grid-4" style="flex:1;">
+      <div class="card card-accent" style="padding:14px 12px;display:flex;flex-direction:column;">
+        <div class="tag tag-accent" style="align-self:flex-start;margin-bottom:6px;">CNN</div>
+        <div style="font-size:clamp(0.85rem,1.15vw,1rem);font-weight:600;margin-bottom:4px;">简单高效</div>
+        <ul style="list-style:none;font-size:clamp(0.7rem,0.95vw,0.85rem);color:var(--muted);line-height:1.6;flex:1;">
+          <li style="margin-bottom:2px;">&#10003; 计算成本低</li>
+          <li style="margin-bottom:2px;">&#10003; 中等分辨率稳定</li>
+          <li style="margin-bottom:2px;">&#10007; 全局建模弱</li>
+        </ul>
+      </div>
+      <div class="card card-blue" style="padding:14px 12px;display:flex;flex-direction:column;">
+        <div class="tag tag-blue" style="align-self:flex-start;margin-bottom:6px;">U-Net</div>
+        <div style="font-size:clamp(0.85rem,1.15vw,1rem);font-weight:600;margin-bottom:4px;">边界最优</div>
+        <ul style="list-style:none;font-size:clamp(0.7rem,0.95vw,0.85rem);color:var(--muted);line-height:1.6;flex:1;">
+          <li style="margin-bottom:2px;">&#10003; 边界提取突出</li>
+          <li style="margin-bottom:2px;">&#10003; 小样本也可用</li>
+          <li style="margin-bottom:2px;">&#10007; 大场景优化难</li>
+        </ul>
+      </div>
+      <div class="card card-gold" style="padding:14px 12px;display:flex;flex-direction:column;">
+        <div class="tag tag-gold" style="align-self:flex-start;margin-bottom:6px;">DeepLab</div>
+        <div style="font-size:clamp(0.85rem,1.15vw,1rem);font-weight:600;margin-bottom:4px;">多尺度强</div>
+        <ul style="list-style:none;font-size:clamp(0.7rem,0.95vw,0.85rem);color:var(--muted);line-height:1.6;flex:1;">
+          <li style="margin-bottom:2px;">&#10003; ASPP多尺度捕获</li>
+          <li style="margin-bottom:2px;">&#10003; 精度较高</li>
+          <li style="margin-bottom:2px;">&#10007; 计算量较大</li>
+        </ul>
+      </div>
+      <div class="card card-green" style="padding:14px 12px;display:flex;flex-direction:column;">
+        <div class="tag tag-green" style="align-self:flex-start;margin-bottom:6px;">Transformer</div>
+        <div style="font-size:clamp(0.85rem,1.15vw,1rem);font-weight:600;margin-bottom:4px;">全局建模</div>
+        <ul style="list-style:none;font-size:clamp(0.7rem,0.95vw,0.85rem);color:var(--muted);line-height:1.6;flex:1;">
+          <li style="margin-bottom:2px;">&#10003; 全局上下文强</li>
+          <li style="margin-bottom:2px;">&#10003; 大场景泛化好</li>
+          <li style="margin-bottom:2px;">&#10007; 数据需求大</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 第 5 页：结论与展望 ════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:4px;">研究结论与未来展望</h2>
+  <p class="sub" style="margin-bottom:14px;">关键发现总结 · 三大未来方向</p>
+
+  <div class="content" style="gap:12px;">
+    <!-- 结论要点 -->
+    <div style="width:100%;">
+      <div style="display:flex;gap:14px;margin-bottom:10px;align-items:flex-start;">
+        <div class="num-circle" style="background:var(--accent);width:32px;height:32px;font-size:0.95rem;">1</div>
+        <div>
+          <strong style="font-size:clamp(1rem,1.3vw,1.15rem);">深度学习方法已全面超越传统方法</strong>
+          <p style="font-size:clamp(0.85rem,1.1vw,0.95rem);color:var(--muted);margin-top:2px;line-height:1.5;">
+            CNN、U-Net、DeepLab、Transformer 四类模型在城市土地利用分类中均取得 85% 以上总体精度，较传统方法提升 15% 以上。
+          </p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;margin-bottom:10px;align-items:flex-start;">
+        <div class="num-circle" style="background:var(--accent2);width:32px;height:32px;font-size:0.95rem;">2</div>
+        <div>
+          <strong style="font-size:clamp(1rem,1.3vw,1.15rem);">不同架构各有侧重，选择需因地制宜</strong>
+          <p style="font-size:clamp(0.85rem,1.1vw,0.95rem);color:var(--muted);margin-top:2px;line-height:1.5;">
+            轻量级任务选 CNN，边界敏感任务用 U-Net，多尺度场景考虑 DeepLab，大范围复杂场景推荐 Transformer。
+          </p>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;margin-bottom:10px;align-items:flex-start;">
+        <div class="num-circle" style="background:var(--accent3);width:32px;height:32px;font-size:0.95rem;">3</div>
+        <div>
+          <strong style="font-size:clamp(1rem,1.3vw,1.15rem);">三大方向指引未来突破</strong>
+          <p style="font-size:clamp(0.85rem,1.1vw,0.95rem);color:var(--muted);margin-top:2px;line-height:1.5;">
+            多源数据融合（光学+SAR+LiDAR）、小样本学习（缓解标注瓶颈）、可解释性分析（提升模型可信度）是未来重点方向。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 参考文献脚注 -->
+    <div class="floor-line"></div>
+    <div class="ref-list" style="width:100%;">
+      <p style="font-weight:600;color:rgba(0,0,0,0.4);margin-bottom:4px;font-size:clamp(0.7rem,0.9vw,0.8rem);">参考文献</p>
+      <p><strong>[1]</strong> Zhang Y, et al. <em>Remote Sensing</em>, 2023, 15(4): 1052.</p>
+      <p><strong>[2]</strong> Li X, et al. <em>ISPRS Journal of Photogrammetry</em>, 2022, 192: 215-230.</p>
+      <p><strong>[3]</strong> Wang H, et al. <em>IEEE TGRS</em>, 2024, 62: 1-18.</p>
+      <p><strong>[4]</strong> 刘明等. <em>遥感学报</em>, 2023, 27(8): 1789-1805.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 第 6 页：致谢 ════════════════ -->
+<section class="slide center" style="background:radial-gradient(ellipse at 50% 40%,rgba(139,58,58,0.04) 0%,transparent 60%),var(--bg);">
+  <div style="text-align:center;max-width:90vw;">
+    <h1 style="font-size:clamp(2.5rem,5vw,4rem);">感谢聆听</h1>
+    <div class="divider"></div>
+    <p class="sub" style="font-size:clamp(1rem,1.6vw,1.3rem);">欢迎批评指正</p>
+    <p style="font-size:clamp(0.75rem,1vw,0.85rem);color:rgba(0,0,0,0.25);margin-top:32px;">基于深度学习的城市土地利用遥感分类方法研究</p>
+  </div>
+</section>
+
+</div><!-- /.deck -->
+
+<!-- ═══ 翻页导航 + 页面指示器 ═══ -->
+<div class="pager" id="pager">
+  <div class="dot active" data-goto="0"></div>
+  <div class="dot" data-goto="1"></div>
+  <div class="dot" data-goto="2"></div>
+  <div class="dot" data-goto="3"></div>
+  <div class="dot" data-goto="4"></div>
+  <div class="dot" data-goto="5"></div>
+  <span class="page-num" id="pageNum">01 / 06</span>
+</div>
+
+<script>
+/* ═══ 翻页引擎 ═══ */
+(function(){
+  var ss = document.querySelectorAll('.slide'),
+      dots = document.querySelectorAll('.dot'),
+      pn = document.getElementById('pageNum'),
+      ci = 0;
+
+  function go(n){
+    ss[ci].classList.remove('active');
+    dots[ci].classList.remove('active');
+    ci = (n + ss.length) % ss.length;
+    ss[ci].classList.add('active');
+    dots[ci].classList.add('active');
+    if(pn) pn.textContent = String(ci+1).padStart(2,'0') + ' / ' + String(ss.length).padStart(2,'0');
+  }
+
+  var nxt = function(){ go(ci+1); };
+  var prv = function(){ go(ci-1); };
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' '){
+      e.preventDefault(); nxt();
+    }
+    if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+      e.preventDefault(); prv();
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    if(e.target.closest('.pager')) return;
+    if(e.clientX / window.innerWidth < 0.25) prv();
+    else nxt();
+  });
+
+  var wt = null;
+  document.addEventListener('wheel', function(e){
+    e.preventDefault();
+    if(wt) return;
+    wt = setTimeout(function(){ wt = null; }, 500);
+    if(e.deltaY > 0) nxt();
+    else prv();
+  }, {passive: false});
+
+  for(var i = 0; i < dots.length; i++){
+    (function(idx){
+      dots[idx].addEventListener('click', function(){ go(idx); });
+    })(i);
+  }
+
+  go(0);
+})();
+
+/* ═══ Chart.js 对比图 ═══ */
+(function(){
+  var canvas = document.getElementById('compareChart');
+  if(!canvas) return;
+  /* 用小延迟确保 slide 激活后 canvas 已挂载 */
+  setTimeout(function(){
+    new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: ['CNN', 'U-Net', 'DeepLab', 'Transformer'],
+        datasets: [
+          {
+            label: '总体精度 OA (%)',
+            data: [88.5, 89.0, 90.5, 93.0],
+            backgroundColor: 'rgba(139,58,58,0.75)',
+            borderColor: 'rgba(139,58,58,1)',
+            borderWidth: 1,
+            borderRadius: 4,
+          },
+          {
+            label: 'mIoU (×100)',
+            data: [70, 78.5, 80, 82],
+            backgroundColor: 'rgba(58,107,143,0.75)',
+            borderColor: 'rgba(58,107,143,1)',
+            borderWidth: 1,
+            borderRadius: 4,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: { size: 11, family: '"PingFang SC","Microsoft YaHei",sans-serif' },
+              padding: 10,
+              boxWidth: 14,
+              usePointStyle: true,
+            }
+          },
+          tooltip: {
+            titleFont: { size: 12 },
+            bodyFont: { size: 11 },
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            grid: { color: 'rgba(0,0,0,0.05)' },
+            ticks: { font: { size: 10 }, callback: function(v){ return v + '%'; } }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10, weight: '500' } }
+          }
+        }
+      }
+    });
+  }, 100);
+})();
+</script>
+
+</body>
+</html>

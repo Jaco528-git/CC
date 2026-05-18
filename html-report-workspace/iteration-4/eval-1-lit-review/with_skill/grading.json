@@ -1,0 +1,37 @@
+{
+  "eval_id": 1,
+  "file": "AI人地关系研究综述.html",
+  "slide_count": 11,
+  "assertions": [
+    {
+      "text": "no-max-width-700",
+      "passed": false,
+      "evidence": "Found max-width:700px"
+    },
+    {
+      "text": "uses-wide-container",
+      "passed": true,
+      "evidence": "Wide container found"
+    },
+    {
+      "text": "content-not-centered",
+      "passed": true,
+      "evidence": "Has flex-start"
+    },
+    {
+      "text": "slide-transition",
+      "passed": true,
+      "evidence": "Has transition"
+    },
+    {
+      "text": "grid-layout",
+      "passed": true,
+      "evidence": "Grid found"
+    },
+    {
+      "text": "font-container-proportion",
+      "passed": true,
+      "evidence": "Has smaller fonts for dense grids"
+    }
+  ]
+}

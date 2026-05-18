@@ -1,0 +1,42 @@
+{
+  "eval_id": 0,
+  "file": "urban-land-use-deep-learning.html",
+  "slide_count": 7,
+  "assertions": [
+    {
+      "text": "no-max-width-700",
+      "passed": true,
+      "evidence": "No max-width:700px"
+    },
+    {
+      "text": "uses-wide-container",
+      "passed": true,
+      "evidence": "Wide container found"
+    },
+    {
+      "text": "content-not-centered",
+      "passed": true,
+      "evidence": "Has flex-start"
+    },
+    {
+      "text": "slide-transition",
+      "passed": true,
+      "evidence": "Has transition"
+    },
+    {
+      "text": "grid-layout",
+      "passed": true,
+      "evidence": "Grid found"
+    },
+    {
+      "text": "font-container-proportion",
+      "passed": true,
+      "evidence": "Has smaller fonts for dense grids"
+    },
+    {
+      "text": "chart-js-present",
+      "passed": true,
+      "evidence": "Chart.js found"
+    }
+  ]
+}

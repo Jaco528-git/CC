@@ -17,5 +17,8 @@ Desktop.ini
 # Runtime lock files
 *.lock
 
+# Plugins (third-party, may contain keys)
+plugins/
+
 # Generated
 备考日报/备考日报.html

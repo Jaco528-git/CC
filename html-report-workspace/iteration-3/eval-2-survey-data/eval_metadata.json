@@ -1,0 +1,10 @@
+{"eval_id":2,"eval_name":"survey-data-presentation","prompt":"我完成了一项关于长沙市居民对社区绿地感知的问卷调查（N=386），帮我生成一份全屏翻页的HTML演示文稿给导师看。以下是数据和发现：\n\n标题：长沙市居民社区绿地感知与使用满意度调查分析\n\n样本：386份有效问卷，男47.2% 女52.8%；18-30岁32.1%，31-45岁38.6%，46-60岁21.2%，60+岁8.1%\n\n核心指标：\n- 总体满意度4.52/5\n- 距绿地步行5-10分钟占41.2%\n- 每周使用3-4次占38.9%\n- 认为绿地数量充足：同意45.6%\n\n各维度满意度：\n- 安全性4.41 | 植被景观4.35 | 可达性4.23 | 卫生维护4.08 | 设施完善度3.87 | 活动空间3.65\n\n关键发现：\n1. 步行距离是影响使用频率最显著因素（r=-0.42, p<0.001）\n2. 老年群体对活动空间满意度显著低于年轻群体（p<0.05）\n3. 岳麓区/雨花区满意度显著高于芙蓉区/天心区（p<0.01）\n\n要求：全屏翻页，提炼核心发现，数据用大号字+图表展示，亮色设计。","assertions":[
+  {"name":"slide-count-5-to-7","description":"总页数应在5-7页（含封面致谢）"},
+  {"name":"no-max-width-700","description":"不使用 max-width:700px 的限制性容器宽度"},
+  {"name":"uses-min-width","description":"使用 min(90vw,1200px) 或类似宽幅容器"},
+  {"name":"content-not-centered","description":"内容页不使用 justify-content/align-items center（封面致谢除外）"},
+  {"name":"chart-js-present","description":"使用 Chart.js 实现至少一个图表"},
+  {"name":"stat-numbers-large","description":"核心指标使用大号数字展示（2.5rem+）"},
+  {"name":"multi-finding-slide","description":"关键发现合并在一页内展示而非分三页"},
+  {"name":"slide-transition","description":"幻灯片有 opacity/scale 过渡动画"}
+]}

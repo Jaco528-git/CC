@@ -9,8 +9,6 @@ import json
 import sys
 import os
 
-sys.stdout.reconfigure(encoding='utf-8')
-
 import urllib.request
 import urllib.parse
 import urllib.error
@@ -24,7 +22,7 @@ if sys.platform == "win32":
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 SSL_CONTEXT = ssl.create_default_context()
-EMAIL = "cc-research@example.com"
+EMAIL = os.environ.get("PAPER_SEARCH_EMAIL", "cc-research@users.noreply.github.com")
 
 def fetch_json(url, retries=2, delay=1.0):
     """获取 JSON，带重试和频率限制处理"""
@@ -196,17 +194,22 @@ def extract_s2_info(paper):
     }
 
 def merge_results(results_list, max_total=25):
-    """合并去重（按 DOI），保持来源多样性"""
-    seen_doi = set()
+    """合并去重（按 DOI 或 标题+第一作者），保持来源多样性"""
+    seen = set()
     merged = []
     for paper in results_list:
         doi = paper.get("doi", "")
-        if not doi:
-            # 没有 DOI 的用标题前 80 字符去重
-            doi = paper.get("title", "")[:80]
-        if doi in seen_doi:
+        if doi:
+            key = doi
+        else:
+            # 无 DOI 时用标题+第一作者去重，比纯标题更精确
+            title = paper.get("title", "")[:80]
+            authors = paper.get("authors", [])
+            first_author = authors[0] if authors else ""
+            key = f"{title}|{first_author}"
+        if key in seen:
             continue
-        seen_doi.add(doi)
+        seen.add(key)
         merged.append(paper)
         if len(merged) >= max_total:
             break

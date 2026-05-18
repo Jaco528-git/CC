@@ -1,0 +1,47 @@
+{
+  "eval_id": 0,
+  "file": "deep-learning-urban-land-use-report.html",
+  "slide_count": 6,
+  "assertions": [
+    {
+      "text": "slide-count-5-to-7",
+      "passed": true,
+      "evidence": "Slides: 6"
+    },
+    {
+      "text": "no-max-width-700",
+      "passed": true,
+      "evidence": "No max-width:700px"
+    },
+    {
+      "text": "uses-wide-container",
+      "passed": true,
+      "evidence": "Found min(9Xvw, ...)"
+    },
+    {
+      "text": "content-not-centered",
+      "passed": true,
+      "evidence": "Has justify-content: flex-start"
+    },
+    {
+      "text": "slide-transition",
+      "passed": true,
+      "evidence": "Has opacity/scale/transition"
+    },
+    {
+      "text": "grid-layout",
+      "passed": true,
+      "evidence": "grid-template-columns found"
+    },
+    {
+      "text": "multi-finding-slide",
+      "passed": true,
+      "evidence": "Slide count 6 (<=7 suggests merged findings)"
+    },
+    {
+      "text": "chart-js-present",
+      "passed": true,
+      "evidence": "Chart.js found"
+    }
+  ]
+}

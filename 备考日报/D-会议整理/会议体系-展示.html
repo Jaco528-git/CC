@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>中国政治会议体系 · 展示</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",-apple-system,system-ui,sans-serif;background:#f8f6f2;color:#2c2c2c}
+.presentation{width:100vw;height:100vh;position:relative;overflow:hidden}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:6% 8%;opacity:0;transform:scale(0.96);transition:opacity .5s ease,transform .5s ease;pointer-events:none;overflow-y:auto}
+.slide.active{opacity:1;transform:scale(1);pointer-events:auto;z-index:10}
+.page-indicator{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:10px;align-items:center}
+.page-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer;transition:all .3s}
+.page-dot.active{background:#c0392b;box-shadow:0 0 12px rgba(192,57,43,0.4);width:28px;border-radius:4px}
+.page-num{font-size:13px;color:rgba(0,0,0,0.35);letter-spacing:1px;margin-left:8px}
+.hint{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:100;font-size:12px;color:rgba(0,0,0,0.2);letter-spacing:2px;user-select:none;transition:opacity 2s}
+.slide-title{font-size:clamp(2rem,5vw,3.8rem);font-weight:700;letter-spacing:3px;margin-bottom:.5em;text-align:center}
+.slide-sub{font-size:clamp(1rem,2vw,1.4rem);color:rgba(0,0,0,0.5);text-align:center;max-width:700px;line-height:1.8}
+.accent{color:#c0392b}.accent-blue{color:#2980b9}.accent-green{color:#27ae60}.accent-purple{color:#8e44ad}
+.label-tag{display:inline-block;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:1px}
+.tag-party{background:#fde8e8;color:#c0392b}
+.tag-state{background:#dbeafe;color:#2980b9}
+.tag-econ{background:#fef3c7;color:#b8860b}
+.tag-local{background:#d1fae5;color:#27ae60}
+.card-grid{display:grid;gap:16px;width:100%;max-width:1100px;margin-top:20px}
+.card-grid.cols-2{grid-template-columns:1fr 1fr}
+.card-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.card{background:#ffffff;border:1px solid #e8e5e0;border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.06);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.card h3{font-size:clamp(1rem,1.5vw,1.3rem);margin-bottom:8px}
+.card p,.card li{font-size:clamp(.85rem,1.2vw,1rem);color:rgba(0,0,0,0.6);line-height:1.7}
+.card ul{list-style:none;padding:0}
+.card li::before{content:"› ";color:#c0392b}
+.timeline{display:flex;max-width:1100px;width:100%;margin-top:24px;overflow-x:auto;padding:12px 0}
+.timeline-item{flex:1;min-width:100px;text-align:center;position:relative;padding:16px 8px 0}
+.timeline-item::before{content:"";position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(192,57,43,0.25)}
+.timeline-item .year{font-size:13px;font-weight:700;color:#c0392b;letter-spacing:1px}
+.timeline-item .event{margin-top:8px;font-size:12px;color:rgba(0,0,0,0.55);line-height:1.5}
+.timeline-item .event strong{color:#2c2c2c;display:block}
+.styled-table{width:100%;max-width:1100px;border-collapse:collapse;margin-top:16px;font-size:clamp(.8rem,1.1vw,.95rem)}
+.styled-table th{background:#fef0ec;color:#c0392b;padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid #f5d6ce}
+.styled-table td{padding:10px 14px;border-bottom:1px solid #eeece8;color:rgba(0,0,0,0.6)}
+.styled-table tr:hover td{background:#faf8f5}
+.styled-table td:first-child{color:#2c2c2c;font-weight:500}
+.slide-home{background:radial-gradient(ellipse at 20% 50%,rgba(192,57,43,0.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 50%,rgba(41,128,185,0.06) 0%,transparent 50%),#f8f6f2}
+.slide-home h1{font-size:clamp(2.8rem,6vw,5rem);font-weight:800;letter-spacing:6px;text-align:center;line-height:1.3}
+.slide-home .divider{width:80px;height:3px;background:linear-gradient(90deg,#c0392b,#e67e22);margin:28px auto;border-radius:2px}
+.slide-end{background:radial-gradient(ellipse at 50% 50%,rgba(192,57,43,0.04) 0%,transparent 60%),#f8f6f2}
+@media(max-width:768px){.slide{padding:10% 6%}.card-grid.cols-2,.card-grid.cols-3{grid-template-columns:1fr}.page-indicator{bottom:20px}.hint{display:none}}
+.pyramid{display:flex;flex-direction:column;align-items:center;width:100%;max-width:800px;margin-top:16px}
+.pyramid-row{display:flex;justify-content:center;gap:8px;margin-top:-4px}
+.pyramid-box{padding:10px 18px;border-radius:6px;font-size:clamp(.75rem,1vw,.9rem);text-align:center;font-weight:500;letter-spacing:1px}
+.pyramid-box.l1{background:#fde8e8;border:1px solid #f5c6c6;color:#c0392b;min-width:280px}
+.pyramid-box.l2{background:#dbeafe;border:1px solid #bdd7f5;color:#2980b9;min-width:240px}
+.pyramid-box.l3{background:#fef3c7;border:1px solid #fce8a0;color:#b8860b;min-width:200px}
+.pyramid-box.l4{background:#f0e6f6;border:1px solid #e0c8ee;color:#8e44ad;min-width:160px}
+.pyramid-box.l5{background:#d1fae5;border:1px solid #a7f0c5;color:#27ae60;min-width:130px}
+.pyramid-arrow{color:rgba(0,0,0,0.2);font-size:14px;margin:2px 0;letter-spacing:6px}
+</style></head><body><div class="presentation" id="app">
+<section class="slide slide-home active" data-index="0">
+<h1>中国政治会议体系</h1><div class="divider"></div>
+<p class="slide-sub" style="max-width:800px;">第二十届中央委员会任期 · 2022年10月—2027年<br>覆盖：党代会 · 中央全会 · 全国两会 · 经济工作会议 · 政治局会议 · 湖南省级会议</p>
+<p class="slide-sub" style="margin-top:40px;font-size:.9rem;color:rgba(0,0,0,0.25);">点击任意处 / 按 → 键开始</p></section>
+<section class="slide" data-index="1"><h2 class="slide-title">权力架构<span class="accent"> · 一张图</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">定方向 → 国家化 → 抓经济 → 过程管理 → 落地方 五层递进</p>
+<div class="pyramid"><div class="pyramid-row"><div class="pyramid-box l1">党代会（每五年）定方向</div></div>
+<div class="pyramid-arrow">&#9660;</div>
+<div class="pyramid-row"><div class="pyramid-box l1">中央委员会（七次全会）战略展开</div></div>
+<div class="pyramid-arrow">&#9660;</div>
+<div class="pyramid-row"><div class="pyramid-box l2">全国两会 法律转化 + 量化目标</div></div>
+<div class="pyramid-arrow">&#9660;</div>
+<div class="pyramid-row"><div class="pyramid-box l3">中央经济工作会议 年度总定调</div><div class="pyramid-box l3">政治局季度会议 过程监控</div></div>
+<div class="pyramid-arrow">&#9660;</div>
+<div class="pyramid-row"><div class="pyramid-box l4">专题工作会议（金融/农村/科技/生态）</div><div class="pyramid-box l4">集体学习 + 委员会会议</div></div>
+<div class="pyramid-arrow">&#9660;</div>
+<div class="pyramid-row"><div class="pyramid-box l5">湖南省两会 + 省委全会 + 省委经济工作会</div></div></div>
+<p class="slide-sub" style="font-size:0.8rem;margin-top:16px;color:rgba(0,0,0,0.25);">核心逻辑：党的主张 → 法定程序 → 国家意志 → 省级转化</p></section>
+<section class="slide" data-index="2"><h2 class="slide-title">本届会议<span class="accent">时间轴</span></h2>
+<p class="slide-sub" style="margin-bottom:6px;">2022—2026 关键节点一览</p><div class="timeline">
+<div class="timeline-item"><div class="year">2022</div><div class="event"><strong>二十大</strong>10月<strong>一中全会</strong>10月<br>中央经济工作会议12月</div></div>
+<div class="timeline-item"><div class="year">2023</div><div class="event"><strong>二中全会</strong>2月<br>全国两会3月<br>省两会1月<br>政治局7月定调</div></div>
+<div class="timeline-item"><div class="year">2024</div><div class="event"><strong>三中全会</strong>7月/改革决定<br>政治局<span class="accent">9月破例</span><br>经济工作会/适度宽松</div></div>
+<div class="timeline-item"><div class="year">2025</div><div class="event"><strong>四中全会</strong>10月/十五五规划<br>全国两会3月<br>经济工作会12月</div></div>
+<div class="timeline-item"><div class="year">2026</div><div class="event">全国两会/GDP区间目标<br>政治局/<span class="accent">六网建设</span><br>五中全会待召开</div></div>
+</div><p class="slide-sub" style="font-size:0.8rem;margin-top:16px;color:rgba(0,0,0,0.25);">★ 本届特殊：四中全会承担五中全会传统职能 — 改革开放以来首次</p></section>
+<section class="slide" data-index="3"><h2 class="slide-title">六大会议<span class="accent">类型速览</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">从最高意志到省级落实</p><div class="card-grid cols-3">
+<div class="card"><h3><span class="label-tag tag-party">党的会议</span></h3><p>党代会 + 中央全会（一至七中）<br>定方向、布人事、推改革</p></div>
+<div class="card"><h3><span class="label-tag tag-state">国家会议</span></h3><p>全国人大 + 全国政协<br>党的主张→国家意志→法律转化</p></div>
+<div class="card"><h3><span class="label-tag tag-econ">经济专题</span></h3><p>中央经济工作会 + 政治局季度会<br>年度总定调 + 过程管理</p></div>
+<div class="card"><h3><span class="label-tag tag-party">学习与决策</span></h3><p>政治局集体学习 + 委员会会议<br>中央财经委/深改委/国安委/金融委/科技委</p></div>
+<div class="card"><h3><span class="label-tag tag-econ">专题部署</span></h3><p>金融/农村/纪检/生态/科技/文化/政法<br>10类专题会议 / 6个习近平思想诞生地</p></div>
+<div class="card"><h3><span class="label-tag tag-local">地方会议</span></h3><p>湖南省两会 + 省委全会 + 省委经济工作会<br>国标→省标 政策转化</p></div>
+</div></section>
+<section class="slide" data-index="4"><h2 class="slide-title">党代会 &amp; <span class="accent">中央全会</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">最高权力机关 → 五年七次全会的惯例分工</p>
+<table class="styled-table"><tr><th>全会</th><th>传统议题</th><th>权力环节</th><th>本届实况</th></tr>
+<tr><td>一中全会</td><td>选举中央领导机构</td><td>布人事</td><td>2022.10 习近平连任</td></tr>
+<tr><td>二中全会</td><td>审议国家机构人选</td><td>布人事</td><td>2023.2 机构改革方案</td></tr>
+<tr><td>三中全会</td><td>重大经济改革</td><td>定方向</td><td>2024.7 300+项改革</td></tr>
+<tr><td>四中全会</td><td>党建或法治专题</td><td>推改革</td><td>2025.10 十五五规划建议★</td></tr>
+<tr><td>五中全会</td><td>五年规划建议</td><td>定方向</td><td>预计2026下半年（待定）</td></tr>
+<tr><td>六中全会</td><td>党建或意识形态</td><td>抓落实</td><td>尚未召开</td></tr>
+<tr><td>七中全会</td><td>审议下届党代会报告</td><td>换届衔接</td><td>尚未召开</td></tr>
+</table><p class="slide-sub" style="font-size:0.8rem;margin-top:12px;color:rgba(0,0,0,0.25);">口诀：一中选领导 / 二中议人事 / 三中推改革 / 四中本届定规划 / 五中待定</p></section>
+<section class="slide" data-index="5"><h2 class="slide-title">全国<span class="accent-blue">两会</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">全国人民代表大会 + 中国人民政治协商会议 / 每年3月</p><div class="card-grid cols-2">
+<div class="card"><h3>人大 vs 政协</h3><ul><li>人大：最高国家权力机关，审议表决有法律效力</li><li>政协：统一战线组织，讨论建议不表决</li><li>人大提议案，政协提提案</li><li>二者是选举民主+协商民主的结合</li></ul></div>
+<div class="card"><h3>四年关键指标</h3><ul><li><strong>2023</strong>：GDP 5%左右 → 实际5.2%</li><li><strong>2024</strong>：人工智能+首次写入政府工作报告</li><li><strong>2025</strong>：赤字率4%，超长期特别国债1.3万亿</li><li><strong>2026</strong>：GDP首次区间目标 4.5%-5%</li></ul></div>
+</div><p class="slide-sub" style="font-size:0.85rem;margin-top:12px;color:rgba(0,0,0,0.45);">三会递进：<span class="accent">党代会</span> 定方向 → <span class="accent-blue">中央全会</span> 作部署 → <span class="accent">两会</span> 法定化</p></section>
+<section class="slide" data-index="6"><h2 class="slide-title">中央<span class="accent">经济工作会议</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">每年12月 / 定调次年经济总基调</p>
+<table class="styled-table"><tr><th>年份</th><th>总基调</th><th>关键政策信号</th></tr>
+<tr><td>2022</td><td>稳字当头、稳中求进</td><td>三稳：稳增长/稳就业/稳物价 / 六个更好统筹</td></tr>
+<tr><td>2023</td><td>稳中求进、以进促稳、先立后破</td><td><span class="accent">新质生产力首次提出</span></td></tr>
+<tr><td>2024</td><td>稳中求进、以进促稳</td><td><span class="accent">货币政策适度宽松14年首次</span> / 更加积极财政</td></tr>
+<tr><td>2025</td><td>稳中求进、提质增效</td><td>十五五开局之年</td></tr>
+</table><p class="slide-sub" style="font-size:0.85rem;margin-top:12px;color:rgba(0,0,0,0.45);">流水线：经济工作会议（12月总定调）→ 两会报告（3月量化）→ 政治局季度会（过程监控）</p></section>
+<section class="slide" data-index="7"><h2 class="slide-title">政治局<span class="accent">季度会议</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">4月/7月/10月/12月 / 经济工作的过程管理</p><div class="card-grid cols-2">
+<div class="card"><h3>常规节奏</h3><ul><li><strong>4月</strong>：分析一季度，开局定全年</li><li><strong>7月</strong>：年中定调，下半年部署</li><li><strong>10月</strong>：三季度形势研判</li><li><strong>12月</strong>：为经济工作会议预热</li></ul></div>
+<div class="card"><h3><span class="accent">★ 2024.9 破例</span></h3><ul><li>9月破例讨论经济 — 最大政策转折点</li><li>加力推出增量政策</li><li>→ 12月经济工作会14年首次适度宽松</li><li><strong>2026新提法</strong>：六网建设</li></ul></div>
+</div></section>
+<section class="slide" data-index="8"><h2 class="slide-title">集体学习 &amp; <span class="accent-purple">委员会会议</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">最高决策层的风向标</p><div class="card-grid cols-2">
+<div class="card"><h3>政治局集体学习（截至2026.5）</h3><ul><li>制度始于2002年，每40天左右一次</li><li><strong>第11次</strong>（2024.1）：加快发展新质生产力</li><li><strong>第12次</strong>（2024.2）：新能源技术与能源安全</li><li><strong>第20次</strong>（2025.4）：人工智能发展与治理</li><li>主题 = 最高层最关注的方向</li></ul></div>
+<div class="card"><h3>中央委员会会议</h3><ul><li><strong>中央财经委</strong>：经济顶层设计</li><li><strong>中央深改委</strong>：改革统筹协调</li><li><strong>中央国安委</strong>：国家安全决策</li><li><strong>中央金融委</strong>：2023.3新组建</li><li><strong>中央科技委</strong>：2023.3新组建</li></ul></div>
+</div></section>
+<section class="slide" data-index="9"><h2 class="slide-title">专题<span style="color:#e67e22;">工作会议</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">面—线—点：中央全会（面）→ 经济工作会（线）→ 专题会（点）</p><div class="card-grid cols-3">
+<div class="card"><h3>习近平六个思想</h3><ul><li>强军思想（2017.10 十九大）</li><li>经济思想（2017.12 经济工作会）</li><li>生态文明思想（2018.05 环保大会）</li><li>外交思想（2018.06 外事工作会）</li><li>法治思想（2020.11 依法治国工作会）</li><li><span class="accent">文化思想（2023.10 宣传思想文化工作会）</span></li></ul></div>
+<div class="card"><h3>十大专题会议</h3><ul><li>中央金融工作会议</li><li>中央农村工作会议</li><li>中央纪委全会</li><li>全国生态环境保护大会</li><li>全国科技大会</li><li>宣传思想文化工作会</li><li>政法/人才/统战/民族</li></ul></div>
+<div class="card"><h3>行测必记</h3><ul><li>六大思想按时间排序</li><li>与五位一体对应关系</li><li>每个思想的标志性会议</li><li>冠名中央 vs 全国的区分</li></ul></div>
+</div></section>
+<section class="slide" data-index="10"><h2 class="slide-title">湖南<span class="accent-green">省级会议</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">中央决策的省级转化：国标到省标</p><div class="card-grid cols-2">
+<div class="card"><h3>湖南省两会（每年1月）</h3><ul><li>时间在中央之前：地方1月，全国3月</li><li>GDP目标通常高于全国（跳起来摘桃子）</li><li>2025年GDP 5.53万亿，全国前十</li><li>一带一部定位</li></ul></div>
+<div class="card"><h3>省委全会 + 省委经济工作会</h3><ul><li>省委全会：每年至少2次，审议重大部署</li><li>省委经济工作会：12月，对标中央</li><li>政策传导差：中央到湖南 3-6个月</li><li>案例：零基预算改革传导全过程</li></ul></div>
+</div></section>
+<section class="slide" data-index="11"><h2 class="slide-title">会议间<span class="accent">内容承接</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">从二十大到地方落地的完整政策传导链</p>
+<table class="styled-table"><tr><th>起点</th><th>承接会议</th><th>具体体现</th></tr>
+<tr><td>二十大深化机构改革</td><td>二中全会（2023.2）</td><td>金融/科技/数据三大改革主线</td></tr>
+<tr><td>二十大坚持深化改革开放</td><td>三中全会（2024.7）</td><td>300+项改革举措，7大聚焦</td></tr>
+<tr><td>二十大2035年现代化</td><td>四中全会（2025.10）</td><td>十五五规划建议</td></tr>
+<tr><td>经济工作会新质生产力</td><td>两会/三中全会/政治局</td><td>累计提及10+次，最热考点</td></tr>
+<tr><td>三中全会零基预算改革</td><td>省委经济工作会 → 省两会</td><td>省级专项42项整合为五大类</td></tr>
+</table><p class="slide-sub" style="font-size:0.8rem;margin-top:12px;color:rgba(0,0,0,0.25);">传导时间差：中央部署到省级落实 通常3-6个月</p></section>
+<section class="slide" data-index="12"><h2 class="slide-title">公考<span class="accent">命题关系网</span></h2>
+<p class="slide-sub" style="margin-bottom:10px;">申论/面试/行测常识的会议溯源</p><div class="card-grid cols-2">
+<div class="card"><h3>申论高频话题溯源</h3><ul><li><strong>中国式现代化</strong>：二十大 → 三中全会</li><li><strong>新质生产力</strong>：经济工作会(2023.12)→两会/三中全会</li><li><strong>人工智能+</strong>：2024两会首次写入 → 三中全会</li><li><strong>乡村全面振兴</strong>：2026中央一号文件→历年两会</li><li><strong>反内卷</strong>：2025.7政治局→经济工作会</li><li><strong>六网建设</strong>：2026.4政治局首次提出</li></ul></div>
+<div class="card"><h3>面试预测 + 行测必背</h3><ul><li><span class="accent">★★★★★</span> 新质生产力（10+次跨会议提及）</li><li><span class="accent">★★★★</span> 反内卷 / 人口与银发经济</li><li><span class="accent">★★★</span> 化债长效机制 / AI+千行百业</li><li>口诀：一中领导/二中人事/三中改革/四中规划</li><li>首次必考：新质生产力/AI+/适度宽松/区间GDP</li></ul></div>
+</div></section>
+<section class="slide slide-end" data-index="13"><h1 style="font-size:clamp(2.5rem,5vw,4rem);font-weight:700;letter-spacing:4px;text-align:center;">感谢观看</h1>
+<div style="width:60px;height:3px;background:linear-gradient(90deg,#c0392b,#e67e22);margin:24px auto;border-radius:2px;"></div>
+<p class="slide-sub" style="max-width:600px;">备考日报 / D轨 会议体系<br>整理日期：2026-05-10<br>覆盖：十类会议 / 三层结构 / 四维备考框架</p>
+<p class="slide-sub" style="font-size:0.85rem;margin-top:32px;color:rgba(0,0,0,0.25);">← 可翻回浏览 / 点击或按 → 重新开始</p></section></div>
+<p class="hint" id="hint">点击 / 方向键 / 滚轮 翻页</p>
+<div class="page-indicator" id="pager">
+<div class="page-dot active" data-goto="0"></div><div class="page-dot" data-goto="1"></div><div class="page-dot" data-goto="2"></div><div class="page-dot" data-goto="3"></div>
+<div class="page-dot" data-goto="4"></div><div class="page-dot" data-goto="5"></div><div class="page-dot" data-goto="6"></div><div class="page-dot" data-goto="7"></div>
+<div class="page-dot" data-goto="8"></div><div class="page-dot" data-goto="9"></div><div class="page-dot" data-goto="10"></div><div class="page-dot" data-goto="11"></div>
+<div class="page-dot" data-goto="12"></div><div class="page-dot" data-goto="13"></div>
+<span class="page-num" id="pageNum">01 / 14</span></div>
+<script>(function(){var s=document.querySelectorAll(".slide");var d=document.querySelectorAll(".page-dot");var p=document.getElementById("pageNum");var h=document.getElementById("hint");var c=0;
+function w(n){s[c].classList.remove("active");d[c].classList.remove("active");c=(n+s.length)%s.length;s[c].classList.add("active");d[c].classList.add("active");var a=String(c+1);var b=String(s.length);if(a.length<2)a="0"+a;if(b.length<2)b="0"+b;p.textContent=a+" / "+b;}
+function nx(){w(c+1);}function pv(){w(c-1);}
+if(h)setTimeout(function(){h.style.opacity="0";},5000);
+document.addEventListener("keydown",function(e){if(e.key==="ArrowRight"||e.key==="ArrowDown"||e.key===" "){e.preventDefault();nx();}if(e.key==="ArrowLeft"||e.key==="ArrowUp"){e.preventDefault();pv();}if(e.key==="Home"){e.preventDefault();w(0);}if(e.key==="End"){e.preventDefault();w(s.length-1);}});
+document.addEventListener("click",function(e){if(e.target.closest(".page-indicator"))return;if(e.clientX/window.innerWidth<0.25)pv();else nx();});
+var wt=null;document.addEventListener("wheel",function(e){if(e.target.closest(".card")||e.target.closest(".styled-table"))return;e.preventDefault();if(wt)return;wt=setTimeout(function(){wt=null;},600);if(e.deltaY>0)nx();else pv();},{passive:false});
+var tx=0;document.addEventListener("touchstart",function(e){tx=e.changedTouches[0].screenX;},{passive:true});
+document.addEventListener("touchend",function(e){var d=e.changedTouches[0].screenX-tx;if(Math.abs(d)>50){if(d<0)nx();else pv();}},{passive:true});
+for(var i=0;i<d.length;i++){d[i].addEventListener("click",function(){w(parseInt(this.dataset.goto));});}})();</script>
+</body></html>

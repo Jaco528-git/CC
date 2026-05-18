@@ -1,0 +1,7182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国政治会议体系 · 备考知识地图</title>
+<style>
+  :root {
+    --bg: #f5f3ef;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --muted: #6b6b6b;
+    --border: #e2ddd6;
+    --red: #c41e3a;
+    --gold: #b8860b;
+    --blue: #1a5276;
+    --green: #2d6a4f;
+    --purple: #6b3fa0;
+    --party: #c41e3a;
+    --state: #1a5276;
+    --econ: #b8860b;
+    --local: #2d6a4f;
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 24px rgba(0,0,0,0.10);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ===== SIDEBAR ===== */
+  nav {
+    width: 260px;
+    background: #1a1a2e;
+    color: #ccc;
+    padding: 28px 0;
+    position: fixed; top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  nav h2 {
+    font-size: 18px; color: #fff; padding: 0 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px;
+  }
+  nav h2 small { display: block; font-size: 12px; color: #999; font-weight: normal; margin-top: 4px; }
+  nav a {
+    display: block; padding: 10px 24px; color: #bbb; text-decoration: none;
+    font-size: 14px; transition: all 0.2s; border-left: 3px solid transparent;
+  }
+  nav a:hover, nav a.active { color: #fff; background: rgba(255,255,255,0.06); border-left-color: var(--gold); }
+  nav .section-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+    color: #666; padding: 20px 24px 8px;
+  }
+
+  /* ===== MAIN ===== */
+  main {
+    margin-left: 260px;
+    padding: 40px 48px;
+    max-width: 1100px;
+    flex: 1;
+  }
+  header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+  header h1 {
+    font-size: 32px; font-weight: 800; color: #1a1a2e;
+    letter-spacing: -0.5px;
+  }
+  header p { color: var(--muted); font-size: 15px; margin-top: 8px; }
+
+  /* ===== ARCHITECTURE DIAGRAM ===== */
+  .arch-section { margin-bottom: 48px; }
+  .arch-section h2 {
+    font-size: 22px; font-weight: 700;
+    padding-bottom: 12px; border-bottom: 3px solid #1a1a2e;
+    margin-bottom: 24px;
+  }
+
+  .arch-flow {
+    display: flex; flex-direction: column; gap: 12px; align-items: center;
+    font-size: 14px;
+  }
+  .arch-box {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 16px 24px; text-align: center; min-width: 420px;
+    border-left: 5px solid var(--party);
+  }
+  .arch-box.party { border-left-color: var(--party); }
+  .arch-box.state { border-left-color: var(--state); }
+  .arch-box.econ { border-left-color: var(--econ); }
+  .arch-box.local { border-left-color: var(--local); }
+  .arch-box .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+  .arch-box .title { font-size: 17px; font-weight: 700; color: #1a1a2e; margin: 4px 0; }
+  .arch-box .subtitle { font-size: 13px; color: var(--muted); }
+  .arch-arrow { font-size: 22px; color: #999; }
+  .arch-arrow-text { font-size: 12px; color: #999; margin: -6px 0; }
+  .arch-row {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+  .arch-row .arch-box { min-width: 200px; flex: 1; max-width: 300px; }
+
+  /* ===== FILE CARDS ===== */
+  .files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .file-card {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 24px; transition: box-shadow 0.2s, transform 0.2s;
+    border-top: 4px solid #ccc; text-decoration: none; color: inherit; display: block;
+  }
+  .file-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .file-card.party-card { border-top-color: var(--party); }
+  .file-card.state-card { border-top-color: var(--state); }
+  .file-card.econ-card { border-top-color: var(--econ); }
+  .file-card.local-card { border-top-color: var(--local); }
+  .file-card.overview-card { border-top-color: #1a1a2e; }
+.file-card.study-card { border-top-color: var(--purple); }
+.file-card.special-card { border-top-color: #e67e22; }
+  .file-card .num { font-size: 13px; color: var(--muted); font-weight: 600; letter-spacing: 1px; }
+  .file-card h3 { font-size: 18px; margin: 8px 0; color: #1a1a2e; }
+  .file-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .file-card .tags { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .file-card .tag {
+    font-size: 11px; padding: 3px 10px; border-radius: 20px;
+    background: #f0efed; color: #666;
+  }
+  .file-card .tag.hot { background: #fde8e8; color: var(--party); }
+  .file-card .tag.imp { background: #fff3e0; color: var(--econ); }
+
+  /* ===== RELATIONSHIP TABLE ===== */
+  .rel-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+  .rel-table th {
+    background: #1a1a2e; color: #fff; padding: 12px 16px;
+    text-align: left; font-weight: 600;
+  }
+  .rel-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .rel-table tr:hover td { background: #fafaf8; }
+  .rel-table .connector { font-size: 13px; color: var(--blue); font-weight: 600; }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position: relative; padding-left: 32px; margin: 24px 0; }
+  .timeline::before {
+    content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 2px; background: #ddd;
+  }
+  .tl-item { position: relative; margin-bottom: 24px; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -28px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--party);
+    border: 2px solid #fff; box-shadow: 0 0 0 2px var(--party);
+  }
+  .tl-item.econ::before { background: var(--econ); box-shadow: 0 0 0 2px var(--econ); }
+  .tl-item.state::before { background: var(--state); box-shadow: 0 0 0 2px var(--state); }
+  .tl-item .tl-date { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 1px; }
+  .tl-item .tl-title { font-weight: 700; font-size: 15px; margin: 2px 0; }
+  .tl-item .tl-desc { font-size: 13px; color: var(--muted); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    nav { display: none; }
+    main { margin-left: 0; padding: 24px 20px; }
+    .files-grid { grid-template-columns: 1fr; }
+    .arch-box { min-width: auto; }
+  }
+
+  /* Content Sections */
+  .content-section {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    margin-bottom: 32px; overflow: hidden;
+  }
+  .content-section.party-content { border-left: 5px solid var(--party); }
+  .content-section.state-content { border-left: 5px solid var(--state); }
+  .content-section.econ-content { border-left: 5px solid var(--econ); }
+  .content-section.local-content { border-left: 5px solid var(--local); }
+  .content-section.study-content { border-left: 5px solid var(--purple); }
+  .content-section.special-content { border-left: 5px solid #e67e22; }
+  .content-header {
+    padding: 20px 28px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+    background: #fafaf9; cursor: pointer;
+  }
+  .content-header h2 { font-size: 16px; color: var(--muted); font-weight: 600; margin: 0; }
+  .content-header h3 { font-size: 20px; color: #1a1a2e; font-weight: 700; margin: 0; flex: 1; }
+  .collapse-btn {
+    background: none; border: 1px solid #ddd; padding: 6px 14px; border-radius: 6px;
+    cursor: pointer; font-size: 13px; color: #666; transition: all 0.2s;
+  }
+  .collapse-btn:hover { background: #eee; }
+  .content-body {
+    padding: 28px 32px; font-size: 15px; line-height: 1.8;
+  }
+  .content-body h1 { font-size: 24px; margin: 0 0 16px; color: #1a1a2e; }
+  .content-body h2 { font-size: 20px; margin: 28px 0 12px; color: #1a1a2e; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+  .content-body h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content-body table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  .content-body table th { background: #1a1a2e; color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; }
+  .content-body table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .content-body table tr:hover td { background: #fafaf8; }
+  .content-body blockquote {
+    border-left: 4px solid var(--gold); margin: 12px 0; padding: 8px 16px;
+    background: #fdfaf3; color: #6b5e3e; font-style: italic;
+  }
+  .content-body ul, .content-body ol { margin: 8px 0; padding-left: 24px; }
+  .content-body li { margin: 4px 0; }
+  .content-body code {
+    background: #f0efed; padding: 2px 6px; border-radius: 3px; font-size: 13px;
+  }
+  .content-body strong { color: #1a1a2e; }
+  .content-body a { color: var(--blue); }
+  .content-body hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+  .content-body p { margin: 8px 0; }
+  .content-collapsed .content-body { display: none; }
+  .content-collapsed .collapse-btn::after { content: '展开 ▼'; }
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<nav>
+  <h2>中国政治会议体系<small>二十届中央委员会任期<br>2022.10 — 2027</small></h2>
+  <a href="#arch">权力架构图</a>
+  <a href="#timeline">会议时间轴</a>
+  <div class="section-label">文件索引</div>
+  <a href="#f00">00 · 总览</a>
+  <a href="#content-f01">01 · 二十大</a>
+  <a href="#content-f02">02 · 中央全会</a>
+  <a href="#content-f03">03 · 全国两会</a>
+  <a href="#content-f04">04 · 中央经济工作会议</a>
+  <a href="#content-f05">05 · 政治局会议</a>
+  <a href="#content-f06">06 · 湖南省两会</a>
+  <a href="#content-f07">07 · 湖南省委会议</a>
+  <a href="#content-f08">08 · 集体学习与委员会</a>
+  <a href="#content-f09">09 · 专题工作会议</a>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main>
+
+<header>
+  <h1>中国政治会议体系 · 备考知识地图</h1>
+  <p>覆盖中国共产党第二十次全国代表大会以来（2022.10—至今）的重大会议，按会议类型分专题整理。<br>每条信息附来源链接，重点内容分三级标记考试重要度。</p>
+</header>
+
+<!-- ===== 权力架构图 ===== -->
+<section class="arch-section" id="arch">
+  <h2>一、权力架构与会议层级</h2>
+  <p style="color:var(--muted);margin-bottom:20px;font-size:14px">箭头方向 = 权力意志传导方向 | 虚線 = 反馈/调整回路</p>
+
+  <div class="arch-flow">
+    <!-- 第一层：党代会 -->
+    <div class="arch-box party" style="min-width:480px">
+      <div class="label">最高权力机关</div>
+      <div class="title">中国共产党全国代表大会（每五年）</div>
+      <div class="subtitle">2022年10月 · 二十大 — 确立中心任务，阐明重大理论，选举中央委员会</div>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-arrow-text">选举产生 → 闭会期间代行职权</div>
+
+    <!-- 第二层：中央全会 -->
+    <div class="arch-box party" style="min-width:480px">
+      <div class="label">年度战略展开</div>
+      <div class="title">中央委员会全体会议（每年1-2次）</div>
+      <div class="subtitle">一中全会(选领导) → 二中全会(议人事) → 三中全会(推改革) → 四中全会(定规划) → 五中/六中/七中</div>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-arrow-text">党的主张 → 法定程序 → 国家意志</div>
+
+    <!-- 第三层：全国两会 -->
+    <div class="arch-box state" style="min-width:480px">
+      <div class="label">国家权力机关 / 协商民主</div>
+      <div class="title">全国人民代表大会 + 中国人民政治协商会议（每年3月）</div>
+      <div class="subtitle">将党的决策部署通过法定程序转化为国家法律和政府行动方案</div>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-arrow-text">年度经济部署 / 季度过程管理</div>
+
+    <!-- 第四层：经济会议 + 政治局 -->
+    <div class="arch-row">
+      <div class="arch-box econ">
+        <div class="label">年度总定调（12月）</div>
+        <div class="title">中央经济工作会议</div>
+        <div class="subtitle">定调次年经济总基调+重点任务</div>
+      </div>
+      <div class="arch-box econ">
+        <div class="label">季度过程管理（4/7/10/12月）</div>
+        <div class="title">中央政治局会议</div>
+        <div class="subtitle">年中定调 · 年底预热 · 跨周期调节</div>
+      </div>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-arrow-text">省级对标转化 → 地方落实</div>
+
+    <!-- 第五层：湖南省 -->
+    <div class="arch-row">
+      <div class="arch-box local">
+        <div class="label">地方两会（1月）</div>
+        <div class="title">湖南省人民代表大会</div>
+        <div class="subtitle">省政府工作报告 · GDP目标分解</div>
+      </div>
+      <div class="arch-box local">
+        <div class="label">省委部署（12月/全年）</div>
+        <div class="title">湖南省委全会 + 省委经济工作会议</div>
+        <div class="subtitle">中央政策的"湖南化"落地</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 权力运行核心逻辑 -->
+  <div style="margin-top:32px;padding:20px 24px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);">
+    <strong style="color:#1a1a2e;">权力运行核心逻辑：</strong>
+    <span style="color:var(--party);font-weight:600;">定方向</span>（党代会）
+    → <span style="color:var(--party);font-weight:600;">布人事/推改革</span>（中央全会）
+    → <span style="color:var(--state);font-weight:600;">法定化/量化</span>（全国两会）
+    → <span style="color:var(--econ);font-weight:600;">年度部署</span>（经济工作会议）
+    → <span style="color:var(--econ);font-weight:600;">季度监控</span>（政治局会议）
+    → <span style="color:var(--local);font-weight:600;">地方转化</span>（省两会+省委会议）
+  </div>
+</section>
+
+<!-- ===== 会议时间轴 ===== -->
+<section class="arch-section" id="timeline">
+  <h2>二、二十届任期会议时间轴</h2>
+
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-date">2022年10月</div><div class="tl-title">二十大（15-22日）</div><div class="tl-desc">2296名代表 · 主题：高举中国特色社会主义伟大旗帜 · 选举二十届中央委员会</div></div>
+    <div class="tl-item"><div class="tl-date">2022年10月</div><div class="tl-title">二十届一中全会（23日）</div><div class="tl-desc">选举中央政治局、常委、总书记 · 习近平连任开启第三任期</div></div>
+    <div class="tl-item econ"><div class="tl-date">2022年12月</div><div class="tl-title">中央经济工作会议（15-16日）</div><div class="tl-desc">"稳字当头、稳中求进" · 六个更好统筹</div></div>
+    <div class="tl-item"><div class="tl-date">2023年2月</div><div class="tl-title">二十届二中全会（26-28日）</div><div class="tl-desc">审议《党和国家机构改革方案》 · 金融/科技/数据三大改革主线</div></div>
+    <div class="tl-item state"><div class="tl-date">2023年3月</div><div class="tl-title">全国两会</div><div class="tl-desc">GDP目标5%左右 · 通过机构改革方案 · 赤字率3%</div></div>
+    <div class="tl-item state"><div class="tl-date">2024年3月</div><div class="tl-title">全国两会</div><div class="tl-desc">"人工智能+"首次写入政府工作报告 · 专项债3.9万亿</div></div>
+    <div class="tl-item"><div class="tl-date">2024年7月</div><div class="tl-title">二十届三中全会（15-18日）</div><div class="tl-desc">审议通过《关于进一步全面深化改革、推进中国式现代化的决定》· 300+项改革举措</div></div>
+    <div class="tl-item econ"><div class="tl-date">2024年9月</div><div class="tl-title">政治局会议 ★破例</div><div class="tl-desc">9月破例讨论经济 · "加力推出增量政策" · 全年最大政策转折点</div></div>
+    <div class="tl-item econ"><div class="tl-date">2024年12月</div><div class="tl-title">中央经济工作会议</div><div class="tl-desc">货币政策"适度宽松"（14年首次）· 财政"更加积极" · 五个必须统筹</div></div>
+    <div class="tl-item state"><div class="tl-date">2025年3月</div><div class="tl-title">全国两会</div><div class="tl-desc">赤字率4% · 超长期特别国债1.3万亿 · 十五五规划启动编制</div></div>
+    <div class="tl-item"><div class="tl-date">2025年10月</div><div class="tl-title">二十届四中全会 ★特殊</div><div class="tl-desc">审议"十五五"规划建议 · 本届特殊性：四中全会代替五中全会承担五年规划职能</div></div>
+    <div class="tl-item econ"><div class="tl-date">2025年12月</div><div class="tl-title">中央经济工作会议</div><div class="tl-desc">"稳中求进、提质增效" · 八个坚持 · 十五五开局部署</div></div>
+    <div class="tl-item state"><div class="tl-date">2026年3月</div><div class="tl-title">全国两会</div><div class="tl-desc">GDP首次区间目标4.5%-5% · 十五五规划纲要通过（18篇62章171节）</div></div>
+    <div class="tl-item econ"><div class="tl-date">2026年4月</div><div class="tl-title">政治局会议</div><div class="tl-desc">"六网建设"首次提出（水网·电网·算力网·通信网·地下管网·物流网）</div></div>
+  </div>
+
+  <h3 style="font-size:16px;margin:28px 0 16px;color:var(--muted)">补充时间线：专题工作会议与集体学习重要节点</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-date">2022年7月</div><div class="tl-title">中央统战工作会议</div><div class="tl-desc">"十二个必须" · 最大公约数/最大同心圆</div></div>
+    <div class="tl-item"><div class="tl-date">2022年12月</div><div class="tl-title">中央农村工作会议</div><div class="tl-desc">"农业强国"目标提出 · 指导2023年一号文件</div></div>
+    <div class="tl-item"><div class="tl-date">2023年1月</div><div class="tl-title">二十届中央纪委二次全会</div><div class="tl-desc">习近平：一刻不停推进全面从严治党</div></div>
+    <div class="tl-item"><div class="tl-date">2023年3月</div><div class="tl-title">中央政治局第三次集体学习</div><div class="tl-desc">加强基础研究 · 科技自立自强的"源头活水"</div></div>
+    <div class="tl-item"><div class="tl-date">2023年7月</div><div class="tl-title">全国生态环境保护大会 ★★★</div><div class="tl-desc">四个重大转变+五个重大关系 · 习近平生态文明思想新发展</div></div>
+    <div class="tl-item"><div class="tl-date">2023年10月</div><div class="tl-title">全国宣传思想文化工作会议 ★★★</div><div class="tl-desc"><strong>习近平文化思想首次提出</strong>（第六个以习近平命名的思想体系）· 七个着力</div></div>
+    <div class="tl-item"><div class="tl-date">2023年10月</div><div class="tl-title">中央金融工作会议 ★★★</div><div class="tl-desc">首次从"全国"升格为"中央" · 金融强国 · 五篇大文章</div></div>
+    <div class="tl-item"><div class="tl-date">2023年12月</div><div class="tl-title">中央农村工作会议</div><div class="tl-desc">学习运用"千万工程"经验 · 指导2024年一号文件</div></div>
+    <div class="tl-item"><div class="tl-date">2024年1月</div><div class="tl-title">二十届中央纪委三次全会</div><div class="tl-desc">习近平系统阐述"党的自我革命"重要思想</div></div>
+    <div class="tl-item"><div class="tl-date">2024年1月</div><div class="tl-title">中央政治局第十一次集体学习 ★★★</div><div class="tl-desc"><strong>主题：新质生产力</strong> · 公考当年第一大考点</div></div>
+    <div class="tl-item"><div class="tl-date">2024年5月</div><div class="tl-title">中央政治局第十四次集体学习</div><div class="tl-desc">促进高质量充分就业 · 8400万新就业形态劳动者的政策先声</div></div>
+    <div class="tl-item"><div class="tl-date">2024年6月</div><div class="tl-title">全国科技大会 ★★★</div><div class="tl-desc">锚定2035年建成科技强国 · 与新质生产力形成"双轮驱动"</div></div>
+    <div class="tl-item"><div class="tl-date">2024年9月</div><div class="tl-title">中央政治局第二十次集体学习 ★★★</div><div class="tl-desc"><strong>主题：人工智能</strong> · 紧随"人工智能+"写入政府工作报告</div></div>
+    <div class="tl-item"><div class="tl-date">2024年12月</div><div class="tl-title">中央农村工作会议</div><div class="tl-desc">锚定农业农村现代化 · 指导2025年一号文件</div></div>
+    <div class="tl-item"><div class="tl-date">2025年1月</div><div class="tl-title">中央政治局第二十四次集体学习 ★★★</div><div class="tl-desc"><strong>主题：未来产业</strong> · 十五五前奏 · 物质科学/量子信息/深海深空</div></div>
+    <div class="tl-item"><div class="tl-date">2025年1月</div><div class="tl-title">二十届中央纪委四次全会</div><div class="tl-desc">全面从严治党"两个仍然" · 反腐败永远在路上</div></div>
+    <div class="tl-item"><div class="tl-date">2025年12月</div><div class="tl-title">中央农村工作会议</div><div class="tl-desc">十五五开局的"三农"总部署</div></div>
+  </div>
+</section>
+
+<!-- ===== 会议间内容承接关系 ===== -->
+<section class="arch-section" id="relations">
+  <h2>三、会议间内容承接关系</h2>
+
+  <table class="rel-table">
+    <thead>
+      <tr><th>源会议</th><th>衔接关系</th><th>目标会议</th><th>承接示例</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>二十大报告</td>
+        <td class="connector">理论→战略展开</td>
+        <td>各次中央全会</td>
+        <td>"深化改革开放" → 三中全会改革决定（2024.7）</td>
+      </tr>
+      <tr>
+        <td>二中全会</td>
+        <td class="connector">人事方案→选举通过</td>
+        <td>全国两会</td>
+        <td>《机构改革方案》→ 两会审议通过（2023.3）</td>
+      </tr>
+      <tr>
+        <td>中央经济工作会议（12月）</td>
+        <td class="connector">定调→量化目标</td>
+        <td>全国两会（次年3月）</td>
+        <td>"适度宽松"（2024.12）→ 赤字率4%（2025.3）</td>
+      </tr>
+      <tr>
+        <td>政治局会议（12月）</td>
+        <td class="connector">预热→衔接</td>
+        <td>中央经济工作会议（12月）</td>
+        <td>"宏观政策更加积极有为" → 经济工作会议政策框架</td>
+      </tr>
+      <tr>
+        <td>政治局会议（7月）</td>
+        <td class="connector">年中评估→微调</td>
+        <td>全年经济工作</td>
+        <td>"反内卷"（2025.7）→ 整治招商引资恶性竞争</td>
+      </tr>
+      <tr>
+        <td>全国两会（3月）</td>
+        <td class="connector">国标→省标</td>
+        <td>湖南省两会（1月，地方先于全国）</td>
+        <td>零基预算改革：三中全会→经济工作会议→全国两会→省委经济工作会议→省两会（传导约3-6个月）</td>
+      </tr>
+      <tr>
+        <td>中央经济工作会议（12月）</td>
+        <td class="connector">中央决策→省级对标</td>
+        <td>湖南省委经济工作会议（12月）</td>
+        <td>"新质生产力"（2023.12）→ 湖南"打造国家重要先进制造业高地"（2024.1）</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== 文件索引卡片 ===== -->
+<section class="arch-section" id="files">
+  <h2>四、专题文件索引</h2>
+  <p style="color:var(--muted);margin-bottom:20px;font-size:14px">点击卡片跳转到对应 Markdown 文件 | 颜色标识：<span style="color:var(--party);">■</span>党的会议 <span style="color:var(--state);">■</span>国家会议 <span style="color:var(--econ);">■</span>经济专题 <span style="color:var(--local);">■</span>地方会议 <span style="color:var(--purple);">■</span>学习与决策 <span style="color:#e67e22;">■</span>专题部署</p>
+
+  <div class="files-grid">
+    <!-- 00 总览 -->
+    <a href="00-总览-会议体系与权力架构关联.md" target="_blank" class="file-card overview-card" id="f00">
+      <div class="num">00 · 总览</div>
+      <h3>会议体系与权力架构关联</h3>
+      <p>完整权力架构图 + 会议间内容承接关系 + 公考命题关系网 + 跨会议热点预测</p>
+      <div class="tags"><span class="tag hot">必读入口</span><span class="tag">架构总图</span></div>
+    </a>
+
+    <!-- 01 二十大 -->
+    <a href="01-中国共产党第二十次全国代表大会.md" target="_blank" class="file-card party-card" id="f01">
+      <div class="num">01 · 党代会</div>
+      <h3>中国共产党第二十次全国代表大会</h3>
+      <p>2022年10月 · 2296名代表 · 报告十五部分核心框架 · 党章修正案 · 二十届中央领导机构</p>
+      <div class="tags"><span class="tag hot">中国式现代化</span><span class="tag imp">最高级考点</span></div>
+    </a>
+
+    <!-- 02 中央全会 -->
+    <a href="02-二十届中央全会（一至七中）.md" target="_blank" class="file-card party-card" id="f02">
+      <div class="num">02 · 中央全会</div>
+      <h3>二十届中央全会（一至七中）</h3>
+      <p>一中全会(选领导) · 二中全会(机构改革) · 三中全会(300+改革) · 四中全会(十五五规划) · 五/六/七中(待召开)</p>
+      <div class="tags"><span class="tag hot">三中全会改革决定</span><span class="tag">四中全会特殊性</span></div>
+    </a>
+
+    <!-- 03 全国两会 -->
+    <a href="03-全国两会（2023-2026）.md" target="_blank" class="file-card state-card" id="f03">
+      <div class="num">03 · 全国两会</div>
+      <h3>全国两会（2023-2026）</h3>
+      <p>四年政府工作报告 · 16项经济指标纵向对比 · 十五五规划纲要 · "人工智能+"首次写入</p>
+      <div class="tags"><span class="tag hot">GDP区间目标</span><span class="tag imp">数据对比</span></div>
+    </a>
+
+    <!-- 04 中央经济工作会议 -->
+    <a href="04-中央经济工作会议（2022-2025）.md" target="_blank" class="file-card econ-card" id="f04">
+      <div class="num">04 · 经济工作</div>
+      <h3>中央经济工作会议（2022-2025）</h3>
+      <p>四年总基调演变 · 新质生产力首次提出 · "适度宽松"14年首次 · 历年政策对比表</p>
+      <div class="tags"><span class="tag hot">新质生产力</span><span class="tag">适度宽松</span></div>
+    </a>
+
+    <!-- 05 政治局会议 -->
+    <a href="05-中央政治局会议（2023-2026·季度经济议题）.md" target="_blank" class="file-card econ-card" id="f05">
+      <div class="num">05 · 政治局会议</div>
+      <h3>中央政治局会议（季度经济议题）</h3>
+      <p>2023-2026年12+次季度会议 · 9月破例讨论经济 · "六网建设" · "反内卷"</p>
+      <div class="tags"><span class="tag hot">六网建设</span><span class="tag">9月破例</span></div>
+    </a>
+
+    <!-- 06 湖南省两会 -->
+    <a href="06-湖南省两会（2023-2026）.md" target="_blank" class="file-card local-card" id="f06">
+      <div class="num">06 · 湖南省两会</div>
+      <h3>湖南省两会（2023-2026）</h3>
+      <p>四年省政府工作报告 · GDP目标/实际对比 · "三高四新"推进 · 十大民生实事</p>
+      <div class="tags"><span class="tag hot">选调必知</span><span class="tag">三高四新</span></div>
+    </a>
+
+    <!-- 07 湖南省委会议 -->
+    <a href="07-湖南省委全会与省委经济工作会议.md" target="_blank" class="file-card local-card" id="f07">
+      <div class="num">07 · 湖南省委会议</div>
+      <h3>湖南省委全会与省委经济工作会议</h3>
+      <p>十二届省委三次—十次全会 · 方法论演变（十个统筹→五个必须→九个必须）· 央-省传导链</p>
+      <div class="tags"><span class="tag hot">选调必知</span><span class="tag">政策传导</span></div>
+    </a>
+
+    <!-- 08 集体学习与委员会 -->
+    <a href="08-中央政治局集体学习与委员会会议.md" target="_blank" class="file-card study-card" id="f08">
+      <div class="num">08 · 学习与决策</div>
+      <h3>中央政治局集体学习与委员会会议</h3>
+      <p>第1-25次集体学习一览 · 9个重点专题详解（新质生产力/AI/国家安全等）· 中央财经委/深改委/国安委</p>
+      <div class="tags"><span class="tag hot">政策风向标</span><span class="tag imp">25次学习</span></div>
+    </a>
+
+    <!-- 09 专题工作会议 -->
+    <a href="09-专题中央工作会议（金融·农村·纪检·生态·科技·文化）.md" target="_blank" class="file-card special-card" id="f09">
+      <div class="num">09 · 专题部署</div>
+      <h3>专题中央工作会议（十大类）</h3>
+      <p>金融强国 · 农业农村现代化 · 党的自我革命 · 生态文明 · 科技强国 · 文化思想 · 六大"习近平X思想"体系</p>
+      <div class="tags"><span class="tag hot">金融/生态/文化</span><span class="tag imp">跨会议关联地图</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== 公考命题关系网 ===== -->
+<section class="arch-section" id="exam">
+  <h2>五、公考命题关系网</h2>
+
+  <h3 style="font-size:17px;margin-bottom:12px;">高频申论话题的"会议溯源"</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>话题</th><th>首次提出</th><th>深化/量化</th><th>跨会议次数</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>中国式现代化</strong></td><td>二十大（2022.10）</td><td>三中全会改革决定（2024.7）</td><td>3+</td></tr>
+      <tr><td><strong>新质生产力</strong></td><td>中央经济工作会议（2023.12）</td><td>2024/2025两会、三中全会、多省落实</td><td>10+</td></tr>
+      <tr><td><strong>人工智能+</strong></td><td>全国两会政府工作报告（2024.3）</td><td>三中全会、四部门行动方案、政治局</td><td>5+</td></tr>
+      <tr><td><strong>全国统一大市场</strong></td><td>中央专项文件（2022.4）</td><td>三中全会、各年经济工作会议、政治局</td><td>5+</td></tr>
+      <tr><td><strong>乡村全面振兴</strong></td><td>十九大（2017），二十大再强调</td><td>2026中央一号文件、每届两会</td><td>10+</td></tr>
+      <tr><td><strong>碳达峰碳中和</strong></td><td>2020年"双碳"目标提出</td><td>每届两会、美丽中国考核办法、政治局</td><td>8+</td></tr>
+      <tr><td><strong>化债长效机制</strong></td><td>国常会/政治局（2024-2025）</td><td>经济工作会议、三中全会"零基预算"</td><td>5+</td></tr>
+      <tr><td><strong>新就业形态</strong></td><td>中办国办意见（2026.4）</td><td>两会、政治局、人社部专项行动</td><td>3+</td></tr>
+      <tr><td><strong>金融强国</strong></td><td>中央金融工作会议（2023.10）</td><td>三中全会、经济工作会议、政治局</td><td>5+</td></tr>
+      <tr><td><strong>文化自信/文化强国</strong></td><td>全国宣传思想文化工作会议（2023.10）</td><td>二十大、三中全会、政治局集体学习</td><td>4+</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:17px;margin:28px 0 12px;">行测常识"必背会议链"</h3>
+  <div style="background:var(--card);padding:20px 24px;border-radius:var(--radius);box-shadow:var(--shadow);font-size:14px;">
+    <p><strong>① 全会职能</strong>：一中选领导 → 二中议人事 → 三中推改革 → 四中*定规划(*本届特殊) → 五中待定 → 六中党建 → 七中迎换届</p>
+    <p style="margin-top:6px;"><strong>② 会议顺序</strong>：党代会(10月) → 一中全会(10月) → 二中全会(次年2月) → 两会(次年3月)</p>
+    <p style="margin-top:6px;"><strong>③ 经济政策传导</strong>：经济工作会议(12月定调) → 两会政府工作报告(3月量化) → 政治局季度会议(过程管理)</p>
+    <p style="margin-top:6px;"><strong>④ 四大"首次"必考</strong>：新质生产力(2023经济工作会议) · "人工智能+"(2024两会) · "适度宽松"(2024经济工作会议,14年首次) · GDP区间目标(2026两会)</p>
+    <p style="margin-top:6px;"><strong>⑤ 2026特有考点</strong>：GDP首次区间目标(4.5%-5%) · 六网建设新提法 · 本届四中全会特殊职能</p>
+  </div>
+</section>
+
+
+<!-- ===== 完整文档内容 ===== -->
+<section class="arch-section" id="full-content">
+  <h2>六、完整文档内容（点击标题折叠/展开）</h2>
+  <p style="color:var(--muted);margin-bottom:20px;font-size:14px">以下为01-09号专题文件的完整内容，内嵌于页面中。点击标题栏可折叠/展开。</p>
+</section>
+
+  <section class="content-section" id="content-f01">
+    <div class="content-header">
+      <h2>01 · 党代会</h2>
+      <h3>中国共产党第二十次全国代表大会</h3>
+      <button class="collapse-btn" onclick="toggleContent('f01')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f01">
+      <h1>中国共产党第二十次全国代表大会</h1>
+<blockquote>
+<p>时间：2022年10月16日-22日 | 地点：北京
+代表：2296名 | 主题：高举中国特色社会主义伟大旗帜，全面贯彻新时代中国特色社会主义思想，弘扬伟大建党精神，自信自强、守正创新，踔厉奋发、勇毅前行，为全面建设社会主义现代化国家、全面推进中华民族伟大复兴而团结奋斗
+考试重要度：★★★★★ / 覆盖：申论 · 面试 · 行测常识
+整理日期：2026-05-10</p>
+</blockquote>
+<hr />
+<h2>一、中央全会制度概述</h2>
+<p>根据《中国共产党章程》，党的全国代表大会每五年举行一次，选举产生中央委员会。在五年任期内，中央委员会通常召开七次全体会议（"一中全会"至"七中全会"），每年至少举行一次，由中央政治局召集。</p>
+<p>改革开放以来，七次全会的议题已形成相对固定的惯例分工，体现了"定方向→布人事→推改革→抓落实"的权力运行链条：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">全会</th>
+<th style="text-align: left;">传统议题</th>
+<th style="text-align: left;">核心领域</th>
+<th style="text-align: center;">权力运行环节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">一中全会</td>
+<td style="text-align: left;">选举中央领导机构</td>
+<td style="text-align: left;">党内人事布局</td>
+<td style="text-align: center;"><strong>布人事</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">二中全会</td>
+<td style="text-align: left;">审议国家机构领导人选</td>
+<td style="text-align: left;">党政人事衔接</td>
+<td style="text-align: center;"><strong>布人事</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">三中全会</td>
+<td style="text-align: left;">重大经济改革部署</td>
+<td style="text-align: left;">改革与发展</td>
+<td style="text-align: center;"><strong>定方向</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">四中全会</td>
+<td style="text-align: left;">党建/法治/国家治理专题</td>
+<td style="text-align: left;">制度建设</td>
+<td style="text-align: center;"><strong>推改革</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">五中全会</td>
+<td style="text-align: left;">五年规划建议</td>
+<td style="text-align: left;">中长期发展规划</td>
+<td style="text-align: center;"><strong>定方向</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">六中全会</td>
+<td style="text-align: left;">党建/意识形态/历史决议</td>
+<td style="text-align: left;">党建与意识形态</td>
+<td style="text-align: center;"><strong>抓落实</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">七中全会</td>
+<td style="text-align: left;">审议下届党代会报告</td>
+<td style="text-align: left;">承前启后换届准备</td>
+<td style="text-align: center;"><strong>换届衔接</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>说明</strong>：以上为改革开放以来形成的"惯例"，并非党章硬性规定。第二十届中央委员会的会议安排出现变动——四中全会审议了传统上属于五中全会的"十五五"规划建议，五中全会的议题尚待公布。</p>
+<p>来源：<a href="https://www.stnn.cc/c/2022-10-10/3774123.shtml">星岛日报</a> | <a href="https://www.hk01.com/中國觀察/698162">香港01</a> | <a href="http://cpc.people.com.cn/GB/64162/448263/index.html">人民网</a></p>
+</blockquote>
+<hr />
+<h2>二、大会概况与核心内容 ★★★必考</h2>
+<h3>2.1 大会概况</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">项目</th>
+<th style="text-align: left;">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">时间</td>
+<td style="text-align: left;">2022年10月16日—22日</td>
+</tr>
+<tr>
+<td style="text-align: left;">地点</td>
+<td style="text-align: left;">北京人民大会堂</td>
+</tr>
+<tr>
+<td style="text-align: left;">代表人数</td>
+<td style="text-align: left;">约2,300多名代表及特邀代表</td>
+</tr>
+<tr>
+<td style="text-align: left;">大会主题</td>
+<td style="text-align: left;">高举中国特色社会主义伟大旗帜，全面贯彻新时代中国特色社会主义思想，弘扬伟大建党精神，<strong>自信自强、守正创新，踔厉奋发、勇毅前行</strong>，为全面建设社会主义现代化国家、全面推进中华民族伟大复兴而团结奋斗</td>
+</tr>
+<tr>
+<td style="text-align: left;">主要议程</td>
+<td style="text-align: left;">听取和审查十九届中央委员会报告；审查十九届中央纪律检查委员会工作报告；审议通过《中国共产党章程（修正案）》；选举二十届中央委员会和中央纪律检查委员会</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>来源：<a href="http://big5.www.gov.cn/gate/big5/www.gov.cn/gongbao/content/2022/content_5722378.htm">中国政府网</a> | <a href="http://china.cnr.cn/news/sz/20221026/t20221026_526042857.shtml">新华社/央广网</a></p>
+</blockquote>
+<h3>2.2 二十大报告核心框架（十五个部分）</h3>
+<p>二十大报告全文约3万余字，主体分为十五个部分。以下按命题关联度标注：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th style="text-align: left;">标题</th>
+<th style="text-align: left;">核心要点</th>
+<th style="text-align: center;">公考价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">过去五年的工作和新时代十年的伟大变革</td>
+<td style="text-align: left;">★三件大事：建党百年、进入新时代、完成脱贫攻坚/全面建成小康社会；十六方面历史性成就</td>
+<td style="text-align: center;">★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">开辟马克思主义中国化时代化新境界</td>
+<td style="text-align: left;">"两个结合"（与中国具体实际、与中华优秀传统文化）；"六个必须坚持"</td>
+<td style="text-align: center;">★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">新时代新征程中国共产党的使命任务</td>
+<td style="text-align: left;"><strong>中心任务：以中国式现代化全面推进中华民族伟大复兴</strong>；五个中国特色；五大重大原则</td>
+<td style="text-align: center;">★★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">加快构建新发展格局，着力推动高质量发展</td>
+<td style="text-align: left;">高质量发展是首要任务；新发展格局（国内大循环为主体、国内国际双循环）；建设现代化经济体系</td>
+<td style="text-align: center;">★★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">实施科教兴国战略，强化现代化建设人才支撑</td>
+<td style="text-align: left;">教育/科技/人才三位一体；三个"第一"（科技是第一生产力、人才是第一资源、创新是第一动力）</td>
+<td style="text-align: center;">★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">发展全过程人民民主，保障人民当家作主</td>
+<td style="text-align: left;">全过程人民民主是最广泛、最真实、最管用的社会主义民主</td>
+<td style="text-align: center;">★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">坚持全面依法治国，推进法治中国建设</td>
+<td style="text-align: left;">在法治轨道上全面建设社会主义现代化国家</td>
+<td style="text-align: center;">★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: left;">推进文化自信自强，铸就社会主义文化新辉煌</td>
+<td style="text-align: left;">举旗帜、聚民心、育新人、兴文化、展形象；建设文化强国</td>
+<td style="text-align: center;">★</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: left;">增进民生福祉，提高人民生活品质</td>
+<td style="text-align: left;">"江山就是人民，人民就是江山"；分配制度、就业优先、社会保障、健康中国</td>
+<td style="text-align: center;">★★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">推动绿色发展，促进人与自然和谐共生</td>
+<td style="text-align: left;">"绿水青山就是金山银山"；碳达峰碳中和；生产方式绿色转型</td>
+<td style="text-align: center;">★★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">推进国家安全体系和能力现代化</td>
+<td style="text-align: left;">总体国家安全观；新安全格局；国家安全是民族复兴的根基</td>
+<td style="text-align: center;">★★★</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;">实现建军一百年奋斗目标，开创国防和军队现代化新局面</td>
+<td style="text-align: left;">政治建军、改革强军、科技强军、人才强军、依法治军</td>
+<td style="text-align: center;">★</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td style="text-align: left;">坚持和完善"一国两制"，推进祖国统一</td>
+<td style="text-align: left;">长期坚持"一国两制"；"祖国完全统一一定要实现，也一定能够实现！"</td>
+<td style="text-align: center;">★</td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td style="text-align: left;">促进世界和平与发展，推动构建人类命运共同体</td>
+<td style="text-align: left;">独立自主的和平外交；不称霸、不扩张；人类命运共同体</td>
+<td style="text-align: center;">★</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td style="text-align: left;">坚定不移全面从严治党</td>
+<td style="text-align: left;">自我革命是跳出历史周期率的第二个答案；"三个务必"；五个必由之路</td>
+<td style="text-align: center;">★★★</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>申论重点标记</strong>：第3、4、9、10、11、15部分为申论命题高频来源，尤其是"中国式现代化""高质量发展""民生福祉""生态文明""国家安全""全面从严治党"六大主题。</p>
+<p>来源：<a href="http://big5.www.gov.cn/gate/big5/www.gov.cn/gongbao/content/2022/content_5722378.htm">中国政府网</a> | <a href="https://www.tjszx.gov.cn/ztzl/system/2022/10/26/030009125.shtml">天津政协</a></p>
+</blockquote>
+<h3>2.3 党章修正案要点 ★★高频</h3>
+<ul>
+<li>写入<strong>"两个确立"</strong>：确立习近平同志党中央的核心、全党的核心地位，确立习近平新时代中国特色社会主义思想的指导地位</li>
+<li>写入<strong>中国式现代化</strong>、<strong>全体人民共同富裕</strong>、<strong>全过程人民民主</strong>等重大理论创新成果</li>
+<li>写入"发扬斗争精神，增强斗争本领"</li>
+<li>写入"以中国式现代化全面推进中华民族伟大复兴"</li>
+<li>写入"党的自我革命永远在路上"、"一体推进不敢腐、不能腐、不想腐"</li>
+</ul>
+<h3>2.4 二十届中央委员会/政治局/常委选举结果</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">机构</th>
+<th style="text-align: left;">人数/名单</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>中央委员</strong></td>
+<td style="text-align: left;"><strong>205名</strong>（从222名候选人中差额选举，差额比例8.3%）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>候补中央委员</strong></td>
+<td style="text-align: left;"><strong>171名</strong>（从188名候选人中差额选举，差额比例9.9%）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>中央纪委委员</strong></td>
+<td style="text-align: left;"><strong>133名</strong>（从144名候选人中差额选举，差额比例8.3%）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>中央政治局委员</strong></td>
+<td style="text-align: left;">24人</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>中央政治局常委</strong></td>
+<td style="text-align: left;">7人</td>
+</tr>
+</tbody>
+</table>
+<p><strong>二十届中央政治局常委名单及分工：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">排名</th>
+<th style="text-align: left;">姓名</th>
+<th style="text-align: left;">主要兼任职务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">习近平</td>
+<td style="text-align: left;">中共中央总书记、国家主席、中央军委主席</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">李强</td>
+<td style="text-align: left;">国务院总理</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">赵乐际</td>
+<td style="text-align: left;">全国人大常委会委员长</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">王沪宁</td>
+<td style="text-align: left;">全国政协主席</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">蔡奇</td>
+<td style="text-align: left;">中央书记处第一书记、中央办公厅主任</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">丁薛祥</td>
+<td style="text-align: left;">国务院副总理（常务）</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">李希</td>
+<td style="text-align: left;">中央纪委书记</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>来源：<a href="https://www.spp.gov.cn/spp/tt/202210/t20221023_590419.shtml">最高人民检察院</a> | <a href="https://www.tjdx.gov.cn/info/1201/10488.htm">天津市委党校</a> | <a href="https://www.dzwww.com/xinwen/guoneixinwen/202210/t20221022_10968118.htm">新华社</a></p>
+</blockquote>
+<hr />
+<h2>三、考试视角（二十大相关）</h2>
+<h3>3.1 权力架构中的二十大定位</h3>
+<p>理解中国政治周期，必须把握二十大在"四大会议"体系中的起点地位：</p>
+<pre><code>党的二十大（2022.10）
+    ↓ 定方向：确定中国式现代化的中心任务
+二十届一中全会（2022.10）
+    ↓ 布人事：选举中央领导机构
+二十届二中全会（2023.02）
+    ↓ 推改革：机构改革方案→为两会做组织准备
+全国两会（2023.03）
+    ↓ 转化：将党的意志通过法定程序转为国家意志
+二十届三中全会（2024.07）
+    ↓ 推改革：全面深化改革300+项举措
+中央经济工作会议（每年12月）
+    ↓ 抓落地：年度经济工作部署
+二十届四中全会（2025.10）
+    ↓ 定方向：&quot;十五五&quot;规划建议
+二十届五中全会（预计2026）
+    ↓ 待定
+...
+二十届七中全会（预计2027秋）
+    ↓ 换届准备：审议下届党代会报告
+二十一大于2027年秋召开
+</code></pre>
+<p><strong>权力运行链条</strong>："定方向（党代会/三中/四中）→布人事（一中/二中）→推改革（二中/三中）→抓落实（中央经济工作会议/两会/各部委年度部署）"</p>
+<h3>3.2 申论话题关联（二十大）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">会议</th>
+<th style="text-align: left;">关联申论话题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">二十大</td>
+<td style="text-align: left;">中国式现代化（最核心）、新发展理念、全过程人民民主、文化自信、人类命运共同体</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 行测常识高频考点（二十大相关）</h3>
+<p><strong>必背清单：</strong></p>
+<ol>
+<li><strong>二十大报告新提法</strong>（言语理解与判断推理常见题干素材）</li>
+<li>"中国式现代化"（五个中国特色 + 九个本质要求）</li>
+<li>"三个务必"（不忘初心牢记使命、谦虚谨慎艰苦奋斗、敢于斗争善于斗争）</li>
+<li>"第二个答案"（自我革命）</li>
+<li>"六个必须坚持"</li>
+<li>
+<p>"新安全格局"</p>
+</li>
+<li>
+<p><strong>重要数字记忆</strong></p>
+</li>
+<li>二十届中央委员205名、候补中央委员171名、中央纪委委员133名</li>
+<li>中央政治局委员24人、中央政治局常委7人</li>
+<li>
+<p>二十大代表约2,300多名</p>
+</li>
+<li>
+<p><strong>党章修正案核心考点</strong></p>
+</li>
+<li>"两个确立"写入新党章</li>
+<li>中国式现代化、全体人民共同富裕、全过程人民民主等重大理论创新成果写入</li>
+<li>"发扬斗争精神，增强斗争本领"</li>
+</ol>
+<hr />
+<h2>四、来源汇总</h2>
+<ol>
+<li>中国政府网：《高举中国特色社会主义伟大旗帜 为全面建设社会主义现代化国家而团结奋斗——在中国共产党第二十次全国代表大会上的报告》（2022年第30号国务院公报）<a href="http://big5.www.gov.cn/gate/big5/www.gov.cn/gongbao/content/2022/content_5722378.htm">链接</a></li>
+<li>新华社/央广网：《新华社全文播发习近平在中国共产党第二十次全国代表大会上的报告》（2022.10.26）<a href="http://china.cnr.cn/news/sz/20221026/t20221026_526042857.shtml">链接</a></li>
+<li>学习时报网：《一图速览二十大报告》（2022.10.16）<a href="https://www.studytimes.cn/tbzt/zggcddescqgdbdh/202210/t20221016_53165.html">链接</a></li>
+<li>大众网/新华社：《新一届中共中央委员会和中共中央纪律检查委员会诞生记》（2022.10.22）<a href="https://www.dzwww.com/xinwen/guoneixinwen/202210/t20221022_10968118.htm">链接</a></li>
+<li>星岛日报：《二十大冷知识｜一至七中全会各有何特点？》（2022.10.10）<a href="https://www.stnn.cc/c/2022-10-10/3774123.shtml">链接</a></li>
+<li>香港01：《六中全会｜中共中央每届开七次全会 每次都有固定主题？》<a href="https://www.hk01.com/中國觀察/698162">链接</a></li>
+<li>人民网-资料中心：《中国共产党中央委员会全体会议》<a href="http://cpc.people.com.cn/GB/64162/448263/index.html">链接</a></li>
+</ol>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f02">
+    <div class="content-header">
+      <h2>02 · 中央全会</h2>
+      <h3>二十届中央全会（一至七中）</h3>
+      <button class="collapse-btn" onclick="toggleContent('f02')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f02">
+      <h1>二十届中央委员会历次全体会议</h1>
+<blockquote>
+<p>周期：2022年10月—2027年（预计）
+已召开：一中全会 · 二中全会 · 三中全会 · 四中全会
+尚未召开：五中全会 · 六中全会 · 七中全会
+考试重要度：★★★★★ / 覆盖：申论 · 面试 · 行测常识
+整理日期：2026-05-10</p>
+</blockquote>
+<hr />
+<h2>一、中央全会制度概述</h2>
+<p>根据《中国共产党章程》，党的全国代表大会每五年举行一次，选举产生中央委员会。在五年任期内，中央委员会通常召开七次全体会议（"一中全会"至"七中全会"），每年至少举行一次，由中央政治局召集。</p>
+<p>改革开放以来，七次全会的议题已形成相对固定的惯例分工，体现了"定方向→布人事→推改革→抓落实"的权力运行链条：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">全会</th>
+<th style="text-align: left;">传统议题</th>
+<th style="text-align: left;">核心领域</th>
+<th style="text-align: center;">权力运行环节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">一中全会</td>
+<td style="text-align: left;">选举中央领导机构</td>
+<td style="text-align: left;">党内人事布局</td>
+<td style="text-align: center;"><strong>布人事</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">二中全会</td>
+<td style="text-align: left;">审议国家机构领导人选</td>
+<td style="text-align: left;">党政人事衔接</td>
+<td style="text-align: center;"><strong>布人事</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">三中全会</td>
+<td style="text-align: left;">重大经济改革部署</td>
+<td style="text-align: left;">改革与发展</td>
+<td style="text-align: center;"><strong>定方向</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">四中全会</td>
+<td style="text-align: left;">党建/法治/国家治理专题</td>
+<td style="text-align: left;">制度建设</td>
+<td style="text-align: center;"><strong>推改革</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">五中全会</td>
+<td style="text-align: left;">五年规划建议</td>
+<td style="text-align: left;">中长期发展规划</td>
+<td style="text-align: center;"><strong>定方向</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">六中全会</td>
+<td style="text-align: left;">党建/意识形态/历史决议</td>
+<td style="text-align: left;">党建与意识形态</td>
+<td style="text-align: center;"><strong>抓落实</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">七中全会</td>
+<td style="text-align: left;">审议下届党代会报告</td>
+<td style="text-align: left;">承前启后换届准备</td>
+<td style="text-align: center;"><strong>换届衔接</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>本届特殊变化</strong>：第二十届中央委员会的会议安排出现变动——四中全会审议了传统上属于五中全会的"十五五"规划建议，五中全会的议题尚待公布。</p>
+<p>来源：<a href="https://www.stnn.cc/c/2022-10-10/3774123.shtml">星岛日报</a> | <a href="https://www.hk01.com/中國觀察/698162">香港01</a> | <a href="http://cpc.people.com.cn/GB/64162/448263/index.html">人民网</a></p>
+</blockquote>
+<hr />
+<h2>二、二十届一中全会（2022年10月23日） ★★高频</h2>
+<p><strong>核心议题</strong>：选举产生新一届中央领导机构。</p>
+<ul>
+<li><strong>召开时间</strong>：2022年10月23日（二十大闭幕次日）</li>
+<li><strong>出席</strong>：中央委员203人、候补中央委员168人</li>
+<li><strong>主要成果</strong>：</li>
+<li>选举习近平为中共中央委员会总书记、中央军事委员会主席</li>
+<li>选举产生24名中央政治局委员、7名中央政治局常委</li>
+<li>通过中央书记处成员（蔡奇、石泰峰、李干杰、李书磊、陈文清、刘金国、王小洪）</li>
+<li>批准中央纪律检查委员会领导机构（书记李希）</li>
+<li><strong>历史意义</strong>：习近平连任总书记，开启第三个任期，确立新一届中央领导集体的核心架构</li>
+</ul>
+<blockquote>
+<p>来源：<a href="https://www.spp.gov.cn/spp/tt/202210/t20221023_590419.shtml">最高人民检察院</a> | <a href="https://www.hrbsrd.gov.cn/content/2022-10/24/content_2861703.htm">哈尔滨人大</a></p>
+</blockquote>
+<hr />
+<h2>三、二十届二中全会（2023年2月26—28日） ★★★必考</h2>
+<p><strong>核心议题</strong>：审议通过《党和国家机构改革方案》。</p>
+<p>本届二中全会在"党政机构改革"定位上与十九届三中全会（2018年2月）高度相似，打破了二中全会的传统"人事推荐"单一职能，兼具机构改革议题。</p>
+<h3>3.1 机构改革13项主要内容</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th style="text-align: left;">改革事项</th>
+<th style="text-align: left;">核心内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">重新组建科学技术部</td>
+<td style="text-align: left;">组建<strong>中央科技委员会</strong>，强化科技部宏观管理职能</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">组建<strong>国家金融监督管理总局</strong></td>
+<td style="text-align: left;">统一负责除证券业外的金融业监管，不再保留银保监会</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">深化地方金融监管体制改革</td>
+<td style="text-align: left;">建立以中央金融派出机构为主的地方金融监管体制</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">中国证监会调整为国务院直属机构</td>
+<td style="text-align: left;">由事业单位升格为直属机构</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">统筹推进人民银行分支机构改革</td>
+<td style="text-align: left;">撤销大区分行，按行政区设立省级分行</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">完善国有金融资本管理体制</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">加强金融管理部门人员统一管理</td>
+<td style="text-align: left;">使用行政编制，纳入公务员管理</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: left;">组建<strong>国家数据局</strong></td>
+<td style="text-align: left;">由国家发改委管理，统筹数字中国、数字经济、数字社会建设</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: left;">优化农业农村部职责</td>
+<td style="text-align: left;">国家乡村振兴局职责划入，加挂乡村振兴局牌子，不再单设</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">完善老龄工作体制</td>
+<td style="text-align: left;">相关职责由国家卫健委划入民政部</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">完善知识产权管理体制</td>
+<td style="text-align: left;">国家知识产权局调整为国务院直属机构</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;">国家信访局调整为国务院直属机构</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td style="text-align: left;">精减中央国家机关人员编制</td>
+<td style="text-align: left;">统一按<strong>5%</strong>比例精减</td>
+</tr>
+</tbody>
+</table>
+<p>改革后国务院组成部门仍为<strong>26个</strong>（除国务院办公厅外）。</p>
+<h3>3.2 考试要点</h3>
+<ul>
+<li>此次改革聚焦三大领域：<strong>金融监管</strong>、<strong>科技创新</strong>、<strong>数据治理</strong></li>
+<li>三个新设/改组机构：国家金融监督管理总局、国家数据局、重组科技部（中央科技委员会）</li>
+<li>金融监管体制由"一行两会"变为"一行一局一会"（央行+国家金融监督管理总局+证监会）</li>
+<li>首次提出"统筹党中央机构、全国人大机构、国务院机构、全国政协机构"的全领域改革思路</li>
+</ul>
+<blockquote>
+<p>来源：<a href="http://news.china.com.cn/2023-03/01/content_85135796.htm">中国网</a> | <a href="https://scopsr.gov.cn/zlzx/rdh/14renda/14yici/202303/t20230315_386177.html">中国机构编制网</a> | <a href="http://big5.www.gov.cn/gate/big5/www.gov.cn/xinwen/2023-03/02/content_5744054.htm">人民日报</a></p>
+</blockquote>
+<hr />
+<h2>四、二十届三中全会（2024年7月15—18日） ★★★必考（命题价值最高的全会）</h2>
+<p><strong>核心议题</strong>：审议通过《中共中央关于进一步全面深化改革、推进中国式现代化的决定》。</p>
+<h3>4.1 文件概况</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">项目</th>
+<th style="text-align: left;">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">文件全称</td>
+<td style="text-align: left;">《中共中央关于进一步全面深化改革、推进中国式现代化的决定》</td>
+</tr>
+<tr>
+<td style="text-align: left;">结构</td>
+<td style="text-align: left;">15部分、60条，分为三大板块（总论→分论→党的领导）</td>
+</tr>
+<tr>
+<td style="text-align: left;">改革举措</td>
+<td style="text-align: left;">提出<strong>300多项</strong>重要改革举措</td>
+</tr>
+<tr>
+<td style="text-align: left;">完成时限</td>
+<td style="text-align: left;"><strong>到2029年</strong>中华人民共和国成立八十周年时完成</td>
+</tr>
+<tr>
+<td style="text-align: left;">远景目标</td>
+<td style="text-align: left;">到<strong>2035年</strong>基本实现社会主义现代化</td>
+</tr>
+</tbody>
+</table>
+<h3>4.2 三大板块结构</h3>
+<p><strong>第一板块：总论</strong>（第一部分）——阐述进一步全面深化改革的重大意义、指导思想、总目标和原则。</p>
+<p><strong>第二板块：分论</strong>（第二至十四部分）——从经济、政治、文化、社会、生态文明、国家安全、国防军队等方面部署改革：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">部分</th>
+<th style="text-align: left;">领域</th>
+<th style="text-align: left;">核心要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">二</td>
+<td style="text-align: left;">高水平社会主义市场经济体制</td>
+<td style="text-align: left;">"两个毫不动摇"、全国统一大市场、制定<strong>民营经济促进法</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">三</td>
+<td style="text-align: left;">经济高质量发展</td>
+<td style="text-align: left;"><strong>新质生产力</strong>、实体经济与数字经济深度融合、未来产业投入增长机制</td>
+</tr>
+<tr>
+<td style="text-align: center;">四</td>
+<td style="text-align: left;">全面创新体制机制</td>
+<td style="text-align: left;">教育/科技/人才<strong>一体化改革</strong>、统筹推进教育科技人才体制机制改革</td>
+</tr>
+<tr>
+<td style="text-align: center;">五</td>
+<td style="text-align: left;">宏观经济治理</td>
+<td style="text-align: left;">财税体制改革、<strong>消费税征收环节后移并稳步下划地方</strong>、金融体制改革</td>
+</tr>
+<tr>
+<td style="text-align: center;">六</td>
+<td style="text-align: left;">城乡融合发展</td>
+<td style="text-align: left;">新型城镇化、土地制度改革、进城农民权益保障</td>
+</tr>
+<tr>
+<td style="text-align: center;">七</td>
+<td style="text-align: left;">高水平对外开放</td>
+<td style="text-align: left;">稳步扩大<strong>制度型开放</strong>、高质量共建"一带一路"</td>
+</tr>
+<tr>
+<td style="text-align: center;">八</td>
+<td style="text-align: left;">全过程人民民主</td>
+<td style="text-align: left;">健全人大监督制度、完善协商民主</td>
+</tr>
+<tr>
+<td style="text-align: center;">九</td>
+<td style="text-align: left;">法治体系</td>
+<td style="text-align: left;">完善以宪法为核心的法律体系、制定<strong>金融法</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">十</td>
+<td style="text-align: left;">文化体制机制</td>
+<td style="text-align: left;">文化自信、文化数字化</td>
+</tr>
+<tr>
+<td style="text-align: center;">十一</td>
+<td style="text-align: left;">民生保障制度</td>
+<td style="text-align: left;">收入分配、就业优先、<strong>全面取消在就业地参保户籍限制</strong>、住房制度改革</td>
+</tr>
+<tr>
+<td style="text-align: center;">十二</td>
+<td style="text-align: left;">生态文明体制</td>
+<td style="text-align: left;">碳排放管理制度、生态保护补偿</td>
+</tr>
+<tr>
+<td style="text-align: center;">十三</td>
+<td style="text-align: left;">国家安全体系</td>
+<td style="text-align: left;">总体国家安全观、公共安全治理</td>
+</tr>
+<tr>
+<td style="text-align: center;">十四</td>
+<td style="text-align: left;">国防军队改革</td>
+<td style="text-align: left;">军队联合作战指挥体系</td>
+</tr>
+</tbody>
+</table>
+<p><strong>第三板块：党的领导</strong>（第十五部分）——加强党对改革的领导、党的建设制度改革、党风廉政建设与反腐败斗争。</p>
+<h3>4.3 七大"聚焦"（改革总目标）</h3>
+<ol>
+<li>聚焦构建<strong>高水平社会主义市场经济体制</strong></li>
+<li>聚焦发展<strong>全过程人民民主</strong></li>
+<li>聚焦建设<strong>社会主义文化强国</strong></li>
+<li>聚焦提高<strong>人民生活品质</strong></li>
+<li>聚焦建设<strong>美丽中国</strong></li>
+<li>聚焦建设更高水平<strong>平安中国</strong></li>
+<li>聚焦提高党的<strong>领导水平和长期执政能力</strong></li>
+</ol>
+<h3>4.4 六大改革原则</h3>
+<ol>
+<li>坚持<strong>党的全面领导</strong></li>
+<li>坚持以<strong>人民为中心</strong></li>
+<li>坚持<strong>守正创新</strong></li>
+<li>坚持以<strong>制度建设为主线</strong></li>
+<li>坚持<strong>全面依法治国</strong></li>
+<li>坚持<strong>系统观念</strong></li>
+</ol>
+<h3>4.5 公考命题核心考点</h3>
+<ul>
+<li><strong>新质生产力</strong>：2023年9月首次提出，三中全会《决定》将其正式写入中央全会文件，是申论和行测常识的顶级考点</li>
+<li><strong>到2029年完成改革</strong>：首次在中央文件中设定具体改革完成时限</li>
+<li><strong>全国统一大市场</strong>：破除地方保护和市场分割</li>
+<li><strong>消费税改革</strong>：征收环节后移并下划地方，增加地方自主财力</li>
+<li><strong>民营经济促进法</strong>：首次在中央全会决定中明确提出制定该法</li>
+<li><strong>取消在就业地参保户籍限制</strong>：直接关系到2.9亿农民工的社会保障</li>
+</ul>
+<blockquote>
+<p>来源：<a href="http://politics.people.com.cn/n1/2024/0722/c1001-40282697.html">人民网</a> | <a href="http://big5.cctv.com/gate/big5/news.cctv.com/2024/07/22/ARTIwqU17qXT3u6Kr2XlNQsl240722.shtml">央视新闻</a> | <a href="https://zhuanti.mct.gov.cn/20jszqh_tujie_news/7303.html">文化部</a> | <a href="https://www.ccdi.gov.cn/specialn/esjzyscqh/ywesjzyscqh/202407/t20240722_363079.html">中纪委网站</a></p>
+</blockquote>
+<hr />
+<h2>五、二十届四中全会（2025年10月20—23日） ★★★必考</h2>
+<p><strong>核心议题</strong>：审议通过《中共中央关于制定国民经济和社会发展第十五个五年规划的建议》。</p>
+<blockquote>
+<p><strong>本届特殊变化</strong>：四中全会承担了传统上五中全会的"五年规划建议"职能，这是本届中央全会安排的重要变化。</p>
+</blockquote>
+<h3>5.1 会议概况</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">项目</th>
+<th style="text-align: left;">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">时间</td>
+<td style="text-align: left;">2025年10月20日—23日</td>
+</tr>
+<tr>
+<td style="text-align: left;">出席</td>
+<td style="text-align: left;">中央委员168人、候补中央委员147人</td>
+</tr>
+<tr>
+<td style="text-align: left;">成果</td>
+<td style="text-align: left;">审议通过"十五五"规划建议（2030年远景目标），共15部分、61条</td>
+</tr>
+<tr>
+<td style="text-align: left;">定位</td>
+<td style="text-align: left;">"十五五"时期是<strong>基本实现社会主义现代化夯实基础、全面发力的关键时期</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 十二项重要部署</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th style="text-align: left;">部署方向</th>
+<th style="text-align: left;">核心要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">建设现代化产业体系</td>
+<td style="text-align: left;">巩固壮大<strong>实体经济</strong>根基；智能化、绿色化、融合化方向；制造强国/质量强国/航天强国等</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">加快高水平科技自立自强</td>
+<td style="text-align: left;">原始创新与关键核心技术攻关；<strong>新质生产力</strong>；教育科技人才一体化</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">建设强大国内市场</td>
+<td style="text-align: left;">扩大内需战略基点；提振消费、扩大有效投资；全国统一大市场</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">高水平社会主义市场经济体制</td>
+<td style="text-align: left;">激发经营主体活力；要素市场化配置</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">扩大高水平对外开放</td>
+<td style="text-align: left;">稳步扩大制度型开放；维护多边贸易体制；高质量共建"一带一路"</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">加快农业农村现代化</td>
+<td style="text-align: left;">建设<strong>农业强国</strong>；乡村全面振兴；城乡融合发展；巩固脱贫攻坚成果</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">优化区域经济布局</td>
+<td style="text-align: left;">四大战略叠加（区域协调、区域重大、主体功能、新型城镇化）</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: left;">激发文化创新创造活力</td>
+<td style="text-align: left;">发展新时代中国特色社会主义文化；社会主义核心价值观</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: left;">保障和改善民生</td>
+<td style="text-align: left;">高质量充分就业；收入分配；人口高质量发展（生育友好型社会+老有所养）</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">加快绿色转型</td>
+<td style="text-align: left;">碳达峰碳中和为牵引；新型能源体系；绿色生产生活方式</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">推进国家安全体系和能力现代化</td>
+<td style="text-align: left;">总体国家安全观；科技/金融/数据/网络/粮食能源/产业链供应链安全</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;">高质量推进国防和军队现代化</td>
+<td style="text-align: left;">政治建军、改革强军、科技强军、人才强军、依法治军；建军一百年</td>
+</tr>
+</tbody>
+</table>
+<h3>5.3 全会重大人事变动</h3>
+<ul>
+<li>增补<strong>张升民</strong>为中共中央军事委员会副主席</li>
+<li>递补于会文、马汉成、王健等11名候补委员为中央委员</li>
+<li>审议并确认开除唐仁健、金湘军、李石松、杨发森、朱芝松等党籍处分</li>
+<li>审议确认对何卫东、苗华等人的审查报告</li>
+</ul>
+<h3>5.4 公考考点</h3>
+<ul>
+<li><strong>"十五五"时期定位</strong>：基本实现现代化"夯实基础、全面发力"的关键时期（此表述为公考重要提法考点）</li>
+<li><strong>实体经济布局首位</strong>：产业体系建设排在12项部署之首，强调"保持制造业合理比重"</li>
+<li><strong>人口高质量发展</strong>：建设生育友好型社会、老有所养/老有所为——应对人口老龄化国家战略</li>
+</ul>
+<blockquote>
+<p>来源：<a href="http://hsb.hspress.net/system/2025/1024/235275.shtml">新华社/华商报</a> | <a href="http://cpc.people.com.cn/GB/67481/461139/461180/index.html">人民网</a> | <a href="http://www.71.cn/2025/1027/1275822.shtml">71.cn</a> | <a href="https://www.sohu.com/a/946943975_119659">搜狐新闻</a></p>
+</blockquote>
+<hr />
+<h2>六、二十届五中全会（尚未召开） ★了解</h2>
+<p>截至2026年5月10日，二十届五中全会尚未召开。</p>
+<p><strong>预期分析</strong>：
+- 按照十八届（2016年10月核心确立+党内政治生活准则）、十九届（2020年10月十四五年规划建议）同期安排，五中全会通常在第五年的秋季（即本次任期内约2026年秋季）召开
+- <strong>本届特殊变化</strong>：由于四中全会已审议"十五五"规划建议，五中全会议题预计将聚焦<strong>党的建设</strong>或<strong>意识形态</strong>领域重大专题（此方向承接传统上四中全会或六中全会的职能）
+- 具体议题和召开时间待官方公布</p>
+<hr />
+<h2>七、二十届六中全会（尚未召开） ★了解</h2>
+<p>截至2026年5月10日，二十届六中全会尚未召开。</p>
+<p><strong>传统职能</strong>：党的建设、意识形态领域重大专题或通过重大历史决议。例如，十九届六中全会（2021年11月）审议通过《中共中央关于党的百年奋斗重大成就和历史经验的决议》，确立了习近平同志党中央的核心、全党的核心地位。</p>
+<p><strong>预期分析</strong>：
+- 预计在2027年秋季（二十一大召开前不久）举行
+- 若五中全会承担了党建/意识形态职能，六中全会议题可能进一步调整
+- 具体议题和召开时间待官方公布</p>
+<hr />
+<h2>八、二十届七中全会（尚未召开） ★了解</h2>
+<p>截至2026年5月10日，二十届七中全会尚未召开。</p>
+<p><strong>传统职能</strong>：为下一届党的全国代表大会做组织准备和文件准备。主要包括：
+- 决定二十一大召开的日期、代表名额和选举办法
+- 讨论并通过拟提请二十一大审议的二十届中央委员会报告
+- 讨论并通过拟提请二十一大审议的中央纪律检查委员会工作报告
+- 审议《中国共产党章程（修正案）》草案</p>
+<p><strong>预期分析</strong>：
+- 预计在2027年秋季（二十一大召开前夕）举行
+- 完成二十届中央委员会向二十一大的换届衔接工作
+- 具体议题和召开时间待官方公布</p>
+<hr />
+<h2>九、考试视角（全会相关）</h2>
+<h3>9.1 权力架构关系——"四大会议"的定位与衔接</h3>
+<p>理解中国政治周期，必须把握四个关键会议的时间顺序和职能衔接：</p>
+<pre><code>党的二十大（2022.10）
+    ↓ 定方向：确定中国式现代化的中心任务
+二十届一中全会（2022.10）
+    ↓ 布人事：选举中央领导机构
+二十届二中全会（2023.02）
+    ↓ 推改革：机构改革方案→为两会做组织准备
+全国两会（2023.03）
+    ↓ 转化：将党的意志通过法定程序转为国家意志
+二十届三中全会（2024.07）
+    ↓ 推改革：全面深化改革300+项举措
+中央经济工作会议（每年12月）
+    ↓ 抓落地：年度经济工作部署
+二十届四中全会（2025.10）
+    ↓ 定方向：&quot;十五五&quot;规划建议
+二十届五中全会（预计2026）
+    ↓ 待定
+...
+二十届七中全会（预计2027秋）
+    ↓ 换届准备：审议下届党代会报告
+二十一大于2027年秋召开
+</code></pre>
+<p><strong>权力运行链条</strong>："定方向（党代会/三中/四中）→布人事（一中/二中）→推改革（二中/三中）→抓落实（中央经济工作会议/两会/各部委年度部署）"</p>
+<h3>9.2 申论话题关联（各次全会）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">全会</th>
+<th style="text-align: left;">关联申论话题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">二十届二中全会</td>
+<td style="text-align: left;">政府机构改革与职能转变、金融监管体制改革、数字政府建设</td>
+</tr>
+<tr>
+<td style="text-align: left;">二十届三中全会</td>
+<td style="text-align: left;">新质生产力、全国统一大市场、民营经济发展、城乡融合发展、社会保障均等化</td>
+</tr>
+<tr>
+<td style="text-align: left;">二十届四中全会</td>
+<td style="text-align: left;">实体经济/制造业发展、农业强国/乡村振兴、人口老龄化应对、区域协调发展</td>
+</tr>
+</tbody>
+</table>
+<h3>9.3 行测常识高频考点（全会相关）</h3>
+<p><strong>必背清单：</strong></p>
+<ol>
+<li><strong>全会传统职能</strong>（常识判断高频考点）</li>
+<li>一中全会：选领导 → 二中全会：推人选 → 三中全会：推改革 → 四中全会：抓党建 → 五中全会：定规划 → 六中全会：凝共识 → 七中全会：做准备</li>
+<li>
+<p><strong>本届特殊变化</strong>：四中全会审议"十五五"规划建议，打破"五中全会定规划"的惯例</p>
+</li>
+<li>
+<p><strong>重要数字记忆</strong></p>
+</li>
+<li>二十届三中全会：300+项改革举措、2029年完成改革任务</li>
+<li>二十届二中全会：机构改革13项、人员精减5%</li>
+<li>
+<p>二十届四中全会："十五五"时期（2026—2030年）、12项重要部署</p>
+</li>
+<li>
+<p><strong>三中全会历史节点</strong>（常识排序/判断题）</p>
+</li>
+<li>十一届三中全会（1978）：改革开放</li>
+<li>十四届三中全会（1993）：社会主义市场经济体制</li>
+<li>十八届三中全会（2013）：全面深化改革</li>
+<li>二十届三中全会（2024）：进一步全面深化改革、推进中国式现代化</li>
+</ol>
+<h3>9.4 面试模拟题</h3>
+<p><strong>题目一（综合分析类）：</strong></p>
+<blockquote>
+<p>二十届三中全会《决定》首次设定了"到2029年完成改革任务"的具体时限，并提出300多项改革举措。有人认为设定明确时间表有利于倒逼落实，也有人担忧"改革大跃进"导致基层应付。请谈谈你的看法。</p>
+</blockquote>
+<p><strong>命题意图</strong>：考察辩证分析能力，要求兼顾"改革紧迫性"与"基层承受力"。</p>
+<p><strong>答题要点提示</strong>：（1）肯定时间表的倒逼作用——防止改革"空转"；（2）承认基层可能面临的压力——需要配套的容错机制和资源支持；（3）提出平衡路径——分类施策（急的改革先行、条件不成熟的分步推进）、强化基层赋权、完善督查考核不搞"一刀切"。</p>
+<hr />
+<p><strong>题目二（组织管理类）：</strong></p>
+<blockquote>
+<p>如果你是某市发改委工作人员，二十届四中全会审议通过"十五五"规划建议后，市里要组织一场面向企业家的政策解读座谈会，由你负责筹备，你会如何组织？</p>
+</blockquote>
+<p><strong>命题意图</strong>：考察实务操作能力——政策落地的"最后一公里"。</p>
+<p><strong>答题要点提示</strong>：（1）精准梳理——从"十五五"规划建议中提取与本市产业结构、企业经营直接相关的政策条目；（2）对标企业需求——分行业邀请代表（制造业、科技创新、农业等）；（3）注重实效——设置政策解读+互动问答+后续对接三个环节；（4）成果转化——整理企业诉求清单，对接相关部门形成落实方案。</p>
+<hr />
+<h2>十、来源汇总</h2>
+<ol>
+<li>最高人民检察院：《中共二十届一中全会公报》（2022.10.23）<a href="https://www.spp.gov.cn/spp/tt/202210/t20221023_590419.shtml">链接</a></li>
+<li>天津市委党校：《中共二十届一中全会公报》（2022.10.23）<a href="https://www.tjdx.gov.cn/info/1201/10488.htm">链接</a></li>
+<li>中国网：《二十届二中全会审议通过〈党和国家机构改革方案〉》（2023.03.01）<a href="http://news.china.com.cn/2023-03/01/content_85135796.htm">链接</a></li>
+<li>中国机构编制网：《关于国务院机构改革方案的说明》（2023.03.15）<a href="https://scopsr.gov.cn/zlzx/rdh/14renda/14yici/202303/t20230315_386177.html">链接</a></li>
+<li>人民日报评论员：《不折不扣把机构改革任务落到实处》（2023.03.02）<a href="http://big5.www.gov.cn/gate/big5/www.gov.cn/xinwen/2023-03/02/content_5744054.htm">链接</a></li>
+<li>人民网：《一图全解二十届三中全会〈决定〉》（2024.07.22）<a href="http://politics.people.com.cn/n1/2024/0722/c1001-40282697.html">链接</a></li>
+<li>人民网：《60条要点速览二十届三中全会〈决定〉》（2024.07.22）<a href="http://politics.people.com.cn/BIG5/n1/2024/0722/c1001-40282696.html">链接</a></li>
+<li>央视新闻：《60条要点速览二十届三中全会〈决定〉》（2024.07.22）<a href="http://big5.cctv.com/gate/big5/news.cctv.com/2024/07/22/ARTIwqU17qXT3u6Kr2XlNQsl240722.shtml">链接</a></li>
+<li>中纪委网站：《为中国式现代化提供强大动力和制度保障》（2024.07.22）<a href="https://www.ccdi.gov.cn/specialn/esjzyscqh/ywesjzyscqh/202407/t20240722_363079.html">链接</a></li>
+<li>华商报：《二十届四中全会作出12项重要部署》（2025.10.24）<a href="http://hsb.hspress.net/system/2025/1024/235270.shtml">链接</a></li>
+<li>人民网：《二十届四中全会学习资料电子书》<a href="http://cpc.people.com.cn/GB/67481/461139/461180/index.html">链接</a></li>
+<li>71.cn：《重磅发布会，全方位解读党的二十届四中全会精神》（2025.10.27）<a href="http://www.71.cn/2025/1027/1275822.shtml">链接</a></li>
+<li>搜狐新闻：《二十届四中全会作出12项重要部署》（2025.10.24）<a href="https://www.sohu.com/a/946943975_119659">链接</a></li>
+<li>星岛日报：《二十大冷知识｜一至七中全会各有何特点？》（2022.10.10）<a href="https://www.stnn.cc/c/2022-10-10/3774123.shtml">链接</a></li>
+<li>香港01：《六中全会｜中共中央每届开七次全会 每次都有固定主题？》<a href="https://www.hk01.com/中國觀察/698162">链接</a></li>
+<li>人民网-资料中心：《中国共产党中央委员会全体会议》<a href="http://cpc.people.com.cn/GB/64162/448263/index.html">链接</a></li>
+</ol>
+<hr />
+<blockquote>
+<p><strong>维护说明</strong>：本文档应随新全会召开及时更新。二十届五中全会、六中全会、七中全会召开后，请补充对应章节，并同步更新考试视角部分的考点分析。</p>
+</blockquote>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f03">
+    <div class="content-header">
+      <h2>03 · 全国两会</h2>
+      <h3>全国两会（2023-2026）</h3>
+      <button class="collapse-btn" onclick="toggleContent('f03')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f03">
+      <h1>全国两会（2023-2026）</h1>
+<blockquote>
+<p>整理日期：2026-05-10
+文件依据：国务院政府工作报告（2023-2026）</p>
+</blockquote>
+<hr />
+<h2>一、两会制度概述</h2>
+<h3>1.1 "两会"是什么</h3>
+<p>"两会"是对<strong>全国人民代表大会</strong>（简称"人大"）和<strong>中国人民政治协商会议</strong>（简称"政协"）全国委员会会议的统称。两者每年3月在北京同期召开，是国家政治生活中的头等大事。</p>
+<p>"两会"机制可追溯至1959年。周恩来总理在当年全国人大常委会与全国政协常委会联席会议上首次使用"两会"说法，指出：<strong>"两个大会联合起来开会是一个新形式……人大、政协'两会'有不同之处，权力上有分别，但应该说'两会'只有权力之分，无高低之别。"</strong> 从1985年起，两会固定在每年3月召开。自1998年起，全国政协会议一般在3月3日开幕、全国人大会议在3月5日开幕。</p>
+<h3>1.2 人大 vs 政协：职能区别</h3>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>全国人民代表大会（人大）</th>
+<th>中国人民政治协商会议（政协）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>性质</strong></td>
+<td>最高国家权力机关</td>
+<td>中国人民爱国统一战线组织；多党合作和政治协商的重要机构；社会主义协商民主的重要渠道和专门协商机构</td>
+</tr>
+<tr>
+<td><strong>常设机关</strong></td>
+<td>全国人民代表大会常务委员会</td>
+<td>全国政协常务委员会</td>
+</tr>
+<tr>
+<td><strong>产生方式</strong></td>
+<td>人大代表由<strong>选举产生</strong>（直接选举+间接选举）</td>
+<td>政协委员由<strong>协商推荐产生</strong></td>
+</tr>
+<tr>
+<td><strong>成员称谓</strong></td>
+<td>全国人大代表</td>
+<td>全国政协委员</td>
+</tr>
+<tr>
+<td><strong>职权/职能</strong></td>
+<td>修改宪法、监督宪法实施；制定和修改法律；选举和罢免国家领导人；审查批准预算和计划；决定国家重大事项</td>
+<td>政治协商、民主监督、参政议政</td>
+</tr>
+<tr>
+<td><strong>审议方式</strong></td>
+<td>人大"<strong>审议</strong>"报告，表决作出<strong>决议</strong>，有法律效力</td>
+<td>政协"<strong>讨论</strong>"报告，提出意见和<strong>建议</strong>，不表决、不作决议</td>
+</tr>
+<tr>
+<td><strong>提交文书</strong></td>
+<td>人大代表提"<strong>议案</strong>"和"<strong>建议</strong>"</td>
+<td>政协委员提"<strong>提案</strong>"</td>
+</tr>
+<tr>
+<td><strong>决策属性</strong></td>
+<td>权力机关，能决策、能立法</td>
+<td>非权力机关，不决策、不立法，类似"大智库"</td>
+</tr>
+<tr>
+<td><strong>十六字方针</strong></td>
+<td>——</td>
+<td>长期共存、互相监督、肝胆相照、荣辱与共</td>
+</tr>
+<tr>
+<td><strong>界别设置</strong></td>
+<td>按行政区域和选举单位</td>
+<td>设<strong>34个界别</strong>（涵盖各党派、各团体、各民族、各界代表人士）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键结论</strong>：中国的两会<strong>不是</strong>西方的上议院和下议院。政协不构成国家权力机关的另一极，人大与政协之间是<strong>相互补充、协调统一</strong>的关系——选举民主与协商民主相结合，避免了西方议会中常见的政党掣肘、议而不决等问题。</p>
+<h3>1.3 两会与党代会/中央全会的关系定位</h3>
+<p>三者构成一条<strong>"党定方向→全会作部署→两会法定化"</strong>的递进式制度链条：</p>
+<pre><code>党代会（5年一次，顶层定向）
+    ↓
+中央全会（每年至少1次，战略分解）
+    ↓
+两会（每年3月，转化为国家意志）
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>会议</th>
+<th>全称</th>
+<th>周期</th>
+<th>核心职能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>党代会</td>
+<td>中国共产党全国代表大会</td>
+<td>每5年一次</td>
+<td>党的最高权力机关，确定重大方向与战略</td>
+</tr>
+<tr>
+<td>中央全会</td>
+<td>中央委员会全体会议</td>
+<td>每年至少1次，每届约7次</td>
+<td>落实党代会决策，议定各领域发展战略</td>
+</tr>
+<tr>
+<td>两会</td>
+<td>全国人大 + 全国政协</td>
+<td>每年3月</td>
+<td>将党的主张通过法定程序上升为国家意志</td>
+</tr>
+</tbody>
+</table>
+<p><strong>历次中央全会的常规分工</strong>：
+- <strong>一中全会</strong>：选举产生党的领导机构
+- <strong>二中全会</strong>：为"两会"准备国家机构人选推荐方案
+- <strong>三中全会</strong>：通常聚焦经济与改革（如十八届三中全会"全面深化改革"，二十届三中全会聚焦"进一步全面深化改革、推进中国式现代化"）
+- <strong>四中至六中全会</strong>：就依法治国、社会治理、规划建议等专题部署
+- <strong>七中全会</strong>：为下一届党代会做准备</p>
+<p><strong>制度衔接的经典路径</strong>：党中央通过全会提出"五年规划建议" → 国务院编制规划纲要草案 → 次年两会由全国人大审查批准 → 将<strong>党的主张转化为国家意志</strong>。</p>
+<p><strong>核心表述（申论金句）</strong>：
+- "党的主张通过法定程序转化为国家意志和人民共同行动"
+- "把顶层设计和问计于民统一起来"
+- "全过程人民民主的生动实践"</p>
+<hr />
+<h2>二、2023年全国两会</h2>
+<blockquote>
+<p>2023年3月5日，国务院总理李克强在第十四届全国人民代表大会第一次会议上作《政府工作报告》。
+这是换届之年的政府工作报告，也是十四届全国人大一次会议的"开局"报告。</p>
+</blockquote>
+<h3>2.1 政府工作报告核心数据</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>2023年目标</th>
+<th>2023年实际</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP增速</td>
+<td>5%左右</td>
+<td><strong>5.2%</strong>（初核126.06万亿元；终核上调至129.43万亿元）</td>
+</tr>
+<tr>
+<td>CPI涨幅</td>
+<td>3%左右</td>
+<td><strong>0.2%</strong>（远低于目标，内需偏弱）</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>1200万人左右</td>
+<td><strong>1244万人</strong></td>
+</tr>
+<tr>
+<td>城镇调查失业率</td>
+<td>5.5%左右</td>
+<td>平均<strong>5.2%</strong></td>
+</tr>
+<tr>
+<td>居民收入增长</td>
+<td>与经济增长基本同步</td>
+<td>实际增长<strong>6.1%</strong></td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>1.3万亿斤以上</td>
+<td><strong>1.39万亿斤</strong></td>
+</tr>
+<tr>
+<td>赤字率</td>
+<td>3%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>地方政府专项债券</td>
+<td>3.8万亿元</td>
+<td>—</td>
+</tr>
+<tr>
+<td>单位GDP能耗</td>
+<td>降低2%左右</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>2.2 重点政策部署</h3>
+<ol>
+<li><strong>着力扩大国内需求</strong>：把恢复和扩大消费摆在优先位置，稳定大宗消费，推动生活服务消费恢复。</li>
+<li><strong>加快建设现代化产业体系</strong>：集中优质资源推进关键核心技术攻关，支持平台经济发展。</li>
+<li><strong>切实落实"两个毫不动摇"</strong>：依法保护民营企业产权和企业家权益。</li>
+<li><strong>更大力度吸引和利用外资</strong>：扩大市场准入，积极推动加入CPTPP等高标准经贸协定。</li>
+<li><strong>有效防范化解重大经济金融风险</strong>：防范化解优质头部房企风险，支持刚性和改善性住房需求。</li>
+<li><strong>稳定粮食生产和推进乡村振兴</strong>：粮食产量目标1.3万亿斤以上。</li>
+<li><strong>推动发展方式绿色转型</strong>：单位GDP能耗降低2%左右。</li>
+<li><strong>保障基本民生和发展社会事业</strong>：把促进青年特别是高校毕业生就业工作摆在更加突出的位置。</li>
+</ol>
+<h3>2.3 机构改革 —— 2023年两会最大看点</h3>
+<p>2023年两会期间，通过了根据党的二十届二中全会《党和国家机构改革方案》制定的国务院机构改革方案，涉及<strong>13项改革举措</strong>，聚焦六大领域：科学技术、金融监管、数据管理、乡村振兴、知识产权、老龄工作。</p>
+<p><strong>核心改革措施</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>改革内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>科学技术</td>
+<td>重新组建科学技术部，组建<strong>中央科技委员会</strong>，科技部强化宏观管理职能，不再参与具体项目评审</td>
+</tr>
+<tr>
+<td>金融监管（重中之重，占6项）</td>
+<td>组建<strong>国家金融监督管理总局</strong>（统一负责除证券业外金融业监管）；证监会调整为国务院直属机构；央行分支机构撤销大区分行体制；深化地方金融监管体制改革</td>
+</tr>
+<tr>
+<td>数据管理</td>
+<td>组建<strong>国家数据局</strong>（国家发改委管理），统筹数字中国、数字经济、数字社会建设</td>
+</tr>
+<tr>
+<td>乡村振兴</td>
+<td>国家乡村振兴局职责划入农业农村部，加挂国家乡村振兴局牌子</td>
+</tr>
+<tr>
+<td>老龄工作</td>
+<td>应对人口老龄化职责由卫健委划入民政部</td>
+</tr>
+<tr>
+<td>编制精减</td>
+<td>中央国家机关各部门人员编制统一按<strong>5%</strong>比例精减，5年过渡期</td>
+</tr>
+</tbody>
+</table>
+<p><strong>考点提示</strong>：此次机构改革以<strong>加强党中央集中统一领导为统领</strong>，金融领域改革是重中之重，体现防范金融系统性风险、加强穿透式监管的鲜明导向。改革后除国务院办公厅外，国务院组成部门仍为<strong>26个</strong>。</p>
+<hr />
+<h2>三、2024年全国两会</h2>
+<blockquote>
+<p>2024年3月5日，国务院总理李强在第十四届全国人民代表大会第二次会议上作《政府工作报告》。
+这是李强总理的首份政府工作报告。总基调：<strong>稳中求进、以进促稳、先立后破</strong>。</p>
+</blockquote>
+<h3>3.1 政府工作报告核心数据</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>2024年目标</th>
+<th>2024年实际</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP增速</td>
+<td>5%左右</td>
+<td><strong>5.0%</strong>（总量134.9万亿元）</td>
+</tr>
+<tr>
+<td>CPI涨幅</td>
+<td>3%左右</td>
+<td><strong>0.2%</strong>（连续第二年远低于目标）</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>1200万人以上</td>
+<td><strong>1256万人</strong></td>
+</tr>
+<tr>
+<td>城镇调查失业率</td>
+<td>5.5%左右</td>
+<td>平均<strong>5.1%</strong></td>
+</tr>
+<tr>
+<td>居民收入增长</td>
+<td>与经济增长同步</td>
+<td>实际增长<strong>5.1%</strong></td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>1.3万亿斤以上</td>
+<td><strong>1.4万亿斤</strong>（首次跃上新台阶）</td>
+</tr>
+<tr>
+<td>赤字率</td>
+<td>3%（赤字规模4.06万亿元）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>专项债</td>
+<td>3.9万亿元</td>
+<td>—</td>
+</tr>
+<tr>
+<td>超长期特别国债</td>
+<td>1万亿元（首次发行）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>单位GDP能耗</td>
+<td>降低2.5%左右</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 重点政策部署 —— 多个"首次"标志性提法</h3>
+<p><strong>十大政府工作任务</strong>（"新质生产力"首次列为第一项任务）：</p>
+<ol>
+<li><strong>大力推进现代化产业体系建设，加快发展新质生产力</strong>（列为首位，首次写入政府工作报告）</li>
+<li>培育新兴产业和未来产业：氢能、新材料、创新药、生物制造、商业航天、低空经济等</li>
+<li>开展<strong>"人工智能+"行动</strong>（首次提出）</li>
+<li>加快形成全国一体化算力体系</li>
+<li>
+<p>开辟量子技术、生命科学等新赛道</p>
+</li>
+<li>
+<p><strong>深入实施科教兴国战略</strong>：强化基础研究系统布局，完善"揭榜挂帅"机制。</p>
+</li>
+<li>
+<p><strong>着力扩大国内需求</strong>：推动消费品以旧换新，培育智能家居、文娱旅游、体育赛事、国货"潮品"等新增长点。中央预算内投资安排7000亿元。</p>
+</li>
+<li>
+<p><strong>坚定不移深化改革</strong>：全面落实促进民营经济发展壮大的配套举措；加快全国统一大市场建设；谋划新一轮财税体制改革。</p>
+</li>
+<li>
+<p><strong>扩大高水平对外开放</strong>：<strong>全面取消制造业领域外资准入限制措施</strong>；打造"投资中国"品牌。</p>
+</li>
+<li>
+<p><strong>统筹发展和安全</strong>：优化房地产政策，对不同所有制房企合理融资一视同仁；稳妥处置地方债务、中小金融机构风险。</p>
+</li>
+<li>
+<p><strong>抓好"三农"工作</strong>：严守耕地红线，适当提高小麦最低收购价。</p>
+</li>
+<li>
+<p><strong>推动城乡融合和区域协调发展</strong>。</p>
+</li>
+<li>
+<p><strong>加强生态文明建设</strong>。</p>
+</li>
+<li>
+<p><strong>切实保障和改善民生</strong>：居民医保人均财政补助标准提高30元；城乡居民基础养老金月最低标准提高20元。</p>
+</li>
+</ol>
+<p><strong>五大金融"篇章"</strong>首次在政府工作报告中完整提出：科技金融、绿色金融、普惠金融、养老金融、数字金融。</p>
+<h3>3.3 2024年关键亮点汇总</h3>
+<table>
+<thead>
+<tr>
+<th>亮点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>"新质生产力"</strong></td>
+<td>首次写入政府工作报告，并列为第一项任务</td>
+</tr>
+<tr>
+<td><strong>"人工智能+"</strong></td>
+<td>首次提出，标志AI从技术概念上升为国家行动</td>
+</tr>
+<tr>
+<td><strong>超长期特别国债</strong></td>
+<td>首次连续多年发行机制，2024年首发1万亿元</td>
+</tr>
+<tr>
+<td><strong>"投资中国"品牌</strong></td>
+<td>新提法，配合全面取消制造业外资准入限制</td>
+</tr>
+<tr>
+<td><strong>消费品以旧换新</strong></td>
+<td>本轮大规模设备更新和消费品以旧换新的启动信号</td>
+</tr>
+<tr>
+<td><strong>宏观政策取向一致性</strong></td>
+<td>将非经济性政策纳入宏观政策取向一致性评估</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>四、2025年全国两会</h2>
+<blockquote>
+<p>2025年3月5日，国务院总理李强在第十四届全国人民代表大会第三次会议上作《政府工作报告》。
+背景：<strong>"十四五"收官之年</strong>，要为"十五五"良好开局打牢基础。总基调：<strong>稳中求进、以进促稳，守正创新、先立后破</strong>。</p>
+</blockquote>
+<h3>4.1 政府工作报告核心数据</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>2025年目标</th>
+<th>2025年实际</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP增速</td>
+<td>5%左右</td>
+<td><strong>5.0%</strong>（总量140.19万亿元）</td>
+</tr>
+<tr>
+<td>CPI涨幅</td>
+<td>2%左右</td>
+<td><strong>0%（持平）</strong>——连续三年物价低迷</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>1200万人以上</td>
+<td><strong>1267万人</strong></td>
+</tr>
+<tr>
+<td>城镇调查失业率</td>
+<td>5.5%左右</td>
+<td>平均<strong>5.2%</strong></td>
+</tr>
+<tr>
+<td>居民收入增长</td>
+<td>与经济增长同步</td>
+<td>与经济增长<strong>同步</strong></td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>1.4万亿斤左右</td>
+<td><strong>1.43万亿斤</strong></td>
+</tr>
+<tr>
+<td>赤字率</td>
+<td>4%左右（赤字规模5.66万亿元）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>专项债</td>
+<td>4.4万亿元</td>
+<td>—</td>
+</tr>
+<tr>
+<td>超长期特别国债</td>
+<td>1.3万亿元</td>
+<td>—</td>
+</tr>
+<tr>
+<td>特别国债</td>
+<td>5000亿元（补充国有大行资本）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>合计新增政府债务</td>
+<td>11.86万亿元</td>
+<td>—</td>
+</tr>
+<tr>
+<td>单位GDP能耗</td>
+<td>降低3%左右</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>4.2 十大重点任务</h3>
+<ol>
+<li>
+<p><strong>大力提振消费、提高投资效益，全方位扩大国内需求</strong>：安排超长期国债3000亿元支持以旧换新；落实和优化休假制度；扩大健康、养老、托幼、家政等多元化服务供给。</p>
+</li>
+<li>
+<p><strong>因地制宜发展新质生产力</strong>：培育生物制造、量子科技、具身智能、6G等未来产业；持续推进"人工智能+"行动；大力发展智能网联新能源汽车、智能机器人等。</p>
+</li>
+<li>
+<p><strong>深入实施科教兴国战略</strong>：扩大高中阶段教育学位供给，<strong>逐步推行免费学前教育</strong>；强化关键核心技术攻关和前沿性、颠覆性技术研发。</p>
+</li>
+<li>
+<p><strong>推动标志性改革举措加快落地</strong>：纵深推进全国统一大市场建设；综合整治<strong>"内卷式"竞争</strong>；开展规范涉企执法专项行动（坚决防止违规异地执法）。</p>
+</li>
+<li>
+<p><strong>扩大高水平对外开放</strong>：扩大电信、医疗、教育等领域开放试点；推动互联网、文化等领域有序开放。</p>
+</li>
+<li>
+<p><strong>有效防范化解重点领域风险</strong>：持续用力推动<strong>房地产市场止跌回稳</strong>；稳妥化解地方政府债务风险。</p>
+</li>
+<li>
+<p><strong>着力抓好"三农"工作</strong>：粮食产量目标1.4万亿斤左右；启动粮食产销区省际横向利益补偿；有序推进第二轮土地承包到期后再延长30年试点。</p>
+</li>
+<li>
+<p><strong>推进新型城镇化和区域协调发展</strong>：推动农业转移人口纳入住房保障体系；支持<strong>经济大省挑大梁</strong>。</p>
+</li>
+<li>
+<p><strong>协同推进降碳减污扩绿增长</strong>：建立一批零碳园区、零碳工厂；健全绿色消费激励机制。</p>
+</li>
+<li>
+<p><strong>加大保障和改善民生力度</strong>：城乡居民基础养老金最低标准再提高20元；居民医保人均财政补助标准再提高30元；<strong>制定促进生育政策，发放育儿补贴</strong>；加强灵活就业和新就业形态劳动者权益保障。</p>
+</li>
+</ol>
+<h3>4.3 "十五五"规划编制启动</h3>
+<p>2025年将开展<strong>"十五五"规划编制工作</strong>，深入分析"十五五"时期新的阶段性特征，谋划重大战略任务、重大政策举措、重大工程项目。</p>
+<p><strong>"十五五"时期五大类主要目标指标</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>核心指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>经济发展</td>
+<td>GDP增长保持在合理区间</td>
+</tr>
+<tr>
+<td>创新驱动</td>
+<td>全社会研发经费投入年均增长7%以上</td>
+</tr>
+<tr>
+<td>民生福祉</td>
+<td>就业、收入、教育、医疗、健康、"一老一小"等7项指标</td>
+</tr>
+<tr>
+<td>绿色低碳</td>
+<td>单位GDP二氧化碳排放累计降低17%</td>
+</tr>
+<tr>
+<td>安全保障</td>
+<td>粮食、能源生产能力2项指标</td>
+</tr>
+</tbody>
+</table>
+<p><strong>四大重大战略任务</strong>：突出推动高质量发展；突出做强国内大循环；突出推进全体人民共同富裕；突出统筹发展和安全。</p>
+<h3>4.4 2025年重大政策转向信号</h3>
+<ul>
+<li><strong>货币政策转向"适度宽松"</strong>：这是自2011年以来的首次基调调整。2011-2024年连续14年表述为"稳健"，2025年改为"适度宽松"。</li>
+<li><strong>赤字率首次突破4%</strong>：从2023/2024年的3%大幅上调至4%，赤字规模5.66万亿元。</li>
+<li><strong>"内卷式"竞争首次写入政府工作报告</strong>：信号意味深长，指向部分行业产能过剩、恶性竞争问题。</li>
+<li><strong>育儿补贴首次在国家层面提出</strong>：标志人口政策从"放开生育"转向"鼓励生育"。</li>
+</ul>
+<hr />
+<h2>五、2026年全国两会</h2>
+<blockquote>
+<p>2026年3月5日，国务院总理李强在第十四届全国人民代表大会第四次会议上作《政府工作报告》。
+背景：<strong>"十五五"开局之年</strong>。本次两会同时审查批准了《"十五五"规划纲要》。总基调延续"稳中求进、以进促稳"。</p>
+</blockquote>
+<h3>5.1 政府工作报告核心数据</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>2026年目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP增速</td>
+<td><strong>4.5%—5%</strong>（区间目标，首次以区间形式设定）</td>
+</tr>
+<tr>
+<td>CPI涨幅</td>
+<td>2%左右</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>1200万人以上</td>
+</tr>
+<tr>
+<td>城镇调查失业率</td>
+<td>5.5%左右</td>
+</tr>
+<tr>
+<td>居民收入增长</td>
+<td>与经济增长同步</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>1.4万亿斤左右</td>
+</tr>
+<tr>
+<td>赤字率</td>
+<td>4%左右（赤字规模5.89万亿元，比上年增2300亿元）</td>
+</tr>
+<tr>
+<td>一般公共预算支出</td>
+<td>首次达到<strong>30万亿元</strong></td>
+</tr>
+<tr>
+<td>超长期特别国债</td>
+<td>1.3万亿元</td>
+</tr>
+<tr>
+<td>特别国债</td>
+<td>3000亿元（补充国有大行资本）</td>
+</tr>
+<tr>
+<td>专项债</td>
+<td>4.4万亿元</td>
+</tr>
+<tr>
+<td>中央预算内投资</td>
+<td>7550亿元</td>
+</tr>
+<tr>
+<td>消费品以旧换新专项资金</td>
+<td>2500亿元</td>
+</tr>
+<tr>
+<td>财政金融协同促内需专项资金</td>
+<td>1000亿元（新设）</td>
+</tr>
+<tr>
+<td>新型政策性金融工具</td>
+<td>8000亿元（新设）</td>
+</tr>
+<tr>
+<td>单位GDP二氧化碳排放</td>
+<td>降低3.8%左右</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 十大任务详解</h3>
+<blockquote>
+<p>每条任务附考点链接。</p>
+</blockquote>
+<p><strong>任务一：着力建设强大国内市场</strong>
+坚持内需主导，统筹促消费和扩投资。深入实施提振消费专项行动，充分挖掘释放有效投资潜力。安排超长期特别国债2500亿元支持消费品以旧换新，设立1000亿元财政金融协同促内需专项资金。8000亿元超长期国债用于"两重"建设（国家重大战略实施和重点领域安全能力建设），发行新型政策性金融工具8000亿元。</p>
+<blockquote>
+<p><strong>考点</strong>：扩大内需战略、消费与投资的双轮驱动、财政政策工具创新</p>
+</blockquote>
+<p><strong>任务二：加紧培育壮大新动能</strong>
+因地制宜发展新质生产力，建设现代化产业体系。打造<strong>集成电路、航空航天、生物医药、低空经济</strong>等新兴支柱产业；培育<strong>未来能源、量子科技、具身智能、脑机接口、6G</strong>等未来产业；深化拓展"人工智能+"，推进制造业"智改数转网联"。</p>
+<blockquote>
+<p><strong>考点</strong>：新质生产力、现代化产业体系、"人工智能+"行动的深化、未来产业布局</p>
+</blockquote>
+<p><strong>任务三：加快高水平科技自立自强</strong>
+加强原始创新和关键核心技术攻关，推动科技创新和产业创新深度融合，一体推进教育科技人才发展。建设北京、上海、粤港澳大湾区国际科技创新中心。</p>
+<blockquote>
+<p><strong>考点</strong>：科技自立自强、教育科技人才一体化、国际科技创新中心建设</p>
+</blockquote>
+<p><strong>任务四：持续深化重点领域改革</strong>
+纵深推进全国统一大市场建设，推进财税金融体制改革，充分激发各类经营主体活力。完善民营经济促进法配套法规政策。</p>
+<blockquote>
+<p><strong>考点</strong>：全国统一大市场、民营经济促进法、财税体制改革、经营主体活力</p>
+</blockquote>
+<p><strong>任务五：进一步扩大高水平对外开放</strong>
+积极扩大自主开放，推动外贸稳规模优结构，扩大双向投资合作，高质量共建"一带一路"。进一步扩大增值电信、生物技术、外商独资医院等领域开放试点。</p>
+<blockquote>
+<p><strong>考点</strong>：高水平对外开放、自主开放、高质量共建"一带一路"、服务业开放</p>
+</blockquote>
+<p><strong>任务六：扎实推进乡村全面振兴</strong>
+毫不放松抓好粮食生产，实施常态化精准帮扶，持续推进农村改革发展。<strong>全面开展第二轮土地承包到期后再延长30年整省试点</strong>。</p>
+<blockquote>
+<p><strong>考点</strong>：粮食安全、防止返贫、土地承包延期、乡村全面振兴</p>
+</blockquote>
+<p><strong>任务七：推动新型城镇化和区域协调发展</strong>
+深入推进以人为本的新型城镇化，推进农业转移人口市民化；不断增强区域发展协调性，推动西部大开发、东北振兴、中部崛起、东部现代化。</p>
+<blockquote>
+<p><strong>考点</strong>：新型城镇化、农业转移人口市民化、区域协调发展战略</p>
+</blockquote>
+<p><strong>任务八：更大力度保障和改善民生</strong>
+促进高质量充分就业，实施稳岗扩容提质行动；完善免费学前教育政策，增加普通高中学位供给；居民医保人均财政补助标准提高24元；城乡居民基础养老金月最低标准再提高20元；<strong>加强初婚初育家庭住房保障</strong>。</p>
+<blockquote>
+<p><strong>考点</strong>：高质量就业、"一老一小"民生保障、初婚初育住房保障（人口政策新动向）</p>
+</blockquote>
+<p><strong>任务九：加快推动全面绿色转型</strong>
+加强生态环境综合治理，大力发展绿色低碳经济，积极稳妥推进碳达峰碳中和。<strong>设立国家低碳转型基金</strong>，培育氢能、绿色燃料等新增长点。</p>
+<blockquote>
+<p><strong>考点</strong>：绿色低碳转型、碳达峰碳中和、国家低碳转型基金（新增制度安排）</p>
+</blockquote>
+<p><strong>任务十：加强重点领域风险防范化解和安全能力建设</strong>
+着力稳定房地产市场（<strong>因城施策控增量、去库存、优供给</strong>）；积极有序化解地方政府债务风险；积极稳妥化解金融领域风险；维护国家安全和社会稳定。</p>
+<blockquote>
+<p><strong>考点</strong>：房地产新模式、地方债务化解、统筹发展与安全</p>
+</blockquote>
+<h3>5.3 "十五五"规划纲要通过</h3>
+<p>2026年3月12日，十四届全国人大四次会议表决通过关于"十五五"规划纲要的决议。纲要共<strong>18篇、62章、171节</strong>，超过7万字。</p>
+<h4>七大主要目标（以"高质量发展取得显著成效"为首）</h4>
+<ol>
+<li>高质量发展取得显著成效</li>
+<li>科技自立自强能力显著提升</li>
+<li>数字中国建设取得重要进展</li>
+<li>强大国内市场建设迈出坚实步伐</li>
+<li>高水平对外开放迈上新台阶</li>
+<li>农业农村现代化取得实质性进展</li>
+<li>区域协调发展呈现新格局</li>
+</ol>
+<h4>20项主要指标（8项约束性 + 12项预期性）</h4>
+<p><strong>8项约束性指标（必须确保实现）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>劳动年龄人口平均受教育年限</td>
+<td>11.7年</td>
+</tr>
+<tr>
+<td>单位GDP二氧化碳排放累计降低</td>
+<td>17%（5年累计）</td>
+</tr>
+<tr>
+<td>非化石能源占能源消费总量比重</td>
+<td>25%</td>
+</tr>
+<tr>
+<td>地级及以上城市PM2.5浓度</td>
+<td>&lt;27微克/立方米</td>
+</tr>
+<tr>
+<td>优良水体比例</td>
+<td>85%</td>
+</tr>
+<tr>
+<td>森林覆盖率</td>
+<td>25.8%</td>
+</tr>
+<tr>
+<td>粮食综合生产能力</td>
+<td>~1.45万亿斤</td>
+</tr>
+<tr>
+<td>能源综合生产能力</td>
+<td>58亿吨标准煤</td>
+</tr>
+</tbody>
+</table>
+<p><strong>12项预期性指标要点</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常住人口城镇化率</td>
+<td>71%</td>
+</tr>
+<tr>
+<td>全社会研发经费投入年均增长</td>
+<td>&gt;7%</td>
+</tr>
+<tr>
+<td>每万人口高价值发明专利拥有量</td>
+<td>&gt;22件</td>
+</tr>
+<tr>
+<td>数字经济核心产业增加值占GDP比重</td>
+<td>12.5%</td>
+</tr>
+<tr>
+<td>城镇调查失业率（年均）</td>
+<td>&lt;5.5%</td>
+</tr>
+<tr>
+<td>居民人均可支配收入增长</td>
+<td>与GDP增长同步</td>
+</tr>
+<tr>
+<td>人均预期寿命</td>
+<td>80岁</td>
+</tr>
+<tr>
+<td>3岁以下婴幼儿入托率</td>
+<td>5年累计提高6个百分点</td>
+</tr>
+<tr>
+<td>养老机构护理型床位占比</td>
+<td>73%</td>
+</tr>
+</tbody>
+</table>
+<h4>新增5个"强国"目标</h4>
+<p>在原有11个基础上，新增<strong>农业强国、金融强国、航天强国、能源强国、旅游强国</strong>，总数达<strong>16个</strong>强国目标。</p>
+<h4>109项重大工程（6个方面）</h4>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>引领新质生产力发展</td>
+<td>28项</td>
+</tr>
+<tr>
+<td>构建现代化基础设施体系</td>
+<td>23项</td>
+</tr>
+<tr>
+<td>促进城乡融合发展</td>
+<td>9项</td>
+</tr>
+<tr>
+<td>保障和改善民生</td>
+<td>25项</td>
+</tr>
+<tr>
+<td>推动绿色低碳转型</td>
+<td>18项</td>
+</tr>
+<tr>
+<td>重点领域安全保障</td>
+<td>6项</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>六、四年政府工作报告纵向对比分析</h2>
+<h3>6.1 核心经济指标逐年对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>2023</th>
+<th>2024</th>
+<th>2025</th>
+<th>2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GDP目标</strong></td>
+<td>5%左右</td>
+<td>5%左右</td>
+<td>5%左右</td>
+<td><strong>4.5%—5%</strong>（区间目标）</td>
+</tr>
+<tr>
+<td><strong>GDP实际</strong></td>
+<td>5.2%</td>
+<td>5.0%</td>
+<td>5.0%</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>CPI目标</strong></td>
+<td>3%左右</td>
+<td>3%左右</td>
+<td>2%左右</td>
+<td>2%左右</td>
+</tr>
+<tr>
+<td><strong>CPI实际</strong></td>
+<td>0.2%</td>
+<td>0.2%</td>
+<td>0%（持平）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>赤字率</strong></td>
+<td>3%</td>
+<td>3%</td>
+<td><strong>4%</strong></td>
+<td>4%</td>
+</tr>
+<tr>
+<td><strong>赤字规模</strong></td>
+<td>—</td>
+<td>4.06万亿</td>
+<td>5.66万亿</td>
+<td>5.89万亿</td>
+</tr>
+<tr>
+<td><strong>专项债</strong></td>
+<td>3.8万亿</td>
+<td>3.9万亿</td>
+<td>4.4万亿</td>
+<td>4.4万亿</td>
+</tr>
+<tr>
+<td><strong>超长期特别国债</strong></td>
+<td>—</td>
+<td>1万亿（首发）</td>
+<td>1.3万亿</td>
+<td>1.3万亿</td>
+</tr>
+<tr>
+<td><strong>特别国债</strong></td>
+<td>—</td>
+<td>—</td>
+<td>5000亿</td>
+<td>3000亿</td>
+</tr>
+<tr>
+<td><strong>一般公共预算支出</strong></td>
+<td>—</td>
+<td>28.5万亿</td>
+<td>29.7万亿</td>
+<td><strong>30万亿</strong>（首破）</td>
+</tr>
+<tr>
+<td><strong>新增就业目标</strong></td>
+<td>1200万左右</td>
+<td>1200万以上</td>
+<td>1200万以上</td>
+<td>1200万以上</td>
+</tr>
+<tr>
+<td><strong>新增就业实际</strong></td>
+<td>1244万</td>
+<td>1256万</td>
+<td>1267万</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>城镇调查失业率目标</strong></td>
+<td>5.5%左右</td>
+<td>5.5%左右</td>
+<td>5.5%左右</td>
+<td>5.5%左右</td>
+</tr>
+<tr>
+<td><strong>城镇调查失业率实际</strong></td>
+<td>5.2%</td>
+<td>5.1%</td>
+<td>5.2%</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>粮食产量目标</strong></td>
+<td>1.3万亿斤</td>
+<td>1.3万亿斤</td>
+<td>1.4万亿斤</td>
+<td>1.4万亿斤</td>
+</tr>
+<tr>
+<td><strong>粮食产量实际</strong></td>
+<td>1.39万亿斤</td>
+<td>1.4万亿斤</td>
+<td>1.43万亿斤</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 政策基调和关键词演变</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>2023</th>
+<th>2024</th>
+<th>2025</th>
+<th>2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>总基调</strong></td>
+<td>稳字当头、稳中求进</td>
+<td>稳中求进、以进促稳、先立后破</td>
+<td>稳中求进、以进促稳，守正创新、先立后破</td>
+<td>稳中求进、以进促稳</td>
+</tr>
+<tr>
+<td><strong>货币政策</strong></td>
+<td>稳健</td>
+<td>稳健</td>
+<td><strong>适度宽松</strong>（14年来首次转向）</td>
+<td>适度宽松</td>
+</tr>
+<tr>
+<td><strong>榜首任务关键词</strong></td>
+<td>扩大内需</td>
+<td><strong>新质生产力</strong></td>
+<td>扩大内需（提振消费）</td>
+<td>强大国内市场</td>
+</tr>
+<tr>
+<td><strong>年度标志性提法</strong></td>
+<td>机构改革</td>
+<td>"人工智能+"、新质生产力</td>
+<td>"内卷式"竞争、育儿补贴</td>
+<td>"十五五"开局、区间增长目标</td>
+</tr>
+<tr>
+<td><strong>年度特殊背景</strong></td>
+<td>换届年</td>
+<td>李强首份报告</td>
+<td>"十四五"收官</td>
+<td>"十五五"开局</td>
+</tr>
+<tr>
+<td><strong>风险防范表述</strong></td>
+<td>防范化解优质头部房企风险</td>
+<td>对不同所有制房企一视同仁</td>
+<td>房地产市场<strong>止跌回稳</strong></td>
+<td>因城施策<strong>控增量、去库存、优供给</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>6.3 趋势分析</h3>
+<p><strong>1. GDP目标：从"点目标"到"区间目标"</strong>
+2023-2025年GDP目标均为"5%左右"，2026年首次设定为"4.5%—5%"区间。这一变化反映：经济增长中枢在"十四五"末至"十五五"初出现结构性下移；同时区间目标给予宏观政策更大灵活性，体现务实态度。</p>
+<p><strong>2. 赤字率：从"3%铁律"到"4%常态化"</strong>
+2023-2024年赤字率维持在3%，2025-2026年跃升至4%。这一突破指向积极财政政策实质性加力，超长期特别国债制度化（连续第三年1.3万亿级别），财政扩张已成新常态。</p>
+<p><strong>3. 物价低迷是贯穿四年的最大挑战</strong>
+2023年CPI 0.2%、2024年0.2%、2025年0%——连续三年物价几乎零增长，供强需弱格局持续。2025年起CPI目标从3%下调至2%，2026年继续维持2%，政策诚意度提高但仍面临较大实现难度。2026年报告首次将<strong>"物价合理回升"与"经济稳定增长"并列</strong>，力度空前。</p>
+<p><strong>4. 新质生产力：从概念到体系</strong>
+2023年：尚未出现→2024年：首次写入并列为第一任务→2025年："因地制宜"发展→2026年：具体化为"五大新兴支柱产业+五大未来产业"，路径越来越清晰。</p>
+<p><strong>5. 人口与生育政策：三年三级跳</strong>
+2024年："一老一小"→2025年：首次提出"发放育儿补贴"→2026年：<strong>"加强初婚初育家庭住房保障"</strong>。政策从应对老龄化逐步转向更为积极的鼓励生育立场。</p>
+<p><strong>6. 房地产：三年政策路径清晰可辨</strong>
+2023年"防范化解优质头部房企风险"→2024年"对不同所有制房企一视同仁"→2025年"止跌回稳"→2026年"控增量、去库存、优供给"九字方针。从被动防风险到主动调结构。</p>
+<p><strong>7. 就业：持续超预期完成</strong>
+四年新增就业均超过目标——1244万→1256万→1267万，就业形势超出预期，是宏观经济中表现最稳定的指标之一。</p>
+<hr />
+<h2>七、考试视角</h2>
+<h3>7.1 与中央全会/党代会的关联</h3>
+<table>
+<thead>
+<tr>
+<th>时间节点</th>
+<th>党的会议</th>
+<th>对两会的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022年10月</td>
+<td>党的二十大</td>
+<td>确立中国式现代化中心任务，2023年两会"开局之年"以此为纲</td>
+</tr>
+<tr>
+<td>2023年2月</td>
+<td>二十届二中全会</td>
+<td>通过《党和国家机构改革方案》，2023年两会落地国务院机构改革</td>
+</tr>
+<tr>
+<td>2024年7月</td>
+<td>二十届三中全会</td>
+<td>通过"进一步全面深化改革、推进中国式现代化"决定，影响此后两年改革部署</td>
+</tr>
+<tr>
+<td>2025年</td>
+<td>二十届五中全会（预期）</td>
+<td>"十五五"规划建议，2026年两会审议通过规划纲要</td>
+</tr>
+</tbody>
+</table>
+<p><strong>制度衔接考点</strong>：二中全会（人事方案）→ 两会（选举通过）→ 三中全会（改革部署）→ 两会（法律转化），这是一条经典的制度程序链条。</p>
+<h3>7.2 申论价值</h3>
+<table>
+<thead>
+<tr>
+<th>主题方向</th>
+<th>可用素材</th>
+<th>适用文种</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新质生产力</td>
+<td>2024年首次写入→2026年细化为五大支柱产业</td>
+<td>议论文、策论文</td>
+</tr>
+<tr>
+<td>扩大内需</td>
+<td>四年数据：CPI持续低迷，政策不断加力（特别国债、以旧换新、促内需基金）</td>
+<td>策论文、综合分析</td>
+</tr>
+<tr>
+<td>民生保障</td>
+<td>"一老一小"→育儿补贴→住房保障，三级跳政策演变</td>
+<td>议论文、公文写作</td>
+</tr>
+<tr>
+<td>全国统一大市场</td>
+<td>2024年起每年必提，2025年新增"内卷式竞争"整治</td>
+<td>策论文</td>
+</tr>
+<tr>
+<td>民营经济</td>
+<td>2024年"两个毫不动摇"配套举措→2026年民营经济促进法</td>
+<td>议论文</td>
+</tr>
+<tr>
+<td>绿色转型</td>
+<td>碳达峰碳中和→零碳园区→国家低碳转型基金</td>
+<td>议论文</td>
+</tr>
+<tr>
+<td>乡村振兴</td>
+<td>粮食安全、土地承包延期30年、千万工程</td>
+<td>策论文、应用文</td>
+</tr>
+</tbody>
+</table>
+<p><strong>申论规范表达积累</strong>：
+- "把恢复和扩大消费摆在优先位置"
+- "因地制宜发展新质生产力"
+- "先立后破" vs "先破后立"
+- "打通束缚新质生产力发展的堵点卡点"
+- "因城施策控增量、去库存、优供给"
+- "织密扎牢社会保障网"
+- "把顶层设计和问计于民统一起来"</p>
+<h3>7.3 行测常识考点</h3>
+<p><strong>高频考点预测</strong>：</p>
+<ol>
+<li><strong>两会基本制度</strong></li>
+<li>人大与政协的区别（权力的有无、选举vs协商、议案vs提案、审议vs讨论）</li>
+<li>政协34个界别</li>
+<li>两会每年3月召开的惯例（1985年起固定）</li>
+<li>政协先于人大1-2天开幕</li>
+<li>
+<p>人大是国家最高权力机关，不是"立法机关"（中国不搞三权分立，人大是最高权力机关，兼具立法权）</p>
+</li>
+<li>
+<p><strong>制度衔接</strong></p>
+</li>
+<li>党代会（5年一次）→ 中央全会（每年至少1次）→ 两会（每年3月）</li>
+<li>二中全会为两会准备国家机构人选</li>
+<li>三中全会通常聚焦经济改革</li>
+<li>
+<p>五年规划建议由中央全会提出 → 规划纲要由两会批准</p>
+</li>
+<li>
+<p><strong>关键数字</strong></p>
+</li>
+<li>2026年GDP目标：4.5%—5%（区间目标）</li>
+<li>赤字率：4%左右</li>
+<li>"十五五"规划纲要：18篇、62章、171节，20项主要指标</li>
+<li>中央国家机关编制精减5%</li>
+<li>"十五五"研发经费年均增长&gt;7%</li>
+<li>"十五五"数字经济核心产业增加值占GDP 12.5%</li>
+<li>
+<p>粮食综合生产能力目标：~1.45万亿斤</p>
+</li>
+<li>
+<p><strong>重要概念辨析</strong></p>
+</li>
+<li>"新质生产力"：2024年首次写入政府工作报告</li>
+<li>"人工智能+"：2024年首次提出</li>
+<li>"适度宽松"货币政策：2025年首次回归（上一次是2008-2010年）</li>
+<li>政协不决策、不立法——只是协商机构</li>
+<li>"议案"vs"提案"：人大代表提"议案"，政协委员提"提案"</li>
+</ol>
+<h3>7.4 面试模拟题</h3>
+<p><strong>模拟题一：综合分析类</strong></p>
+<blockquote>
+<p>2024年政府工作报告首次将"新质生产力"列为首要任务，并提出开展"人工智能+"行动。2026年"十五五"规划进一步将"人工智能+"上升为"全面实施"。请谈谈你对这一政策演变的理解。</p>
+</blockquote>
+<p><strong>答题要点</strong>：
+1. 定位：新质生产力是高质量发展的核心驱动力，是应对新一轮科技革命和产业变革的战略选择。
+2. 演变逻辑：2024年"首次写入+列为首位"（破题）→2025年"因地制宜"（纠偏、防一哄而上）→2026年"五大产业+五大未来产业"（细化落地），体现政策从理念到执行的递进。
+3. 辩证分析：既要看到发展新质生产力的紧迫性（国际竞争、产业升级），也要关注"因地制宜"背后的深意——防止盲目投资、重复建设，防止"内卷式竞争"。
+4. 延伸：科技创新、教育科技人才一体化、数字经济与实体经济融合。
+5. 总结升华：以新质生产力推动中国式现代化，实现从"量的积累"到"质的飞跃"。</p>
+<p><strong>模拟题二：应急应变/组织计划类</strong></p>
+<blockquote>
+<p>假如你是某市发改委工作人员，2026年政府工作报告提出"因城施策控增量、去库存、优供给"，同时要"加强初婚初育家庭住房保障"。领导要求你起草本市落实方案，你会从哪些方面入手？</p>
+</blockquote>
+<p><strong>答题要点</strong>：
+1. <strong>摸清底数</strong>：调研本市商品房库存量、去化周期、常住人口住房需求（特别是初婚初育家庭数量及住房条件）。
+2. <strong>控增量</strong>：合理控制新增住宅用地供应节奏，根据去化周期动态调整出让计划。
+3. <strong>去库存</strong>：探索政府收储存量商品房用于保障性住房；鼓励"以旧换新"；优化限购限售政策。
+4. <strong>优供给</strong>：增加中小户型、保障性住房供给；提升住房品质（绿色、智能、适老化）。
+5. <strong>初婚初育家庭专项</strong>：设立购房补贴或贷款利率优惠；优先配售保障性住房；探索"共有产权"模式降低门槛。
+6. <strong>配套措施</strong>：同步考虑教育、医疗、托幼等公共服务配套，让"住有所居"有更强的幸福感。
+7. <strong>防范风险</strong>：注意不引发新的房地产泡沫，确保财政可持续。</p>
+<hr />
+<h2>八、来源汇总</h2>
+<ul>
+<li><a href="http://lianghui.people.com.cn/2023/GB/454159/index.html">人民网 · 2023全国两会专题 — 政府工作报告学习工具</a></li>
+<li><a href="http://www.xinhuanet.com/fortune/20240117/94bfee6ffd4c4c5487478658ec5d156d/c.html">新华网 · 2023年GDP增长5.2%</a></li>
+<li><a href="http://www.news.cn/fortune/20241227/aba4de9b9eb242a298b14b2500fca9ed/c.html">国家统计局 · 2023年GDP最终核实数据修订</a></li>
+<li><a href="https://scopsr.gov.cn/zlzx/rdh/14renda/14yici/202303/t20230315_386177.html">中国机构编制网 · 2023年国务院机构改革方案说明</a></li>
+<li><a href="http://www.jjckb.cn/2024-03/12/c_1310767423.htm">经济参考报 · 2024年政府工作报告全文</a></li>
+<li><a href="http://news.youth.cn/sz/202503/t20250305_15862901.htm">中国青年网 · 2025年十大重点任务</a></li>
+<li><a href="https://epaper.tianjinwe.com/tjrb/html/2025-03/06/content_143082_1919459.htm">天津日报 · 为实现"十五五"良好开局打牢基础</a></li>
+<li><a href="https://www.oushinet.com/static/content/china/chinanews/2026-03-05/1479140150155031665.html">欧洲时报 · 李强作政府工作报告介绍2026年十大任务</a></li>
+<li><a href="https://global.hk01.com/即時中國/60327574/兩會-一文看極簡版政府工作報告-2026年有十大工作任務">香港01 · 2026年政府工作报告极简版</a></li>
+<li><a href="http://www.china.org.cn/2026-05/07/content_118435689.shtml">中国网 · 2026年国民经济和社会发展计划报告全文</a></li>
+<li><a href="http://gaj.pds.gov.cn/contents/18840/744885.html">中国政府网 · 2026年政府工作报告</a></li>
+<li><a href="https://zijing.com.cn/web/article/1482142236751269888/web/content_1482142236751269888.html">紫荆杂志 · 2026年政府工作报告发布</a></li>
+<li><a href="https://www.jwview.com/jingwei/kb/m/03-05/229943.shtml">新华社 · 2025年GDP增长5%</a></li>
+<li><a href="https://app.hppc.gov.cn/llyj/2044315388627853313.html">河北省人大常委会 · 王润涛"两会"机制解读</a></li>
+<li><a href="https://www.beijing.gov.cn/ywdt/zwzt/bz2026qglh/tslh/202603/t20260303_4548734.html">北京市政府 · 一图读懂全国两会知识点</a></li>
+<li><a href="https://www.hqwx.com/gjgwy-kaoshi/news/17766652064310.html">国家公务员考试网 · 两会重点+一号文件核心考点</a></li>
+<li><a href="https://www.stheadline.com/zh-hans/realtime-china/3153916/二十大冷知识全国党代会中央全会全国两会有甚么分别">星岛头条 · 全国党代会、中央全会、全国两会有何分别</a></li>
+<li><a href="http://big5.china.com.cn/gate/big5/news.china.com.cn/2026-03/20/content_118392752.shtml">中国网 · 党的二十届四中全会到2026年全国两会</a></li>
+<li><a href="https://ecpinew.ggj.gov.cn/ztzl/2026lh/lhjs/202603/t20260309_49159.htm">国管局 · "十五五"规划纲要草案新指标新看点</a></li>
+<li><a href="http://www.xn--fiq7vggk68aq1fe49byv8a.xn--zfr164b/n1/2026/0313/c461855-40681718.html">新华社受权播发"十五五"规划纲要</a></li>
+<li><a href="http://big5.cctv.com/gate/big5/news.cctv.com/2026/03/05/ARTIlxq4ef75sNboSeu5OEvr260305.shtml">央视新闻 · "十五五"规划纲要草案20项主要指标</a></li>
+<li><a href="https://www.21jingji.com/article/20260305/herald/b7a294bf8aacb003cae8d45a5f2ea739.html">21世纪经济报道 · 2%物价目标背后的政策逻辑</a></li>
+<li><a href="https://henanrd.gov.cn/2025/03-05/215622.html">河南省人大 · 2024年经济社会发展主要目标任务顺利完成</a></li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>使用建议</strong>：本文档建议配合 <code>01-党代会与中央全会.md</code> 交叉阅读，把握"党定方向→两会法定化"的完整制度逻辑。纵向对比表（第六章）是申论和面试备考的核心素材，建议熟记。</p>
+</blockquote>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f04">
+    <div class="content-header">
+      <h2>04 · 经济工作</h2>
+      <h3>中央经济工作会议（2022-2025）</h3>
+      <button class="collapse-btn" onclick="toggleContent('f04')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f04">
+      <h1>中央经济工作会议（2022-2025）</h1>
+<blockquote>
+<p>时间：每年12月 | 参会：政治局常委/委员，各省区市党委书记，中央各部委主要负责人
+职能：定调次年经济工作总基调，部署重点任务
+考试重要度：★★★★★ / 覆盖：申论 · 面试 · 行测常识
+整理日期：2026-05-10</p>
+</blockquote>
+<hr />
+<h2>一、制度定位</h2>
+<ul>
+<li><strong>性质</strong>：中共中央、国务院召开的规格最高的年度经济会议，属于党中央工作会议范畴，是判断当前经济形势和定调次年宏观经济政策的<strong>最重要年度会议</strong>。</li>
+<li><strong>制度渊源</strong>：自1994年起每年举行一次，一般于<strong>12月</strong>在北京召开，会期2-3天。</li>
+<li><strong>参与者</strong>：</li>
+<li>中共中央总书记（发表重要讲话）、全体政治局常委</li>
+<li>政治局委员、中央书记处书记、中央军委副主席</li>
+<li>全国人大常委会有关领导、国务委员、最高法院长、最高检检察长、全国政协有关领导</li>
+<li>各省、自治区、直辖市和计划单列市、新疆生产建设兵团<strong>党政主要负责同志</strong>（书记和省长/市长/主席）</li>
+<li>中央和国家机关有关部门、有关人民团体、中央管理的部分金融机构和企业、中央军委机关各部门主要负责同志</li>
+<li><strong>核心产出</strong>：经济工作总基调（"稳中求进"等）+ 重点任务部署 + 宏观调控政策取向（财政/货币政策定调）</li>
+<li><strong>功能</strong>：总结当年经济工作，研判国内外经济形势，确定来年宏观经济政策总基调和重点任务，从<strong>中长期视角</strong>谋划经济发展路径。</li>
+</ul>
+<h3>三会"流水线"关系</h3>
+<pre><code>中央经济工作会议（每年12月，年度总定调+大方向）
+        ↓
+两会上《政府工作报告》（次年3月，法律转化+量化目标+具体措施）
+        ↓
+中央政治局季度会议（4月/7月/10月/12月，过程监控+微调纠偏）
+        ↓
+国务院常务会议（每月2-3次，日常执行落实）
+</code></pre>
+<ul>
+<li><strong>中央经济工作会议</strong>：党中央层面的战略决策——"明年经济工作怎么干"</li>
+<li><strong>两会政府工作报告</strong>：将党的意志通过法定程序转化为国家目标——GDP增速、CPI、赤字率等量化指标</li>
+<li><strong>政治局季度会议</strong>：监控执行进度，根据形势变化微调政策发力方向</li>
+<li><strong>国务院常务会议</strong>：将决策部署转化为具体政策措施的日常高频平台（总理主持，固定参加仅10人）</li>
+</ul>
+<hr />
+<h2>二、2022年中央经济工作会议（2022年12月15-16日）</h2>
+<blockquote>
+<p>部署2023年经济工作 | 北京</p>
+</blockquote>
+<h3>2.1 经济形势判断</h3>
+<ul>
+<li><strong>三重压力</strong>仍然较大："需求收缩、供给冲击、预期转弱"</li>
+<li>外部环境动荡不安，给我国经济带来的影响加深</li>
+<li>强调"从改善社会心理预期、提振发展信心入手"</li>
+</ul>
+<h3>2.2 总基调与关键词</h3>
+<p><strong>总基调：稳字当头、稳中求进</strong></p>
+<ul>
+<li>突出"三稳"：<strong>稳增长、稳就业、稳物价</strong>（稳增长居首位，释放强烈信号）</li>
+<li>推动经济运行<strong>整体好转</strong>，实现<strong>质的有效提升和量的合理增长</strong></li>
+<li>加大宏观政策调控力度，加强各类政策协调配合，形成共促高质量发展合力</li>
+</ul>
+<h3>2.3 六个"更好统筹"（首次提出）</h3>
+<ol>
+<li>更好统筹<strong>疫情防控和经济社会发展</strong>（背景：疫情防控转段前夕）</li>
+<li>更好统筹<strong>经济质的有效提升和量的合理增长</strong></li>
+<li>更好统筹<strong>供给侧结构性改革和扩大内需</strong></li>
+<li>更好统筹<strong>经济政策和其他政策</strong></li>
+<li>更好统筹<strong>国内循环和国际循环</strong></li>
+<li>更好统筹<strong>当前和长远</strong></li>
+</ol>
+<h3>2.4 五大政策部署</h3>
+<table>
+<thead>
+<tr>
+<th>政策领域</th>
+<th>核心定调</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>财政政策</strong></td>
+<td>积极的财政政策<strong>加力提效</strong></td>
+<td>保持必要财政支出强度；优化组合赤字、专项债、贴息等工具；保障财政可持续和地方政府债务风险可控</td>
+</tr>
+<tr>
+<td><strong>货币政策</strong></td>
+<td>稳健的货币政策<strong>精准有力</strong></td>
+<td>保持流动性合理充裕；引导金融机构加大对小微企业、科技创新、绿色发展支持力度</td>
+</tr>
+<tr>
+<td><strong>产业政策</strong></td>
+<td><strong>发展和安全并举</strong></td>
+<td>狠抓传统产业改造升级和战略性新兴产业培育壮大；推动"科技－产业－金融"良性循环</td>
+</tr>
+<tr>
+<td><strong>科技政策</strong></td>
+<td><strong>聚焦自立自强</strong></td>
+<td>有力统筹教育、科技、人才工作；完善新型举国体制；发挥好政府在关键核心技术攻关中的组织作用</td>
+</tr>
+<tr>
+<td><strong>社会政策</strong></td>
+<td><strong>兜牢民生底线</strong></td>
+<td>落实落细就业优先政策；把促进青年特别是高校毕业生就业摆在更加突出位置；完善生育支持政策体系</td>
+</tr>
+</tbody>
+</table>
+<h3>2.5 五方面重点工作</h3>
+<ol>
+<li><strong>着力扩大国内需求</strong>——把<strong>恢复和扩大消费摆在优先位置</strong>；多渠道增加城乡居民收入；支持住房改善、新能源汽车、养老服务等消费</li>
+<li><strong>加快建设现代化产业体系</strong>——集中攻关制造业重点产业链；加快新能源、人工智能、生物制造、绿色低碳、量子计算等前沿技术研发和推广应用；大力发展数字经济</li>
+<li><strong>切实落实"两个毫不动摇"</strong>——针对社会上不正确议论"必须亮明态度，毫不含糊"；从制度和法律上落实国企民企平等对待；<strong>支持平台企业在引领发展、创造就业、国际竞争中大显身手</strong>（重大政策转向信号）</li>
+<li><strong>更大力度吸引和利用外资</strong>——扩大市场准入；落实外资企业国民待遇；积极推动加入CPTPP和DEPA等高标准经贸协议</li>
+<li><strong>有效防范化解重大经济金融风险</strong>——确保房地产市场平稳发展；扎实做好"保交楼、保民生、保稳定"；坚持"房住不炒"定位，推动房地产业向新发展模式平稳过渡</li>
+</ol>
+<hr />
+<h2>三、2023年中央经济工作会议（2023年12月11-12日）</h2>
+<blockquote>
+<p>部署2024年经济工作 | 北京</p>
+</blockquote>
+<h3>3.1 经济形势判断</h3>
+<ul>
+<li>经济恢复呈现<strong>"波浪式发展、曲折式前进"</strong></li>
+<li>面临的困难：有效需求不足、部分行业产能过剩、社会预期偏弱、风险隐患仍然较多</li>
+<li>外部环境的复杂性、严峻性、不确定性上升</li>
+</ul>
+<h3>3.2 总基调：稳中求进、以进促稳、先立后破（12字）</h3>
+<blockquote>
+<p><strong>这是中央经济工作会议基调的重大创新。</strong></p>
+</blockquote>
+<ul>
+<li><strong>"稳中求进"</strong>：一以贯之的总基调</li>
+<li><strong>"以进促稳"</strong>：首次上升到宏观调控基调层面，是中国特色宏观经济治理的重大创新——从更强调"稳"到更强调<strong>"进"和"立"</strong></li>
+<li><strong>"先立后破"</strong>：方法论——先做加法、后做减法，避免"运动式"推进工作（对应2021年"运动式减碳"的教训总结）</li>
+<li>多出有利于稳预期、稳增长、稳就业的政策，在转方式、调结构、提质量、增效益上积极进取</li>
+<li><strong>新提法</strong>：把非经济性政策纳入宏观政策取向一致性评估</li>
+</ul>
+<hr />
+<h3>3.3 ★★★ 首次提出"新质生产力"（重大转折点）</h3>
+<blockquote>
+<p>2023年9月，习近平总书记在黑龙江考察期间<strong>首次提出</strong>"新质生产力"概念。此次中央经济工作会议将<strong>"以科技创新引领现代化产业体系建设"</strong>列为2024年九项重点任务<strong>之首</strong>（扩大内需退居次席），标志着经济发展动力的重大战略转换。</p>
+</blockquote>
+<h4>新质生产力的核心内涵（中央财办权威解读）</h4>
+<blockquote>
+<p><strong>新质生产力是由技术革命性突破、生产要素创新性配置、产业深度转型升级而催生的当代先进生产力，以劳动者、劳动资料、劳动对象及其优化组合的质变为基本内涵，以全要素生产率提升为核心标志。</strong></p>
+</blockquote>
+<ul>
+<li><strong>"新"</strong>：以颠覆性技术和前沿技术为基础，催生新产业、新模式、新动能，告别跟随式创新和简单模仿</li>
+<li><strong>"质"</strong>：突破关键核心技术，以创新的确定性应对未来的不确定性，不再追求数量堆积</li>
+<li><strong>本质是创新驱动</strong>，科技创新在其中起主导作用</li>
+<li><strong>主要载体</strong>：战略性新兴产业和未来产业</li>
+</ul>
+<h4>如何发展新质生产力</h4>
+<ol>
+<li>以<strong>颠覆性技术和前沿技术</strong>催生新产业、新模式、新动能</li>
+<li>完善新型举国体制，实施制造业重点产业链高质量发展行动</li>
+<li>打造<strong>生物制造、商业航天、低空经济</strong>等战略性新兴产业</li>
+<li>开辟<strong>量子信息、生命科学</strong>等未来产业新赛道</li>
+<li>加快推动<strong>人工智能</strong>发展，大力发展<strong>数字经济</strong></li>
+<li>鼓励发展创业投资、股权投资，打通"科技—产业—金融"链条</li>
+</ol>
+<h3>3.4 宏观政策</h3>
+<table>
+<thead>
+<tr>
+<th>政策</th>
+<th>定调</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>财政政策</strong></td>
+<td>积极的财政政策<strong>适度加力、提质增效</strong></td>
+<td>用好财政政策空间；合理扩大地方政府专项债券用作资本金范围</td>
+</tr>
+<tr>
+<td><strong>货币政策</strong></td>
+<td>稳健的货币政策<strong>灵活适度、精准有效</strong></td>
+<td>保持流动性合理充裕；促进社会综合融资成本稳中有降</td>
+</tr>
+</tbody>
+</table>
+<h3>3.5 九大重点任务（2024年）</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>任务</th>
+<th>关键表述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>以科技创新引领现代化产业体系建设</strong></td>
+<td>发展新质生产力（排第一，首次超越扩大内需）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>着力扩大国内需求</td>
+<td>激发有潜能的消费，扩大有效益的投资</td>
+</tr>
+<tr>
+<td>3</td>
+<td>深化重点领域改革</td>
+<td>国企改革深化提升行动、促进民营企业发展壮大</td>
+</tr>
+<tr>
+<td>4</td>
+<td>扩大高水平对外开放</td>
+<td>拓展中间品贸易、服务贸易、数字贸易</td>
+</tr>
+<tr>
+<td>5</td>
+<td>持续有效防范化解重点领域风险</td>
+<td>房地产、地方债务、中小金融机构</td>
+</tr>
+<tr>
+<td>6</td>
+<td>坚持不懈抓好"三农"工作</td>
+<td>确保国家粮食安全</td>
+</tr>
+<tr>
+<td>7</td>
+<td>推动城乡融合、区域协调发展</td>
+<td>新型城镇化+乡村振兴</td>
+</tr>
+<tr>
+<td>8</td>
+<td>深入推进生态文明建设和绿色低碳发展</td>
+<td>建设美丽中国先行区</td>
+</tr>
+<tr>
+<td>9</td>
+<td>切实保障和改善民生</td>
+<td>更加突出就业优先导向</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>四、2024年中央经济工作会议（2024年12月11-12日）</h2>
+<blockquote>
+<p>部署2025年经济工作 | 北京京西宾馆</p>
+</blockquote>
+<h3>4.1 2024年经济形势回顾</h3>
+<ul>
+<li><strong>总体判断</strong>："经济运行总体平稳、稳中有进，高质量发展扎实推进，经济社会发展主要目标任务即将顺利完成"</li>
+<li>GDP预计增长5%左右，总量超134万亿元</li>
+<li>全年呈"前高、中低、后扬"态势（Q1: 5.3% → Q2: 4.7% → Q3: 4.6% → Q4: 5.4%）</li>
+<li>9月26日政治局会议果断部署一揽子增量政策后，四季度经济明显回升</li>
+<li>新质生产力稳步发展：高技术制造业增加值增长9.0%，新能源汽车年产销首次突破1000万辆</li>
+<li><strong>主要问题</strong>：国内需求不足、部分企业生产经营困难、群众就业增收面临压力、风险隐患仍然较多</li>
+</ul>
+<h3>4.2 总基调与关键词</h3>
+<p><strong>总基调（24字）：稳中求进、以进促稳，守正创新、先立后破，系统集成、协同配合</strong></p>
+<p>相比于2023年的12字方针，"守正创新""系统集成""协同配合"首次同时出现在主基调中——政策工具箱更丰富，政策协调更强调"系统集成"。</p>
+<h3>4.3 "五个必须统筹"——经济工作的规律性认识</h3>
+<ol>
+<li><strong>必须统筹好有效市场和有为政府的关系</strong>，形成既"放得活"又"管得住"的经济秩序</li>
+<li><strong>必须统筹好总供给和总需求的关系</strong>，畅通国民经济循环</li>
+<li><strong>必须统筹好培育新动能和更新旧动能的关系</strong>，因地制宜发展新质生产力</li>
+<li><strong>必须统筹好做优增量和盘活存量的关系</strong>，全面提高资源配置效率</li>
+<li><strong>必须统筹好提升质量和做大总量的关系</strong>，夯实中国式现代化的物质基础</li>
+</ol>
+<h3>4.4 ★★★ 宏观政策两大转向（重大变化）</h3>
+<table>
+<thead>
+<tr>
+<th>政策</th>
+<th>新定位</th>
+<th>要点</th>
+<th>历史意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>财政政策</strong></td>
+<td><strong>更加积极</strong></td>
+<td>提高财政赤字率、增加超长期特别国债和地方政府专项债券发行、加大支出强度</td>
+<td>首次明确提出"提高财政赤字率"</td>
+</tr>
+<tr>
+<td><strong>货币政策</strong></td>
+<td><strong>适度宽松</strong></td>
+<td>适时降准降息、保持流动性充裕、创新金融工具维护金融市场稳定</td>
+<td><strong>14年来首次</strong>从"稳健"转向"适度宽松"（上次提"适度宽松"是2008-2010年金融危机期间）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>货币与财政首次形成<strong>"双扩张"</strong>组合，标志着宏观政策思路的重大转变。</p>
+</blockquote>
+<h3>4.5 九大重点任务（2025年）</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>任务</th>
+<th>关键表述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>大力提振消费、提高投资效益，全方位扩大国内需求</strong></td>
+<td>重回首位</td>
+</tr>
+<tr>
+<td>2</td>
+<td>以科技创新引领新质生产力发展，建设现代化产业体系</td>
+<td>开展"人工智能+"行动，整治"内卷式"竞争</td>
+</tr>
+<tr>
+<td>3</td>
+<td>发挥经济体制改革牵引作用</td>
+<td>建设全国统一大市场、出台民营经济促进法</td>
+</tr>
+<tr>
+<td>4</td>
+<td>扩大高水平对外开放</td>
+<td>稳外贸、稳外资</td>
+</tr>
+<tr>
+<td>5</td>
+<td>有效防范化解重点领域风险</td>
+<td><strong>房地产市场止跌回稳</strong>、化解地方债务</td>
+</tr>
+<tr>
+<td>6</td>
+<td>统筹推进新型城镇化和乡村全面振兴</td>
+<td>—</td>
+</tr>
+<tr>
+<td>7</td>
+<td>加大区域战略实施力度</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td>协同推进降碳减污扩绿增长</td>
+<td>—</td>
+</tr>
+<tr>
+<td>9</td>
+<td>加大保障和改善民生力度</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>五、2025年中央经济工作会议（2025年12月10-11日）</h2>
+<blockquote>
+<p>部署2026年经济工作 | 北京 | <strong>"十五五"开局之年定调</strong></p>
+</blockquote>
+<h3>5.1 时代背景</h3>
+<ul>
+<li>2025年是 <strong>"十四五"规划收官之年</strong>，主要目标将顺利完成</li>
+<li>2026年是 <strong>"十五五"开局之年</strong>，会议核心任务是"以高质量发展为'十五五'开好局"</li>
+<li>预计2025年全年GDP增长5%左右，经济总量有望达140万亿元左右</li>
+</ul>
+<h3>5.2 总基调</h3>
+<p><strong>总基调：稳中求进、提质增效</strong></p>
+<ul>
+<li><strong>财政政策</strong>：继续实施<strong>更加积极的财政政策</strong>，保持必要的财政赤字、债务总规模和支出总量</li>
+<li><strong>货币政策</strong>：继续实施<strong>适度宽松的货币政策</strong>（延续2024年确立的方向），灵活高效运用降准降息等工具</li>
+<li>加大<strong>逆周期和跨周期调节</strong>力度，增强宏观政策取向一致性和有效性</li>
+</ul>
+<h3>5.3 新形势下"五个必须"</h3>
+<ol>
+<li>必须充分挖掘经济潜能</li>
+<li>必须坚持政策支持和改革创新并举</li>
+<li>必须做到既"放得活"又"管得好"</li>
+<li>必须坚持投资于物和投资于人紧密结合</li>
+<li>必须以苦练内功来应对外部挑战</li>
+</ol>
+<h3>5.4 八项重点任务（"八个坚持"）</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>重点任务</th>
+<th>核心内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>坚持内需主导，建设强大国内市场</strong></td>
+<td>提振消费专项行动；推动投资止跌回稳；优化"两新""两重"政策</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>坚持创新驱动，加紧培育壮大新动能</strong></td>
+<td>全面实施"人工智能+"行动；建设京津冀、长三角、粤港澳三大国际科创中心；推进教育科技人才一体化</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>坚持改革攻坚，增强高质量发展动力活力</strong></td>
+<td>制定全国统一大市场建设条例；深入整治"内卷式"竞争；完善民营经济促进法配套法规</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>坚持对外开放，推动多领域合作共赢</strong></td>
+<td>有序扩大服务领域自主开放；优化自贸试验区布局；推动商签更多贸易投资协定</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>坚持协调发展，促进城乡融合和区域联动</strong></td>
+<td>支持经济大省挑大梁；推动县域经济高质量发展</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>坚持"双碳"引领，推动全面绿色转型</strong></td>
+<td>制定能源强国建设规划纲要；加快新型能源体系建设</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>坚持民生为大，努力为人民多办实事</strong></td>
+<td>稳定高校毕业生（2026届1270万人）、农民工等重点群体就业；增加普通高中学位供给和优质高校本科招生</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>坚持守牢底线，积极稳妥化解重点领域风险</strong></td>
+<td>着力稳定房地产市场（因城施策控增量、去库存、优供给）；有序化解地方债</td>
+</tr>
+</tbody>
+</table>
+<h3>5.5 "十五五"的战略关联</h3>
+<ul>
+<li><strong>"十五五"时期定位</strong>：在基本实现社会主义现代化进程中具有<strong>承前启后</strong>的重要地位</li>
+<li><strong>2035年远景目标</strong>：人均GDP达到中等发达国家水平，要求2020-2035年年均增速保持<strong>约4.73%</strong></li>
+<li><strong>关键判断</strong>：考虑到经济潜在产出水平可能持续回落，"十五五"时期应争取更快增长，为2035年远景目标预留弹性空间</li>
+<li>多部委已分别召开会议，围绕扩消费、强科创、稳就业、防风险、促开放等方面制定落实方案</li>
+</ul>
+<hr />
+<h2>六、历年对比</h2>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>2022（部署2023）</th>
+<th>2023（部署2024）</th>
+<th>2024（部署2025）</th>
+<th>2025（部署2026）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>会议时间</strong></td>
+<td>12月15-16日</td>
+<td>12月11-12日</td>
+<td>12月11-12日</td>
+<td>12月10-11日</td>
+</tr>
+<tr>
+<td><strong>总基调</strong></td>
+<td>稳字当头、稳中求进</td>
+<td>稳中求进、以进促稳、先立后破</td>
+<td>稳中求进、以进促稳，守正创新、先立后破，系统集成、协同配合（24字）</td>
+<td>稳中求进、提质增效</td>
+</tr>
+<tr>
+<td><strong>核心关键词</strong></td>
+<td>三稳、提振信心、六个统筹</td>
+<td><strong>新质生产力</strong>（首次）、以进促稳、先立后破</td>
+<td>五个必须统筹、双扩张、适度宽松</td>
+<td>十五五开局、八个坚持、苦练内功</td>
+</tr>
+<tr>
+<td><strong>财政政策</strong></td>
+<td>积极+加力提效</td>
+<td>积极+适度加力、提质增效</td>
+<td><strong>更加积极</strong>（提高赤字率）</td>
+<td>更加积极（延续）</td>
+</tr>
+<tr>
+<td><strong>货币政策</strong></td>
+<td>稳健+精准有力</td>
+<td>稳健+灵活适度、精准有效</td>
+<td><strong>适度宽松</strong>（14年来首次）</td>
+<td>适度宽松（延续）</td>
+</tr>
+<tr>
+<td><strong>第一大任务</strong></td>
+<td>扩大内需</td>
+<td><strong>科技创新/新质生产力</strong>（首次替代内需）</td>
+<td><strong>扩大内需</strong>（重回首位）</td>
+<td><strong>内需主导</strong>（坚持首位）</td>
+</tr>
+<tr>
+<td><strong>标志性创新</strong></td>
+<td>六个统筹、支持平台经济</td>
+<td><strong>新质生产力</strong>概念入会、12字方针</td>
+<td>24字方针、货币财政双扩张</td>
+<td>十五五起手布局、五个必须</td>
+</tr>
+</tbody>
+</table>
+<h3>基调演变趋势分析</h3>
+<pre><code>2021: 稳字当头、稳中求进
+        ↓
+2022: 稳字当头、稳中求进（强调&quot;三稳&quot;，应对外部冲击+疫情拖尾）
+        ↓
+2023: 稳中求进、以进促稳、先立后破（首次从&quot;稳&quot;偏向&quot;进&quot;和&quot;立&quot;，方法论突破）
+        ↓
+2024: 24字方针，守正创新+系统集成+协同配合，货币财政双扩张（更加自信积极）
+        ↓
+2025: 稳中求进、提质增效，为十五五开好局（战略布局转向长远发展）
+</code></pre>
+<p><strong>核心趋势</strong>：从被动应对到主动布局、从"保稳"到"求进"、从短期对冲到中长期谋划。</p>
+<hr />
+<h2>七、考试视角</h2>
+<h3>7.1 三会"流水线"关系（申论写作框架）</h3>
+<pre><code>中央经济工作会议（每年12月）
+  └─ 定大方向：总基调 + 政策取向 + 重点任务
+        ↓
+两会《政府工作报告》（次年3月）
+  └─ 量化落地：GDP目标、CPI目标、赤字率、专项债额度等
+        ↓
+中央政治局季度会议（4月/7月/10月/12月）
+  └─ 过程监控：根据数据调整政策力度和节奏
+        ↓
+国务院常务会议（每月2-3次）
+  └─ 日常执行：具体政策措施出台
+</code></pre>
+<p><strong>申论应用</strong>：写"政策部署"类文章时，可用此框架说明政策从"定调"到"落地"到"纠偏"的逻辑链条。</p>
+<h3>7.2 申论价值</h3>
+<ul>
+<li><strong>每年总基调是理解全年经济政策的"钥匙"</strong>：从2022年的"稳字当头"到2023年的"以进促稳、先立后破"再到2024年的"守正创新、系统集成"，每一步变化都对应着经济形势和政策思路的转变</li>
+<li><strong>"稳中求进"的演变</strong>：从4字→12字→24字→"提质增效"，折射出中国宏观调控方法论从"保底线"到"求进取"到"系统协调"的演进</li>
+<li><strong>新质生产力是2024-2026年的核心主线</strong>：无论申论大作文还是面试，围绕"新质生产力"出题的概率极高</li>
+<li><strong>"先立后破"是重要方法论</strong>：可应用于产业升级、能源转型、房地产转型等多个话题</li>
+</ul>
+<h3>7.3 行测常识考点</h3>
+<table>
+<thead>
+<tr>
+<th>考点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中央经济工作会议召开时间</td>
+<td>每年12月（通常中旬）</td>
+</tr>
+<tr>
+<td>政治局会议讨论经济的月份</td>
+<td>4月、7月、10月、12月（7月最关键："年中定调"）</td>
+</tr>
+<tr>
+<td>"两个毫不动摇"</td>
+<td>毫不动摇巩固和发展公有制经济，毫不动摇鼓励、支持、引导非公有制经济发展</td>
+</tr>
+<tr>
+<td>"两新""两重"</td>
+<td>两新：大规模设备更新和消费品以旧换新；两重：国家重大战略实施和重点领域安全能力建设</td>
+</tr>
+<tr>
+<td>"四稳"</td>
+<td>稳就业、稳企业、稳市场、稳预期（2025年4月首次提出）</td>
+</tr>
+<tr>
+<td>新质生产力首次提出时间</td>
+<td>2023年9月（黑龙江考察），2023年12月首次写入中央经济工作会议</td>
+</tr>
+<tr>
+<td>货币政策"适度宽松"</td>
+<td>2024年12月定调，14年来首次（上次是2008-2010年）</td>
+</tr>
+<tr>
+<td>财政政策"更加积极"</td>
+<td>2024年12月首次明确提出"提高财政赤字率"</td>
+</tr>
+<tr>
+<td>"人工智能+"行动</td>
+<td>2024年中央经济工作会议首次提出</td>
+</tr>
+<tr>
+<td>"反内卷"在政治局会议首次出现</td>
+<td>2025年7月政治局会议（"依法依规治理企业无序竞争"）</td>
+</tr>
+<tr>
+<td>六张"网"</td>
+<td>水网、新型电网、算力网、新一代通信网、城市地下管网、物流网（2026年4月政治局会议）</td>
+</tr>
+<tr>
+<td>"十五五"起止年份</td>
+<td>2026-2030年</td>
+</tr>
+</tbody>
+</table>
+<h3>7.4 面试模拟题</h3>
+<h4>题一：综合分析类</h4>
+<blockquote>
+<p>2023年中央经济工作会议提出"稳中求进、以进促稳、先立后破"的12字方针，从之前的"稳字当头"转向更强调"进"和"立"。请谈谈你对这一转变的理解。</p>
+</blockquote>
+<p><strong>答题要点</strong>：
+1. <strong>背景分析</strong>：这一转变基于2023年疫后经济恢复"波浪式发展、曲折式前进"的实际，既看到回升向好的态势，也正视有效需求不足等困难
+2. <strong>"以进促稳"的含义</strong>：通过科技创新和产业升级的"进"来巩固基本盘的"稳"，不是被动等待，而是主动培育新动能来稳住大局
+3. <strong>"先立后破"的方法论</strong>：先做加法后做减法——"先立"新能源体系再"后破"传统能源依赖，"先立"新质生产力再"后破"旧动能，避免运动式推进
+4. <strong>启示</strong>：政策制定需要动态平衡，不能僵化执行——启示基层工作也应"先立后破"，改革既要有定力也要有节奏感</p>
+<h4>题二：计划组织类</h4>
+<blockquote>
+<p>你是某市发改委工作人员，2024年中央经济工作会议提出要"综合整治'内卷式'竞争"。领导让你起草一份本市整治"内卷式"竞争的调研方案，你会怎么组织？</p>
+</blockquote>
+<p><strong>答题要点</strong>：
+1. <strong>调研目的</strong>：摸清本市在招商引资、产业扶持等领域存在的"内卷"问题
+2. <strong>调研对象</strong>：各区县招商部门、重点园区、代表性企业、行业协会
+3. <strong>调研重点</strong>：招商引资中恶性税收优惠、产业同质化、重复建设等问题
+4. <strong>方式方法</strong>：座谈会+实地走访+数据分析（横向对比周边城市）
+5. <strong>成果输出</strong>：形成问题清单+整治建议+配套政策优化方案（对接全国统一大市场建设要求）</p>
+<hr />
+<h2>八、来源汇总</h2>
+<ol>
+<li>2022年中央经济工作会议综合报道——新华社、央视新闻、经济参考报（2022年12月16-19日）</li>
+<li>http://jjckb.xinhuanet.com/2022-12/19/c_1310684740.htm</li>
+<li>https://api3.cls.cn/share/article/1215261</li>
+<li>
+<p>https://m.21jingji.com/article/20221217/herald/6dede5f60525365efb74e3453a49bb3b.html</p>
+</li>
+<li>
+<p>2023年中央经济工作会议综合报道——新华社、澎湃新闻、中国青年报（2023年12月11-13日）</p>
+</li>
+<li>https://m.thepaper.cn/newsDetail_forward_25639978</li>
+<li>http://news.cyol.com/gb/articles/2023-12/14/content_qbmpygUpdJ.html</li>
+<li>
+<p>http://www.ce.cn/xwzx/gnsz/gdxw/202312/18/t20231218_38833804.shtml</p>
+</li>
+<li>
+<p>2024年中央经济工作会议综合报道——新华社、人民网、中国证券报（2024年12月11-16日）</p>
+</li>
+<li>https://paper.cnstock.com/html/2024-12/16/content_2006717.htm</li>
+<li>http://finance.people.com.cn/n1/2025/0208/c1004-40414947.html</li>
+<li>
+<p>https://www.chinanews.com/cj/2024/12-23/10340905.shtml</p>
+</li>
+<li>
+<p>2025年中央经济工作会议综合报道——新华社、经济参考报、经济日报（2025年12月10-14日）</p>
+</li>
+<li>http://ipaper.ce.cn/pc/content/202512/14/content_325231.html</li>
+<li>http://www.jjckb.cn/20251212/e8e077dc63be4150a56f938451036404/c.html</li>
+<li>
+<p>http://news.china.com.cn/2025-12/18/content_118234799.html</p>
+</li>
+<li>
+<p>中央经济工作会议制度分析——中国日报、经济参考报、券商研报</p>
+</li>
+<li>http://cn.chinadaily.com.cn/a/202512/15/WS693ff2eca310942cc4996cb9.html</li>
+<li>
+<p>http://stock.finance.sina.com.cn/stock/view/paper.php?symbol=sh000001&amp;reportid=774445744906</p>
+</li>
+<li>
+<p>历年基调对比——共产党员网、中国新闻网、清华大学田轩</p>
+</li>
+<li>https://www.12371.cn/special/lczyjjgzhy/</li>
+<li>https://www.chinanews.com.cn/ll/2024/02-07/10161262.shtml</li>
+<li>https://www.tsinghua.edu.cn/info/1662/116201.htm</li>
+</ol>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f05">
+    <div class="content-header">
+      <h2>05 · 政治局会议</h2>
+      <h3>中央政治局会议（季度经济议题）</h3>
+      <button class="collapse-btn" onclick="toggleContent('f05')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f05">
+      <h1>中央政治局会议（2023-2026·季度经济议题）</h1>
+<blockquote>
+<p>频次：每月（一般），季度经济议题集中于4月/7月/10月/12月
+核心功能：年度经济工作的"过程管理"——年中定调+年底预热
+考试重要度：★★★★ / 覆盖：申论 · 面试 · 行测常识
+整理日期：2026-05-10</p>
+</blockquote>
+<hr />
+<h2>一、制度定位</h2>
+<ul>
+<li><strong>一般规律</strong>：中央政治局每月召开一次会议，其中<strong>4月、7月、10月、12月</strong>的会议通常包含季度经济形势分析。</li>
+<li><strong>4月政治局会议</strong>：分析一季度经济形势，评估年初开局状况（"开局定全年"）。</li>
+<li><strong>7月政治局会议</strong>：分析上半年经济形势，部署下半年经济工作（<strong>"年中定调"关键节点</strong>）。</li>
+<li><strong>12月政治局会议</strong>：为中央经济工作会议"预热"，先定大方向。</li>
+<li><strong>特殊情形</strong>：2024年9月政治局会议突然讨论经济（通常9月不谈经济），被视为"一揽子增量政策"启动的关键信号。</li>
+</ul>
+<h3>三会"流水线"关系</h3>
+<pre><code>中央经济工作会议（每年12月，年度总定调+大方向）
+        ↓
+两会上《政府工作报告》（次年3月，法律转化+量化目标+具体措施）
+        ↓
+中央政治局季度会议（4月/7月/10月/12月，过程监控+微调纠偏）
+        ↓
+国务院常务会议（每月2-3次，日常执行落实）
+</code></pre>
+<ul>
+<li><strong>中央经济工作会议</strong>：党中央层面的战略决策——"明年经济工作怎么干"</li>
+<li><strong>两会政府工作报告</strong>：将党的意志通过法定程序转化为国家目标——GDP增速、CPI、赤字率等量化指标</li>
+<li><strong>政治局季度会议</strong>：监控执行进度，根据形势变化微调政策发力方向</li>
+<li><strong>国务院常务会议</strong>：将决策部署转化为具体政策措施的日常高频平台（总理主持，固定参加仅10人）</li>
+</ul>
+<hr />
+<h2>二、2023年关键政治局会议</h2>
+<h3>2.1 7月24日——部署下半年经济工作（年中定调）</h3>
+<ul>
+<li><strong>形势判断</strong>：国民经济持续恢复、总体回升向好，但"疫情防控平稳转段后，经济恢复是一个<strong>波浪式发展、曲折式前进</strong>的过程"（经典表述）</li>
+<li><strong>四大问题</strong>：国内需求不足、一些企业经营困难、重点领域风险隐患较多、外部环境复杂严峻</li>
+<li><strong>关键部署</strong>：</li>
+<li>精准有力实施宏观调控，加强<strong>逆周期调节</strong>和政策储备</li>
+<li>提振汽车、电子产品、家居等大宗消费，推动体育休闲、文化旅游等服务消费</li>
+<li><strong>活跃资本市场，提振投资者信心</strong>（首次在政治局会议提出）</li>
+<li>制定出台促进民间投资的政策措施</li>
+<li>有效防范化解地方债务风险，制定实施<strong>一揽子化债方案</strong></li>
+<li>适时调整优化房地产政策</li>
+</ul>
+<h3>2.2 4月28日——分析一季度经济形势</h3>
+<ul>
+<li>一季度GDP增长4.5%，开局良好</li>
+<li>三重压力得到缓解，但内生动力还不强</li>
+</ul>
+<h3>2.3 12月8日——定调2024年经济工作方向（预热经济工作会议）</h3>
+<ul>
+<li>为中央经济工作会议"预热"</li>
+<li>提出"稳中求进、以进促稳、先立后破"</li>
+<li>强调"增强宏观政策取向一致性"</li>
+</ul>
+<hr />
+<h2>三、2024年关键政治局会议</h2>
+<h3>3.1 4月30日——分析一季度经济形势</h3>
+<ul>
+<li>Q1 GDP增长5.3%，<strong>"开局良好、回升向好"</strong></li>
+<li><strong>"坚持乘势而上，避免前紧后松"</strong></li>
+<li>统筹研究消化存量房产和优化增量住房</li>
+<li>及早发行并用好超长期特别国债，加快专项债发行使用进度</li>
+<li>决定7月召开二十届三中全会</li>
+</ul>
+<h3>3.2 7月30日——部署下半年经济工作</h3>
+<ul>
+<li>Q2 GDP增速回落至4.7%，下行压力加大</li>
+<li><strong>"宏观政策要持续用力、更加给力"</strong></li>
+<li>以提振消费为重点扩大国内需求，多渠道增加居民收入</li>
+</ul>
+<h3>3.3 ★★★ 9月26日——超常规部署（年度最大政策转折点）</h3>
+<blockquote>
+<p><strong>背景</strong>：通常9月政治局会议不讨论经济议题。此次<strong>破例开会</strong>，被视为全年经济政策的重大转折，也是"一揽子增量政策"启动的关键信号。</p>
+</blockquote>
+<ul>
+<li><strong>形势判断</strong>：<strong>"正视困难、坚定信心，切实增强做好经济工作的责任感和紧迫感"</strong></li>
+<li><strong>六大政策信号</strong>：</li>
+<li><strong>努力完成全年5%左右增长目标</strong>（坚定目标不动摇）</li>
+<li>加大财政货币逆周期调节：降准、降息、发行超长期特别国债和专项债</li>
+<li><strong>促进房地产市场止跌回稳</strong>（政治局会议首次明确提出）</li>
+<li><strong>提振资本市场</strong>：引导中长期资金入市</li>
+<li>加大引资稳资力度</li>
+<li>守住兜牢民生底线</li>
+<li><strong>效果</strong>：Q4 GDP增长5.4%，全年最终实现5.0%</li>
+</ul>
+<h3>3.4 12月9日——定调2025年经济工作方向（预热经济工作会议）</h3>
+<ul>
+<li>实施<strong>更加积极的财政政策</strong>和<strong>适度宽松的货币政策</strong>（定调前移）</li>
+<li>"加强超常规逆周期调节"</li>
+<li>稳住楼市股市</li>
+</ul>
+<hr />
+<h2>四、2025年关键政治局会议</h2>
+<h3>4.1 4月25日——分析一季度经济形势</h3>
+<ul>
+<li>Q1 GDP增长5.4%，超预期"开门红"</li>
+<li>但4月美国对华大幅加征"对等关税"，外部冲击显著加大</li>
+<li><strong>首次提出"四稳"</strong>：稳就业、稳企业、稳市场、稳预期（稳就业居首位）</li>
+<li>重提<strong>"超常规逆周期调节"</strong>，要求既定政策早出台早见效，根据形势变化及时推出增量储备政策</li>
+<li><strong>"适时降准降息"</strong>，创设新的结构性货币政策工具，设立新型政策性金融工具</li>
+<li>提高中低收入群体收入，大力发展服务消费，设立服务消费与养老再贷款</li>
+<li>打造新兴支柱产业，加快实施"人工智能+"行动</li>
+<li>持续巩固房地产市场稳定态势</li>
+<li><strong>"持续稳定和活跃资本市场"</strong></li>
+</ul>
+<h3>4.2 7月30日——部署下半年经济工作</h3>
+<ul>
+<li>上半年GDP增长5.3%，<strong>"经济运行稳中有进，高质量发展取得新成效"</strong></li>
+<li>宏观政策<strong>"持续发力、适时加力"</strong>（新表述）</li>
+<li>纵深推进全国统一大市场建设，<strong>依法依规治理企业无序竞争</strong>（首次在政治局会议出现"反内卷"提法）</li>
+<li><strong>增强国内资本市场的吸引力和包容性</strong>（首次提出）</li>
+<li>稳住外贸外资基本盘，帮助受冲击较大的外贸企业</li>
+<li>决定10月召开二十届四中全会，研究关于制定"十五五"规划的建议</li>
+</ul>
+<h3>4.3 12月8日——定调2026年经济工作方向（预热经济工作会议）</h3>
+<ul>
+<li>"十四五"即将圆满收官，全年经济社会发展主要目标将顺利实现</li>
+<li><strong>2026年基调</strong>："坚持稳中求进、提质增效"</li>
+<li>继续实施更加积极的财政政策和适度宽松的货币政策</li>
+<li>发挥存量政策和增量政策集成效应，加大逆周期和跨周期调节力度</li>
+<li>编制"十五五"规划及专项规划</li>
+</ul>
+<hr />
+<h2>五、2026年主要政治局会议（截至5月）</h2>
+<h3>5.1 ★★★ 4月28日——"十五五"开局首次经济评估</h3>
+<ul>
+<li><strong>形势判断</strong>：经济起步有力，Q1 GDP增长5.0%，<strong>主要指标好于预期</strong>，彰显强大韧性和活力</li>
+<li>持续稳中向好的<strong>基础还需进一步巩固</strong></li>
+<li><strong>政策基调</strong>：用好用足宏观政策，增强货币政策<strong>前瞻性、灵活性、针对性</strong></li>
+<li><strong>重点部署</strong>：</li>
+<li>扩大优质商品和服务供给，推动<strong>消费升级</strong></li>
+<li>深入实施服务业扩能提质行动</li>
+<li>★★★ 加强<strong>六张"网"</strong>规划建设：水网、新型电网、算力网、新一代通信网、城市地下管网、物流网（<strong>首次提出</strong>）</li>
+<li>全面实施<strong>"人工智能+"行动</strong>，发展智能经济新形态</li>
+<li>纵深推进全国统一大市场建设，深入整治"内卷式"竞争</li>
+<li>努力稳定房地产市场，扎实推进城市更新</li>
+<li>有序化解地方政府债务风险</li>
+<li><strong>稳定和增强资本市场信心</strong></li>
+<li>强化就业优先政策导向</li>
+</ul>
+<hr />
+<h2>六、政治局会议与经济工作会议的关系</h2>
+<h3>6.1 "预热+纠偏"双重角色</h3>
+<pre><code>政治局12月会议 → 预热 → 中央经济工作会议（定大方向）
+        ↓
+政治局4月会议 → 开局评估 → 一季度GDP+政策微调
+        ↓
+政治局7月会议 → 年中定调 → 研判下半年经济走势
+        ↓
+政治局9月会议（特殊情形）→ 紧急纠偏 → 应对突发风险
+        ↓
+政治局12月会议 → 预热 → 新一轮经济工作会议
+</code></pre>
+<ul>
+<li><strong>"预热"</strong>：每年12月政治局会议先行讨论经济工作，为随后召开的中央经济工作会议定好大方向</li>
+<li><strong>"纠偏"</strong>：季度会议（特别是7月和破例9月）根据经济数据及时调整政策节奏和力度</li>
+<li><strong>"定调前移"</strong>：2024年12月政治局会议首次将财政"更加积极"、货币"适度宽松"这两个重大政策转向在政治局会议层面先行释放，中央经济工作会议随后详细部署</li>
+</ul>
+<h3>6.2 关键时间节点与政策信号对照</h3>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>政治局会议信号</th>
+<th>后续经济工作会议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023年12月</td>
+<td>"稳中求进、以进促稳、先立后破"</td>
+<td>12字方针正式确立，新质生产力首次写入</td>
+</tr>
+<tr>
+<td>2024年9月（破例）</td>
+<td>一揽子增量政策启动</td>
+<td>—（年内纠偏）</td>
+</tr>
+<tr>
+<td>2024年12月</td>
+<td>"更加积极"+"适度宽松"定调前移</td>
+<td>24字方针确立，货币财政双扩张</td>
+</tr>
+<tr>
+<td>2025年12月</td>
+<td>"稳中求进、提质增效"，十五五预热</td>
+<td>八个坚持，十五五开局部署</td>
+</tr>
+<tr>
+<td>2026年4月（最新）</td>
+<td>"六网建设"首次提出</td>
+<td>—（待观察）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>七、考试视角</h2>
+<h3>7.1 三会"流水线"关系（申论写作框架）</h3>
+<pre><code>中央经济工作会议（每年12月）
+  └─ 定大方向：总基调 + 政策取向 + 重点任务
+        ↓
+两会《政府工作报告》（次年3月）
+  └─ 量化落地：GDP目标、CPI目标、赤字率、专项债额度等
+        ↓
+中央政治局季度会议（4月/7月/10月/12月）
+  └─ 过程监控：根据数据调整政策力度和节奏
+        ↓
+国务院常务会议（每月2-3次）
+  └─ 日常执行：具体政策措施出台
+</code></pre>
+<p><strong>申论应用</strong>：写"政策部署"类文章时，可用此框架说明政策从"定调"到"落地"到"纠偏"的逻辑链条。</p>
+<h3>7.2 申论价值</h3>
+<ul>
+<li><strong>政治局会议体现"过程管理"思维</strong>：经济政策不是一步到位，而是根据数据不断调整——这种"动态治理"是中国宏观调控的鲜明特色</li>
+<li><strong>"年中定调"（7月）是政策转向的敏感窗口</strong>：如2024年7月提出"宏观政策要持续用力、更加给力"，随后9月破例加码</li>
+<li><strong>"预热"机制</strong>：12月政治局会议先定大方向，为经济工作会议铺路，体现出"党中央集中统一领导"的决策流程</li>
+<li><strong>"反内卷"成为高频词</strong>：从2024年经济工作会议到2025年7月政治局会议再到2026年4月，整治"内卷式"竞争连续出现在顶层设计中，是申论面试的热点话题</li>
+</ul>
+<h3>7.3 行测常识考点</h3>
+<table>
+<thead>
+<tr>
+<th>考点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>政治局会议讨论经济的常规月份</td>
+<td>4月、7月、10月、12月（7月最关键："年中定调"）</td>
+</tr>
+<tr>
+<td>2024年9月政治局会议的特殊性</td>
+<td>破例讨论经济，启动一揽子增量政策</td>
+</tr>
+<tr>
+<td>"四稳"</td>
+<td>稳就业、稳企业、稳市场、稳预期（2025年4月首次提出）</td>
+</tr>
+<tr>
+<td>"反内卷"在政治局会议首次出现</td>
+<td>2025年7月政治局会议（"依法依规治理企业无序竞争"）</td>
+</tr>
+<tr>
+<td>六张"网"</td>
+<td>水网、新型电网、算力网、新一代通信网、城市地下管网、物流网（2026年4月政治局会议首次提出）</td>
+</tr>
+<tr>
+<td>政治局12月会议的"预热"功能</td>
+<td>先于中央经济工作会议定大方向</td>
+</tr>
+<tr>
+<td>货币政策"适度宽松"</td>
+<td>2024年12月政治局会议定调前移</td>
+</tr>
+<tr>
+<td>"超常规逆周期调节"</td>
+<td>2024年12月政治局会议首提，2025年4月重提</td>
+</tr>
+<tr>
+<td>"人工智能+"行动</td>
+<td>2025年4月政治局会议强调，2026年4月全面实施</td>
+</tr>
+<tr>
+<td>"十五五"规划编制</td>
+<td>2025年10月二十届四中全会研究建议，2025年12月政治局会议要求编制</td>
+</tr>
+</tbody>
+</table>
+<h3>7.4 面试模拟题</h3>
+<h4>题一：综合分析类</h4>
+<blockquote>
+<p>2024年9月26日，中央政治局破例召开会议讨论经济形势，部署一揽子增量政策。你认为这次"破例"会议释放了什么信号？</p>
+</blockquote>
+<p><strong>答题要点</strong>：
+1. <strong>背景分析</strong>：通常9月不谈经济，破例开会说明经济下行压力超预期——Q3 GDP增速仅4.6%
+2. <strong>信号一：目标坚定不动摇</strong>——"努力完成全年5%左右增长目标"
+3. <strong>信号二：政策果断转向</strong>——从观望到果断出手，财政货币双双加力
+4. <strong>信号三：房地产和资本市场两大抓手</strong>——"止跌回稳"+"提振资本市场"
+5. <strong>启示</strong>：政策决策不是僵化的，而是动态响应的——这体现了"实事求是"的工作方法</p>
+<h4>题二：计划组织类</h4>
+<blockquote>
+<p>2026年4月政治局会议提出加强"六网建设"（水网、新型电网、算力网、新一代通信网、城市地下管网、物流网）。你所在城市准备制定"六网建设"三年行动计划，领导让你牵头调研，你会如何组织？</p>
+</blockquote>
+<p><strong>答题要点</strong>：
+1. <strong>调研目的</strong>：摸清本市六网现状、短板和建设需求
+2. <strong>调研对象</strong>：水务局、电力公司、经信局（算力/通信）、住建局（管网）、交通局/商务局（物流）
+3. <strong>调研重点</strong>：现有设施承载能力、老旧管网改造需求、算力和通信基础设施与发达地区差距、物流节点布局合理性
+4. <strong>方式方法</strong>：实地勘察+专家座谈+数据收集+先进城市对标
+5. <strong>成果输出</strong>：各网现状评估报告+优先项目清单+三年投资估算+配套政策建议</p>
+<hr />
+<h2>八、来源汇总</h2>
+<ol>
+<li>2023年政治局会议——12371共产党员网、学习时报（2023年7月）</li>
+<li>
+<p>https://www.12371.gov.cn/web/article/1438665224080982016/</p>
+</li>
+<li>
+<p>2024年政治局会议——澎湃新闻、经济观察报、中国青年网（2024年）</p>
+</li>
+<li>https://m.thepaper.cn/newsDetail_forward_28878525</li>
+<li>http://m.eeo.com.cn/2024/0926/689052.shtml</li>
+<li>
+<p>http://news.youth.cn/gn/202409/t20240927_15549182.htm</p>
+</li>
+<li>
+<p>2025年政治局会议——每日经济新闻、澎湃新闻、CRI国际在线（2025年）</p>
+</li>
+<li>https://m.nbd.com.cn/articles/2025-07-31/3997291.html</li>
+<li>https://www.thepaper.cn/newsDetail_forward_31252705</li>
+<li>
+<p>https://big5.cri.cn/gate/big5/news.cri.cn/2025-07-30/</p>
+</li>
+<li>
+<p>2026年政治局会议——新华社、央视新闻、香港文汇网、上海证券（2026年4月28日-5月）</p>
+</li>
+<li>http://www.wenweipo.com/a/202604/28/AP69f04ad6e4b0b49ad1b8b74a.html</li>
+<li>http://big5.china.com.cn/gate/big5/finance.china.com.cn/news/20260429/6305733.shtml</li>
+<li>https://data.eastmoney.com/report/zw_macresearch.jshtml?encodeUrl=Wq+NxWAWJ26bvphenTnhbDAqeqWZkTY1Yz7vThIPtfk=</li>
+</ol>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f06">
+    <div class="content-header">
+      <h2>06 · 湖南省两会</h2>
+      <h3>湖南省两会（2023-2026）</h3>
+      <button class="collapse-btn" onclick="toggleContent('f06')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f06">
+      <h1>湖南省两会（2023-2026）</h1>
+<blockquote>
+<p>时间：每年1月 | 地点：长沙
+与全国两会关系：地方先开（1月），全国后开（3月），地方为全国"预热"
+考试重要度：★★★★★ / 覆盖：申论 · 面试 · 行测常识 / 选调必知
+整理日期：2026-05-10</p>
+</blockquote>
+<hr />
+<h2>一、制度定位：省两会与全国两会</h2>
+<h3>1.1 时间与内容关系</h3>
+<ul>
+<li><strong>时间顺序</strong>：湖南省两会一般在每年<strong>1月</strong>召开，全国两会在<strong>3月</strong>召开。地方先行为全国"预热"，地方报告中的政策诉求在一定程度上反映全国政策走向。</li>
+<li><strong>内容关系</strong>：湖南省政府工作报告中的GDP目标通常高于全国目标（体现地方"跳起来摘桃子"），实际增速往往与全国走势高度同步。</li>
+<li><strong>代表联动</strong>：湖南省选出的全国人大代表（约110余名）参加全国两会，将湖南诉求带入国家议事平台。</li>
+</ul>
+<h3>1.2 湖南在全国政治版图中的角色</h3>
+<ul>
+<li><strong>中部崛起重要支点</strong>：湖南是中部六省之一，2025年GDP达5.53万亿，稳居全国前十强。</li>
+<li><strong>"一带一部"定位</strong>：东部沿海地区和中西部地区过渡带、长江开放经济带和沿海开放经济带结合部（习近平总书记2013年提出）。</li>
+<li><strong>经济大省担当</strong>：2025年政府工作报告自评"扛牢了经济大省挑大梁的政治责任"。</li>
+</ul>
+<hr />
+<h2>二、2023年湖南省政府工作报告</h2>
+<blockquote>
+<p>湖南省第十四届人民代表大会第一次会议，2023年1月14日开幕，省长毛伟明作政府工作报告。</p>
+</blockquote>
+<h3>2.1 2022年成绩回顾</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地区生产总值（GDP）</td>
+<td><strong>4.87万亿元</strong>，同比增长 4.5%（高于全国1.5个百分点）</td>
+</tr>
+<tr>
+<td>地方一般公共预算收入</td>
+<td>3101.8亿元，同口径增长6.6%</td>
+</tr>
+<tr>
+<td>规模工业增加值</td>
+<td>增长7.2%，居经济十强省<strong>第1位</strong></td>
+</tr>
+<tr>
+<td>固定资产投资</td>
+<td>增长6.6%</td>
+</tr>
+<tr>
+<td>进出口总额</td>
+<td>增长20.2%，突破<strong>1000亿美元</strong></td>
+</tr>
+<tr>
+<td>城乡居民收入</td>
+<td>城镇47301元（+5.4%）、农村19546元（+6.8%）</td>
+</tr>
+<tr>
+<td>粮食总产</td>
+<td>603.6亿斤，连续三年保持600亿斤以上</td>
+</tr>
+<tr>
+<td>城镇化率</td>
+<td>突破60%，达60.5%</td>
+</tr>
+</tbody>
+</table>
+<h3>2.2 五年回顾（2018-2022）</h3>
+<ul>
+<li>GDP从3.38万亿增长到4.87万亿，年均增长6.2%，高于全国1个百分点</li>
+<li>人均GDP突破<strong>1万美元</strong></li>
+<li>装备制造、原材料、消费品成为万亿产业，千亿级产业达16个</li>
+<li>三次产业结构：9.5∶39.4∶51.1</li>
+</ul>
+<h3>2.3 2023年主要预期目标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地区生产总值增长</td>
+<td><strong>6.5%左右</strong></td>
+</tr>
+<tr>
+<td>规模工业增加值增长</td>
+<td>7.5%</td>
+</tr>
+<tr>
+<td>固定资产投资增长</td>
+<td>7%以上</td>
+</tr>
+<tr>
+<td>地方一般公共预算收入增长</td>
+<td>8%以上</td>
+</tr>
+<tr>
+<td>进出口总额增长</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>CPI涨幅</td>
+<td>3%左右</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>70万人</td>
+</tr>
+<tr>
+<td>城镇调查失业率</td>
+<td>5.5%左右</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>600亿斤以上</td>
+</tr>
+</tbody>
+</table>
+<h3>2.4 重点部署</h3>
+<ul>
+<li><strong>长远目标</strong>：未来五年（2023-2027）力争经济总量突破7万亿元；数字经济和高新技术产业增加值均实现翻番，分别突破3万亿元和2万亿元。</li>
+<li><strong>年度抓手</strong>：打好<strong>"发展六仗"</strong>——经济增长主动仗、科技创新攻坚仗、优化发展环境持久仗、防范化解风险阻击仗、安全生产翻身仗、重点民生保障仗。</li>
+<li><strong>"三高四新"表述</strong>："必须始终把'三高四新'作为全面建设社会主义现代化新湖南的行动指南"。</li>
+</ul>
+<h3>2.5 2023年实际完成</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>实际数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP总量</td>
+<td><strong>50012.85亿元</strong>，突破5万亿大关</td>
+</tr>
+<tr>
+<td>GDP实际增速</td>
+<td><strong>4.6%</strong>（未达6.5%目标，差距较大）</td>
+</tr>
+<tr>
+<td>三次产业</td>
+<td>第一产业4621亿（+3.5%）、第二产业18823亿（+4.6%）、第三产业26569亿（+4.8%）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>来源</strong>：<a href="https://www.hunan.gov.cn/hnszf/szf/zfld/mwm/mwmjh/202301/t20230128_29191592.html">2023年湖南省政府工作报告全文</a> | <a href="https://www.hxw.gov.cn/content/2024/01/20/14451880.html">2023年湖南GDP破5万亿</a> | <a href="http://www.hunan.gov.cn/topic/2023hnlh/index.html">2023年两会专题</a></p>
+</blockquote>
+<hr />
+<h2>三、2024年湖南省政府工作报告</h2>
+<blockquote>
+<p>湖南省第十四届人民代表大会第二次会议，2024年1月24日开幕，省长毛伟明作政府工作报告。</p>
+</blockquote>
+<h3>3.1 2023年成绩回顾</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP</td>
+<td>突破<strong>5万亿元</strong>，增长4.6%</td>
+</tr>
+<tr>
+<td>规模工业增加值</td>
+<td>增长5.5%左右</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>613亿斤左右</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 2024年主要预期目标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地区生产总值增长</td>
+<td><strong>6%左右</strong></td>
+</tr>
+<tr>
+<td>地方一般公共预算收入增长</td>
+<td>6%</td>
+</tr>
+<tr>
+<td>规模工业增加值增长</td>
+<td>7%</td>
+</tr>
+<tr>
+<td>固定资产投资增长</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>社会消费品零售总额增长</td>
+<td>6%</td>
+</tr>
+<tr>
+<td>进出口总额增长</td>
+<td>6%</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>70万人</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>615亿斤左右</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 十大重点民生实事</h3>
+<ol>
+<li>建成100所县域普通高中"徐特立项目"，开展1万场家庭教育指导服务</li>
+<li>推进新生儿疾病免费筛查与诊断全覆盖，新增普惠性托位4万个</li>
+<li>城市低保标准提高到700元/月，农村低保不低于5400元/年</li>
+<li>妇女"两癌"免费检查100万人，康复救助残疾儿童2万名</li>
+<li>城镇新增就业70万人</li>
+<li>建设老年助餐服务点500个，提质改造"爱晚"老年学校100所</li>
+<li>提供法律援助案件5万件</li>
+<li>实施数字政务提质增效惠民工程</li>
+<li>改造城镇老旧小区2000个，建设保障性租赁住房4万套</li>
+<li>提质改造农村公路3500公里，建设安防设施26000公里</li>
+</ol>
+<h3>3.4 十大重点产业项目</h3>
+<p>重点抓好<strong>岳阳乙烯炼化一体化</strong>等十大产业项目；推进<strong>楚天科技医用高端机器人</strong>等十大技术攻关项目；建设<strong>渝长厦和呼南高铁湖南段工程</strong>等十大基础设施项目。</p>
+<h3>3.5 2024年实际完成</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>实际数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP总量</td>
+<td><strong>5.3万亿元</strong>，增长4.8%（未达6%目标）</td>
+</tr>
+<tr>
+<td>地方一般公共预算收入</td>
+<td>增长2.6%，高于全国0.9个百分点</td>
+</tr>
+<tr>
+<td>规模工业增加值</td>
+<td>增长7.3%，高于全国1.5个百分点</td>
+</tr>
+<tr>
+<td>社会消费品零售总额</td>
+<td>增长5.4%，高于全国1.9个百分点</td>
+</tr>
+<tr>
+<td>粮食总产量</td>
+<td>615.6亿斤，创近5年新高</td>
+</tr>
+<tr>
+<td>居民人均可支配收入</td>
+<td>增长5%，农村居民增长6.1%</td>
+</tr>
+<tr>
+<td>研发投入强度</td>
+<td>2.57%，居中部第2位</td>
+</tr>
+<tr>
+<td>高新技术企业</td>
+<td>1.75万家</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>来源</strong>：<a href="http://gxt.hunan.gov.cn/gxt/ztzl/2024hnlh/lhmtbdmp/202401/t20240124_32633172.html">700字速读2024年报告要点</a> | <a href="http://hunan.gov.cn/topic/slh/yqdbg/2024hnlhlb.html">2024年两会专题</a> | <a href="http://hn.people.com.cn/n2/2024/0218/c195194-40747531.html">2024年报告全文</a> | <a href="https://hnrd.gov.cn/content/646945/61/14666603.html">2025年报告回顾2024数据</a></p>
+</blockquote>
+<hr />
+<h2>四、2025年湖南省政府工作报告</h2>
+<blockquote>
+<p>湖南省第十四届人民代表大会第三次会议，2025年1月14日开幕，省长毛伟明作政府工作报告。</p>
+</blockquote>
+<h3>4.1 2024年成绩回顾</h3>
+<ul>
+<li>GDP达<strong>5.3万亿元</strong>，增长4.8%；Q3追平全国、Q4高于全国0.2个百分点</li>
+<li>旅游业总收入迈上万亿新台阶，万亿级产业达<strong>6个</strong></li>
+<li>绿色智能计算产业产值增长19.2%，突破<strong>8500亿元</strong></li>
+<li>新增硬质合金等7个国家中小企业特色产业集群，居中部第1</li>
+<li>衡长株潭特高压输变电装备成为第5个国家先进制造业集群</li>
+</ul>
+<h3>4.2 2025年主要预期目标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地区生产总值增长</td>
+<td><strong>5.5%左右</strong></td>
+</tr>
+<tr>
+<td>地方一般公共预算收入增长</td>
+<td>2.5%</td>
+</tr>
+<tr>
+<td>规模工业增加值增长</td>
+<td>6.5%以上</td>
+</tr>
+<tr>
+<td>固定资产投资增长</td>
+<td>4.5%</td>
+</tr>
+<tr>
+<td>社会消费品零售总额增长</td>
+<td>5.5%以上</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>70万人</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>616亿斤左右</td>
+</tr>
+</tbody>
+</table>
+<h3>4.3 "七大攻坚"总抓手</h3>
+<p>2025年从"八大行动"升级为"七大攻坚"：</p>
+<ol>
+<li><strong>内需扩量提效攻坚</strong> — 推进289个省重点项目，总投资1.78万亿元</li>
+<li><strong>产业育新培强攻坚</strong> — 新增百亿企业10家、专精特新中小企业800家</li>
+<li><strong>科技创新赋能攻坚</strong> — 十大技术攻关项目（北斗导航卫星、氢能重卡等）</li>
+<li><strong>改革开放重点攻坚</strong> — 深化长株潭要素市场化配置改革</li>
+<li><strong>环境优化提升攻坚</strong> — 持续优化营商环境</li>
+<li><strong>安全强基固本攻坚</strong> — 防范化解重点领域风险</li>
+<li><strong>民生补短提质攻坚</strong> — 十大重点民生实事</li>
+</ol>
+<h3>4.4 "十五五"规划启动</h3>
+<ul>
+<li>2025年是"十四五"收官之年和"十五五"规划谋划之年</li>
+<li>2025年11月省委十二届九次全会审议通过《关于制定湖南省国民经济和社会发展第十五个五年规划的建议》</li>
+<li><strong>"十五五"时期定位</strong>：基本实现社会主义现代化夯实基础、全面发力的关键五年</li>
+<li><strong>核心主线</strong>：锚定"三高四新"美好蓝图</li>
+<li><strong>重大工程库</strong>：涵盖6大领域50项重大工程，总投资约4.7万亿元</li>
+</ul>
+<h3>4.5 2025年实际完成</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>实际数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP总量</td>
+<td><strong>5.53万亿元</strong>，稳居全国前十强，增长4.8%（未达5.5%目标）</td>
+</tr>
+<tr>
+<td>规模工业增加值</td>
+<td>增长6.2%，高于全国0.3个百分点</td>
+</tr>
+<tr>
+<td>地方一般公共预算收入</td>
+<td>3507.6亿元，增长1.7%（同口径增长2.5%以上）</td>
+</tr>
+<tr>
+<td>全体居民人均可支配收入</td>
+<td>39545元，增长5%</td>
+</tr>
+<tr>
+<td>农村居民收入增速</td>
+<td>5.8%，快于经济增速1个百分点</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>突破<strong>620亿斤</strong>，创历史新高</td>
+</tr>
+<tr>
+<td>新能源汽车产量</td>
+<td>超110万辆，居全国第9</td>
+</tr>
+<tr>
+<td>消费品以旧换新</td>
+<td>带动销售905亿元</td>
+</tr>
+<tr>
+<td>城镇化率</td>
+<td>提高至63%</td>
+</tr>
+<tr>
+<td>新增国家中小企业特色产业集群</td>
+<td>7个，居<strong>全国第1</strong></td>
+</tr>
+<tr>
+<td>"新三样"出口</td>
+<td>增长88%</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>来源</strong>：<a href="https://hnrd.gov.cn/content/646945/61/14666603.html">2025年报告全文</a> | <a href="http://tjj.hunan.gov.cn/tjgz/hnywg/202501/t20250127_33576669.html">2025年报告（省政府门户）</a> | <a href="https://cn.chinadaily.com.cn/a/202512/12/WS693bf9a6a310942cc499676e.html">十五五规划建议</a></p>
+</blockquote>
+<hr />
+<h2>五、2026年湖南省政府工作报告</h2>
+<blockquote>
+<p>湖南省第十四届人民代表大会第四次会议，2026年2月3日开幕，省长毛伟明作政府工作报告。</p>
+</blockquote>
+<h3>5.1 "十四五"总成绩</h3>
+<ul>
+<li>五年GDP增量超<strong>1.36万亿元</strong>，人均GDP达<strong>1.19万美元</strong></li>
+<li>2025年GDP达5.53万亿元，稳居全国前十强</li>
+<li>"三高四新"美好蓝图渐成生动现实</li>
+</ul>
+<h3>5.2 2026年主要预期目标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地区生产总值增长</td>
+<td><strong>5%左右</strong>（争取更好结果）</td>
+</tr>
+<tr>
+<td>规模工业增加值增长</td>
+<td>6%</td>
+</tr>
+<tr>
+<td>社会消费品零售总额增长</td>
+<td>4.5%以上</td>
+</tr>
+<tr>
+<td>固定资产投资</td>
+<td>实现正增长</td>
+</tr>
+<tr>
+<td>进出口总额增长</td>
+<td>3%</td>
+</tr>
+<tr>
+<td>地方一般公共预算收入增长</td>
+<td>1.5%左右</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td>70万人</td>
+</tr>
+<tr>
+<td>居民收入增速</td>
+<td>高于经济增速</td>
+</tr>
+<tr>
+<td>CPI涨幅</td>
+<td>2%左右</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td>615亿斤左右</td>
+</tr>
+</tbody>
+</table>
+<h3>5.3 十个方面重点工作</h3>
+<ol>
+<li><strong>全力推动经济稳定增长</strong> — 释放消费潜力，扩大有效投资（389个省重点项目，总投资2万亿元）</li>
+<li><strong>加快建设现代化产业体系</strong> — 壮大"4×4"现代化产业体系，推进"人工智能+"行动</li>
+<li><strong>深入推进创新驱动发展</strong> — 推进"1+2"国家实验室体系建设，全社会研发投入强度提升至2.62%</li>
+<li><strong>全面深化改革扩大开放</strong> — 推进零基预算改革，长沙获批中欧班列国家集结中心</li>
+<li><strong>强化区域协调联动发展</strong> — 长株潭全域纳入国家要素市场化配置综合改革试点</li>
+<li><strong>扎实促进乡村全面振兴</strong> — "和美湘村"建设</li>
+<li><strong>着力加强生态文明建设</strong> — 森林覆盖率保持在54%以上</li>
+<li><strong>持续发展社会民生事业</strong> — 十大重点民生实事601亿元</li>
+<li><strong>更好担负新时代文化使命</strong> — 文化和科技、文化和旅游"两个融合"</li>
+<li><strong>牢牢守住安全稳定底线</strong> — 安全生产治本攻坚</li>
+</ol>
+<h3>5.4 十大重点民生实事（601亿元）</h3>
+<p>总投入约<strong>601亿元</strong>，比2025年增加30亿元，共23个具体项目（新办11个、续办12个）：</p>
+<ul>
+<li><strong>教育</strong>：扩充优质公办高中学位8万个；提质升级1000所中小学食堂；新增省属高校校舍30万平方米</li>
+<li><strong>就业创业</strong>：城镇新增就业70万人；"技兴三湘一人一技"职业技能培训100万人次；发放创业担保贷款62亿元</li>
+<li><strong>养老</strong>：建设2000张"时光守护"床位；建设25个老年认知障碍照护友好社区</li>
+<li><strong>便民服务</strong>：新建1000家"爱心驿站"；流动供销服务乡村网点不少于1600个；新建农村4G/5G基站4700个</li>
+</ul>
+<h3>5.5 重大基础设施</h3>
+<ul>
+<li><strong>6条高铁</strong>：邵永、铜吉、长赣、宜常、永清广、黔吉</li>
+<li><strong>17条高速公路</strong>：京港澳和沪昆扩容、张官等</li>
+<li><strong>水利</strong>：梅山灌区、金塘冲水库等</li>
+<li><strong>能源</strong>：推进"源网荷储"一体工程</li>
+</ul>
+<blockquote>
+<p><strong>来源</strong>：<a href="http://www.kaifu.gov.cn/zfxxgk/qtzz_18816/qgh/dtyw_19606/202602/t20260225_12319255.html">2026年报告全文（开福区政府转载）</a> | <a href="https://hn.rednet.cn/content/646046/95/15662942.html">900字速读要点</a> | <a href="https://www.hunan.gov.cn/topic/2026slh/slhsp/202602/t20260204_33910024.html">601亿民生实事</a> | <a href="https://hnrb.hunantoday.cn/hnrb_epaper/html/2026-02/08/content_1774131.htm">湖南日报决议</a></p>
+</blockquote>
+<hr />
+<h2>六、历年政府工作报告对比</h2>
+<h3>6.1 核心数据对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>2023</th>
+<th>2024</th>
+<th>2025</th>
+<th>2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GDP目标增速</strong></td>
+<td>6.5%</td>
+<td>6%</td>
+<td>5.5%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong>GDP实际增速</strong></td>
+<td>4.6%</td>
+<td>4.8%</td>
+<td>4.8%</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>GDP实际总量</strong></td>
+<td>5.00万亿</td>
+<td>5.30万亿</td>
+<td>5.53万亿</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>年度工作抓手</strong></td>
+<td>"发展六仗"</td>
+<td>"八大行动"</td>
+<td>"七大攻坚"</td>
+<td>"稳进高新"</td>
+</tr>
+<tr>
+<td><strong>重点产业</strong></td>
+<td>十大产业项目</td>
+<td>4×4产业体系+十大项目</td>
+<td>绿色智能计算+人工智能+</td>
+<td>人工智能++4×4体系</td>
+</tr>
+<tr>
+<td><strong>城镇化率</strong></td>
+<td>60.5%</td>
+<td>—</td>
+<td>63%</td>
+<td>持续推进</td>
+</tr>
+<tr>
+<td><strong>民生实事投入</strong></td>
+<td>十大民生实事</td>
+<td>十大民生实事</td>
+<td>十大民生实事</td>
+<td><strong>601亿元</strong>（23个项目）</td>
+</tr>
+<tr>
+<td><strong>粮食产量</strong></td>
+<td>603.6亿斤</td>
+<td>615.6亿斤</td>
+<td>突破620亿斤</td>
+<td>目标615亿斤</td>
+</tr>
+<tr>
+<td><strong>城镇新增就业</strong></td>
+<td>70万（目标）</td>
+<td>70万</td>
+<td>70万（实际82.7万）</td>
+<td>70万</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 GDP目标与实际增速差距分析</h3>
+<table>
+<thead>
+<tr>
+<th>年份</th>
+<th style="text-align: center;">目标增速</th>
+<th style="text-align: center;">实际增速</th>
+<th style="text-align: center;">差距</th>
+<th>分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td style="text-align: center;">6.5%</td>
+<td style="text-align: center;">4.6%</td>
+<td style="text-align: center;"><strong>-1.9pp</strong></td>
+<td>差距最大年份。疫后复苏不及预期，外部需求走弱、房地产深度调整拖累</td>
+</tr>
+<tr>
+<td>2024</td>
+<td style="text-align: center;">6%</td>
+<td style="text-align: center;">4.8%</td>
+<td style="text-align: center;"><strong>-1.2pp</strong></td>
+<td>差距收窄但仍较显著。投资增速回落，消费恢复偏慢</td>
+</tr>
+<tr>
+<td>2025</td>
+<td style="text-align: center;">5.5%</td>
+<td style="text-align: center;">4.8%</td>
+<td style="text-align: center;"><strong>-0.7pp</strong></td>
+<td>差距进一步收窄。Q4高于全国0.2个百分点，但全年仍低于目标</td>
+</tr>
+<tr>
+<td>2026</td>
+<td style="text-align: center;">5%</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td>目标首次调至全国持平水平，信号转趋务实</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>关键趋势</strong>：①目标逐年下调（6.5%→6%→5.5%→5%），反映对经济下行压力的客观认识；②差距逐年收窄（1.9→1.2→0.7pp），说明目标制定渐趋务实；③2026年首次将目标与全国对齐（5%左右），同时强调"争取更好结果"。</p>
+</blockquote>
+<h3>6.3 "三高四新"演进轨迹</h3>
+<table>
+<thead>
+<tr>
+<th>年份</th>
+<th>表述</th>
+<th>标志性进展</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2020.9</td>
+<td>习近平总书记擘画"三高四新"</td>
+<td>首次提出</td>
+</tr>
+<tr>
+<td>2021-2022</td>
+<td>"全面落实'三高四新'战略定位和使命任务"</td>
+<td>十大产业/技术攻关项目启动</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>"锚定'三高四新'美好蓝图"</td>
+<td>GDP突破5万亿</td>
+</tr>
+<tr>
+<td>2023.8</td>
+<td>省委四次全会通过《若干意见》</td>
+<td>十一个大力推进</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>"三个一定要看到"</td>
+<td>滚动实施11大标志性工程</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>"既有清晰目标，又有科学方法"</td>
+<td>4×4产业体系创新图谱；研发投入强度2.57%</td>
+</tr>
+<tr>
+<td>2025.11</td>
+<td>十五五规划建议通过</td>
+<td>6大领域50项重大工程</td>
+</tr>
+<tr>
+<td>2026</td>
+<td>"十五五"开局，争创更好结果</td>
+<td>研发投入强度目标2.62%</td>
+</tr>
+</tbody>
+</table>
+<h3>6.4 长株潭一体化演进</h3>
+<table>
+<thead>
+<tr>
+<th>年份</th>
+<th>关键进展</th>
+<th>经济占比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>纳入国家"十四五"规划</td>
+<td>占全省41.8%</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>都市圈发展规划获批，GDP首破2万亿</td>
+<td>超过40%</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>三年行动计划(2023-2025)出台</td>
+<td>占全省41.7%，贡献49%预算收入</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>国家自主创新示范区试点</td>
+<td>占全省41.5%</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>纳入国家现代化都市圈培育行动试点</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2026</td>
+<td>全域纳入国家要素市场化配置综合改革试点</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>七、与全国两会的关联分析</h2>
+<h3>7.1 全国两会量化目标与湖南分解</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th style="text-align: center;">2025年全国目标</th>
+<th style="text-align: center;">2025年湖南目标</th>
+<th style="text-align: center;">湖南高于全国</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GDP增速</td>
+<td style="text-align: center;">5%左右</td>
+<td style="text-align: center;">5.5%左右</td>
+<td style="text-align: center;">+0.5个百分点</td>
+</tr>
+<tr>
+<td>CPI涨幅</td>
+<td style="text-align: center;">2%左右</td>
+<td style="text-align: center;">3%左右</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td>城镇新增就业</td>
+<td style="text-align: center;">1200万以上</td>
+<td style="text-align: center;">70万</td>
+<td style="text-align: center;">按比例匹配</td>
+</tr>
+<tr>
+<td>粮食产量</td>
+<td style="text-align: center;">1.4万亿斤</td>
+<td style="text-align: center;">616亿斤</td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>规律总结</strong>：湖南GDP目标通常比全国目标高出0.5个百分点，体现"跳起来摘桃子"的地方进取姿态；但实际增速普遍低于目标，2025年实际增速与全国持平（4.8%），说明经济大省同样面临宏观压力。</p>
+</blockquote>
+<h3>7.2 中央→湖南政策传导实例（政府工作报告视角）</h3>
+<p>以<strong>2025年"两重""两新"政策</strong>为例：</p>
+<pre><code>中央经济工作会议（2024.12）
+  └→ 提出&quot;两重&quot;（国家重大战略实施和重点领域安全能力建设）
+      &quot;两新&quot;（大规模设备更新和消费品以旧换新）
+        └→ 湖南省政府工作报告（2025.1）
+              └→ 量化落实：289个省重点项目、消费品以旧换新带动销售905亿元
+                  └→ 十大技术攻关项目对接&quot;两重&quot;方向
+</code></pre>
+<p>这一链条体现了<strong>"中央定调→地方政府工作报告量化分解→条块执行"</strong>的标准化路径，是理解央地关系的关键框架。</p>
+<hr />
+<h2>八、考试视角</h2>
+<h3>8.1 申论价值："湖南辨识度"素材</h3>
+<p><strong>申论大作文可用的湖南特色表述</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>素材</th>
+<th>适用主题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>战略定位</strong></td>
+<td>"三高四新"美好蓝图</td>
+<td>高质量发展、区域发展、产业升级</td>
+</tr>
+<tr>
+<td><strong>区位表述</strong></td>
+<td>"一带一部"（过渡带+结合部）</td>
+<td>区位优势、中部崛起、区域协调</td>
+</tr>
+<tr>
+<td><strong>产业发展</strong></td>
+<td>"4×4"现代化产业体系</td>
+<td>新质生产力、产业转型、科技创新</td>
+</tr>
+<tr>
+<td><strong>数字经济</strong></td>
+<td>绿色智能计算产值8500亿、"人工智能+"</td>
+<td>数字经济、科技赋能</td>
+</tr>
+<tr>
+<td><strong>营商环境</strong></td>
+<td>"加减乘除四道算术题"、从拼政策到比环境</td>
+<td>改革开放、营商环境、政府职能转变</td>
+</tr>
+<tr>
+<td><strong>区域发展</strong></td>
+<td>"长株潭都市圈"、轨道上的长株潭、"强省会"战略</td>
+<td>区域协调、城镇化、一体化</td>
+</tr>
+<tr>
+<td><strong>民生保障</strong></td>
+<td>601亿元/23项民生实事、"技兴三湘"</td>
+<td>民生保障、共同富裕、就业</td>
+</tr>
+<tr>
+<td><strong>粮食安全</strong></td>
+<td>粮食产量从603亿→突破620亿斤</td>
+<td>粮食安全、三农、乡村振兴</td>
+</tr>
+</tbody>
+</table>
+<p><strong>申论范文可用金句</strong>：
+- "锚定'三高四新'美好蓝图，把宏伟蓝图变成生动现实"
+- "以湖南一域之光为全国大局添彩"
+- "扛牢经济大省挑大梁的政治责任"</p>
+<h3>8.2 行测常识考点（侧重湖南省情）</h3>
+<table>
+<thead>
+<tr>
+<th>考点</th>
+<th>关键信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>湖南省两会时间</td>
+<td>每年1月（全国两会前）</td>
+</tr>
+<tr>
+<td>湖南省省长</td>
+<td>毛伟明（2021年起）</td>
+</tr>
+<tr>
+<td>湖南"三高四新"</td>
+<td>先进制造业高地、科技创新高地、改革开放高地；新路子、新作为、新担当、新篇章</td>
+</tr>
+<tr>
+<td>长株潭三市</td>
+<td>长沙、株洲、湘潭</td>
+</tr>
+<tr>
+<td>湖南GDP排名</td>
+<td>稳居全国前十强（2025年5.53万亿）</td>
+</tr>
+<tr>
+<td>湖南粮食地位</td>
+<td>全国重要的粮食主产省，水稻面积和产量居全国前列</td>
+</tr>
+<tr>
+<td>"十四五"GDP增量</td>
+<td>超1.36万亿元</td>
+</tr>
+<tr>
+<td>湖南城镇化率</td>
+<td>2025年达63%</td>
+</tr>
+<tr>
+<td>湖南万亿级产业数</td>
+<td>6个（2025年）</td>
+</tr>
+</tbody>
+</table>
+<h3>8.3 面试模拟题</h3>
+<p><strong>综合分析类（参考湖南选调面试风格）</strong></p>
+<blockquote>
+<p>湖南省委书记沈晓明在2025年全国两会提出湖南要做好"加减乘除"四道算术题。请结合实际，谈谈你对这四道题的理解，并选择其中一道，说明在基层工作中如何落实。</p>
+</blockquote>
+<p><strong>参考要点</strong>：
+- 加法：政策、资金、人才、项目等要素向"三个高地"集聚
+- 减法：为经营主体松绑减负、降本增效
+- 乘法：发挥科技创新和产业创新的乘数效应
+- 除法：破除制约发展的体制机制障碍
+- 基层落实（以减法为例）：简化审批流程、"一件事一次办"、减少不必要的检查督查、落实惠企政策直达快享</p>
+<hr />
+<h2>九、来源汇总</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>来源</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2023年湖南省政府工作报告全文</td>
+<td><a href="https://www.hunan.gov.cn/hnszf/szf/zfld/mwm/mwmjh/202301/t20230128_29191592.html">湖南省政府门户</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2023年湖南GDP突破5万亿</td>
+<td><a href="https://www.hxw.gov.cn/content/2024/01/20/14451880.html">红星网</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>2023年湖南两会专题</td>
+<td><a href="http://www.hunan.gov.cn/topic/2023hnlh/index.html">湖南省政府门户</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>2024年报告要点（700字速读）</td>
+<td><a href="http://gxt.hunan.gov.cn/gxt/ztzl/2024hnlh/lhmtbdmp/202401/t20240124_32633172.html">省工信厅转载</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>2024年报告全文</td>
+<td><a href="http://hn.people.com.cn/n2/2024/0218/c195194-40747531.html">人民网湖南频道</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>2025年报告全文（含2024回顾）</td>
+<td><a href="https://hnrd.gov.cn/content/646945/61/14666603.html">湖南人大</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>2025年报告（省统计局转载）</td>
+<td><a href="http://tjj.hunan.gov.cn/tjgz/hnywg/202501/t20250127_33576669.html">省统计局</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>十五五规划建议全文</td>
+<td><a href="https://cn.chinadaily.com.cn/a/202512/12/WS693bf9a6a310942cc499676e.html">中国日报中文网</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>2026年报告全文</td>
+<td><a href="http://www.kaifu.gov.cn/zfxxgk/qtzz_18816/qgh/dtyw_19606/202602/t20260225_12319255.html">开福区政府转载</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td>2026年报告900字速读</td>
+<td><a href="https://hn.rednet.cn/content/646046/95/15662942.html">红网</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td>2026年601亿民生实事</td>
+<td><a href="https://www.hunan.gov.cn/topic/2026slh/slhsp/202602/t20260204_33910024.html">湖南省政府门户</a></td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f07">
+    <div class="content-header">
+      <h2>07 · 湖南省委会议</h2>
+      <h3>湖南省委全会与省委经济工作会议</h3>
+      <button class="collapse-btn" onclick="toggleContent('f07')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f07">
+      <h1>湖南省委全会与省委经济工作会议</h1>
+<blockquote>
+<p>覆盖：十二届省委三次全会—十次全会（2022.11—2025.12）
+      省委经济工作会议（2023—2025）
+核心看点：中央政策如何"湖南化"落地
+考试重要度：★★★★ / 覆盖：申论 · 面试 / 选调必知
+整理日期：2026-05-10</p>
+</blockquote>
+<hr />
+<h2>一、制度定位</h2>
+<h3>1.1 省委全会与中央全会的关系</h3>
+<ul>
+<li>湖南省第十二届委员会对应中共中央第二十届中央委员会（2022年产生）。</li>
+<li>省委全会一般为每年2次左右：年中一次（通常为专题性全会，如贯彻中央全会精神）、年末一次（通常与省委经济工作会议合并，对标中央经济工作会议）。</li>
+<li>2024年9月省委十二届七次全会，专门学习贯彻<strong>党的二十届三中全会</strong>精神，通过湖南省全面深化改革《决定》。</li>
+</ul>
+<h3>1.2 湖南在全国政治版图中的角色</h3>
+<ul>
+<li><strong>中部崛起重要支点</strong>：湖南是中部六省之一，2025年GDP达5.53万亿，稳居全国前十强。</li>
+<li><strong>"一带一部"定位</strong>：东部沿海地区和中西部地区过渡带、长江开放经济带和沿海开放经济带结合部（习近平总书记2013年提出）。</li>
+<li><strong>经济大省担当</strong>：2025年政府工作报告自评"扛牢了经济大省挑大梁的政治责任"。</li>
+</ul>
+<hr />
+<h2>二、湖南省委全会（十二届期间，2022-2025）</h2>
+<h3>2.1 历次全会一览</h3>
+<table>
+<thead>
+<tr>
+<th>届次</th>
+<th>时间</th>
+<th>类型</th>
+<th>核心议题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三次</td>
+<td>2022.11.24-25</td>
+<td>专题性</td>
+<td>学习贯彻党的二十大精神；通过《关于深入学习宣传贯彻党的二十大精神 为全面建设社会主义现代化新湖南而团结奋斗的决定》</td>
+</tr>
+<tr>
+<td><strong>四次</strong></td>
+<td><strong>2023.8.29-30</strong></td>
+<td>专题性</td>
+<td>通过《关于锚定"三高四新"美好蓝图 加快推动高质量发展的若干意见》；提出"十一个大力推进"</td>
+</tr>
+<tr>
+<td><strong>五次</strong></td>
+<td><strong>2023.12.28-29</strong></td>
+<td>经济部署</td>
+<td>总结2023年经济（"前低、中稳、后升"）；部署2024年经济，提出"十个统筹"+"八大行动"+"八项重点任务"</td>
+</tr>
+<tr>
+<td><strong>七次</strong></td>
+<td><strong>2024.9.27</strong></td>
+<td>专题性</td>
+<td>学习贯彻二十届三中全会精神；通过全面深化改革《决定》，13个方面300多项改革举措；第一批12项重点改革（包括"连环债"清偿机制、零基预算改革、教育科技人才一体化等）</td>
+</tr>
+<tr>
+<td><strong>八次</strong></td>
+<td><strong>2024.12.30-31</strong></td>
+<td>经济部署</td>
+<td>总结2024年经济（"总体平稳、稳中有进、结构优化、质态向好"）；部署2025年经济，提出"五个必须坚持"+"七大攻坚"+"八项重点任务"</td>
+</tr>
+<tr>
+<td><strong>九次</strong></td>
+<td><strong>2025.11.28-29</strong></td>
+<td>专题性</td>
+<td>通过《关于制定湖南省国民经济和社会发展第十五个五年规划的建议》；6大领域50项重大工程，总投资约4.7万亿元</td>
+</tr>
+<tr>
+<td><strong>十次</strong></td>
+<td><strong>2025.12.30</strong></td>
+<td>经济部署</td>
+<td>暨省委经济工作会议；总结2025年（"总体平稳、承压前行、质效向好"）；部署2026年经济，提出"九个必须"，确保"十五五"开好局起好步</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注</strong>：省委十二届六次全会（约2024年中）为常规性会议，因公开报道较少，以上列出历次实质性部署较强的全会。</p>
+</blockquote>
+<h3>2.2 全会规律总结</h3>
+<ul>
+<li><strong>一届五次左右</strong>实质性全会（一次选举、二次党代表、三次以后实质部署）</li>
+<li><strong>每年2次</strong>经济相关全会：年中专题性、年末部署次年经济</li>
+<li><strong>人事议题</strong>：每次全会通常有人事调整（递补/追认处分），体现党的纪律性和组织性</li>
+<li><strong>核心主线不变</strong>："三高四新"自2020年提出后，始终是省委全会最高频关键词</li>
+</ul>
+<blockquote>
+<p><strong>来源</strong>：<a href="http://www.hunan.gov.cn/hnyw/sy/hnyw1/202308/t20230831_29473048.html">省委十二届四次全会</a> | <a href="https://hn.rednet.cn/m/content/646756/63/13403534.html">省委十二届五次全会</a> | <a href="http://jgdj.changsha.gov.cn/ywyl/202409/t20240929_11609092.htm">省委十二届七次全会</a> | <a href="https://hn.rednet.cn/content/646856/75/14592723.html">省委十二届八次全会</a> | <a href="http://www.hunan.xinhua.org/20251130/b75450123dfa4190b73c09b629509155/c.html">省委十二届九次全会</a> | <a href="http://www.hnzy.gov.cn/content/646956/75/15583992.html">省委十二届十次全会</a></p>
+</blockquote>
+<hr />
+<h2>三、湖南省委经济工作会议（2023-2025年末）</h2>
+<h3>3.1 三次会议对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th style="text-align: center;">2023年→2024年</th>
+<th style="text-align: center;">2024年→2025年</th>
+<th style="text-align: center;">2025年→2026年</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>全会名称</strong></td>
+<td style="text-align: center;">十二届五次</td>
+<td style="text-align: center;">十二届八次暨经济工作会议</td>
+<td style="text-align: center;">十二届十次暨经济工作会议</td>
+</tr>
+<tr>
+<td><strong>时间</strong></td>
+<td style="text-align: center;">2023.12.28-29</td>
+<td style="text-align: center;">2024.12.30-31</td>
+<td style="text-align: center;">2025.12.30</td>
+</tr>
+<tr>
+<td><strong>对当年总结</strong></td>
+<td style="text-align: center;">"前低、中稳、后升"</td>
+<td style="text-align: center;">"总体平稳、稳中有进、结构优化、质态向好"</td>
+<td style="text-align: center;">"总体平稳、承压前行、质效向好"</td>
+</tr>
+<tr>
+<td><strong>方法论</strong></td>
+<td style="text-align: center;">"十个统筹"</td>
+<td style="text-align: center;">"五个必须坚持"</td>
+<td style="text-align: center;">"九个必须"</td>
+</tr>
+<tr>
+<td><strong>重点任务</strong></td>
+<td style="text-align: center;">八项重点任务</td>
+<td style="text-align: center;">八项重点任务</td>
+<td style="text-align: center;">八项重点任务</td>
+</tr>
+<tr>
+<td><strong>行动抓手</strong></td>
+<td style="text-align: center;">"八大行动"</td>
+<td style="text-align: center;">"七大攻坚"</td>
+<td style="text-align: center;">"稳进高新"</td>
+</tr>
+<tr>
+<td><strong>年度关键词</strong></td>
+<td style="text-align: center;">新质生产力、4×4产业体系</td>
+<td style="text-align: center;">人工智能+、智赋万企、零基预算改革</td>
+<td style="text-align: center;">十五五开局</td>
+</tr>
+<tr>
+<td><strong>省委书记</strong></td>
+<td style="text-align: center;">沈晓明</td>
+<td style="text-align: center;">沈晓明</td>
+<td style="text-align: center;">沈晓明</td>
+</tr>
+<tr>
+<td><strong>省长</strong></td>
+<td style="text-align: center;">毛伟明</td>
+<td style="text-align: center;">毛伟明</td>
+<td style="text-align: center;">毛伟明</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 方法论演变（考试重点）</h3>
+<p>省委经济工作会议的方法论是理解湖南治理思路的核心线索，三次会议呈现清晰的演变轨迹：</p>
+<p><strong>2023年"十个统筹"</strong>（十二届五次全会）：
+统筹稳和进/立和破、稳增长和稳预期、扩内需和优供给、城市和农村、园区内和园区外、条和块、发展经济和改善民生、开源和节流、高质量发展和高水平安全等——覆盖面广，强调全面协调。</p>
+<p><strong>2024年"五个必须坚持"</strong>（十二届八次全会）：
+1. 必须坚持实事求是（纠治"好高骛远""统计造假"）
+2. 必须坚持均衡发展（改变"主要靠第四季度冲刺"的惯性）
+3. 必须坚持有所为有所不为（从拼政策转向比环境比服务）
+4. 必须坚持系统观念
+5. 必须坚持省市县一盘棋</p>
+<p><strong>2025年"九个必须"</strong>（十二届十次全会）：
+在"五个必须坚持"基础上进一步强化，突出"十五五"开局要求，更加强调战略定力与执行穿透力。</p>
+<blockquote>
+<p><strong>演变规律</strong>：从"十个统筹"（全面铺开、面面俱到）→"五个必须坚持"（聚焦纠偏、直指问题）→"九个必须"（战略深化、融会贯通），体现了湖南治理方法论从"大而全"到"精而准"再到"深而透"的升级路径。</p>
+</blockquote>
+<h3>3.3 沈晓明"算术题"治理思路</h3>
+<p>省委书记沈晓明善于用通俗比喻阐释政策：</p>
+<ul>
+<li><strong>2024年全国两会</strong>："三道算术题"总结"三个高地"建设；提出长沙打造"全球研发中心城市"</li>
+<li><strong>2025年全国两会</strong>："加减乘除四道算术题"——加法（要素向"三个高地"集聚）、减法（为经营主体松绑减负）、乘法（创新驱动的乘数效应）、除法（破除体制机制瓶颈）</li>
+<li><strong>连续三年</strong>出席岳麓峰会/互联网岳麓大会，推动"人工智能+"行动；2023年提出"全球研发中心城市"，2024年发出"大学生创新创业邀约"</li>
+</ul>
+<blockquote>
+<p><strong>来源</strong>：<a href="https://hn.rednet.cn/m/content/646756/63/13403534.html">十二届五次全会部署2024经济</a> | <a href="https://hn.rednet.cn/content/646856/75/14592723.html">十二届八次全会部署2025经济</a> | <a href="http://www.hnzy.gov.cn/content/646956/75/15583992.html">十二届十次全会部署2026经济</a> | <a href="https://www.wenweipo.com/a/202503/08/AP67cbb248e4b042503af40bb1.html">沈晓明"加减乘除"四道题</a></p>
+</blockquote>
+<hr />
+<h2>四、中央→湖南政策传导全过程</h2>
+<h3>4.1 内容衔接：中央经济工作会议关键词→湖南化落地</h3>
+<table>
+<thead>
+<tr>
+<th>中央经济工作会议关键词</th>
+<th>湖南省落实表述</th>
+<th>衔接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"更加积极的财政政策"（2024年）</td>
+<td>零基预算改革、争取更多政策项目资金落户</td>
+<td>财政改革+向上争取</td>
+</tr>
+<tr>
+<td>"适度宽松的货币政策"（2024年）</td>
+<td>金融支持实体经济、"湘信贷"平台</td>
+<td>金融工具本地化</td>
+</tr>
+<tr>
+<td>"稳住楼市股市"（2024年）</td>
+<td>防范化解房地产风险，保交楼</td>
+<td>风险防控</td>
+</tr>
+<tr>
+<td>"两重""两新"（2024年）</td>
+<td>消费品以旧换新带动销售905亿、289个省重点项目</td>
+<td>量化落地</td>
+</tr>
+<tr>
+<td>"新质生产力"（2023年）</td>
+<td>"4×4"现代化产业体系、绿色智能计算、"人工智能+"</td>
+<td>产业图谱化</td>
+</tr>
+<tr>
+<td>"提振消费专项行动"（2024年）</td>
+<td>长沙建设国际消费中心城市、长株潭都市圈辐射</td>
+<td>中心城市引领</td>
+</tr>
+<tr>
+<td>"统筹培育新动能和更新旧动能"（2024年）</td>
+<td>动态编制产业创新图谱、文化和科技融合</td>
+<td>新旧并举</td>
+</tr>
+<tr>
+<td>"整治内卷式竞争"（2024年）</td>
+<td>"从拼政策转向比环境、比服务"</td>
+<td>营商环境升级</td>
+</tr>
+</tbody>
+</table>
+<h3>4.2 政策传导路径详解（以"零基预算改革"为例）</h3>
+<p>这是观察中央政策如何"湖南化"落地的完整标本：</p>
+<pre><code>中央（2024.7 二十届三中全会）
+  └→ 提出&quot;深化零基预算改革&quot;
+      └→ 湖南（2024.9 省委十二届七次全会）
+            └→ 列入第一批12项重点改革
+                └→ 省政府常务会议部署实施细则
+                    └→ 省财政厅制定操作方案
+                        └→ 各市州/省直部门执行
+</code></pre>
+<p><strong>传导关键节点分析</strong>：
+- <strong>中央定调</strong>（三中全会《决定》）：首次在党的最高文件中提及零基预算，释放强力改革信号
+- <strong>省委承接</strong>（七次全会《决定》）：从300多项改革举措中优选12项"首批重点"，零基预算居其一——体现了"急用先行"的选择逻辑
+- <strong>政府落地</strong>（常务会议+财政厅方案）：将政治决定转化为可操作的技术方案
+- <strong>条块执行</strong>（市州/省直部门）：完成"最后一公里"</p>
+<p>这一传导链条体现了<strong>"中央定调→省委全会通过决定→省政府制定方案→条块执行"</strong>的标准化政策传导路径。考试中分析政策类题目时，掌握这一逻辑链条至关重要。</p>
+<h3>4.3 权力链条总结</h3>
+<pre><code>党中央（中央全会/中央经济工作会议）
+    ↓ 定方向、出基调
+省委（全会/经济工作会议）  
+    ↓ 学精神、出《决定》/《若干意见》
+省政府（政府工作报告/常务会议）
+    ↓ 量化目标、分解任务
+省直厅局 → 市州 → 县市区
+    ↓ 条块结合、落实执行
+基层（乡镇/街道）
+</code></pre>
+<hr />
+<h2>五、考试视角</h2>
+<h3>5.1 申论价值："方法论"与"传导"素材</h3>
+<p><strong>申论大作文可用的方法论类素材</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>素材</th>
+<th>适用主题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>战略定位</strong></td>
+<td>"三高四新"美好蓝图</td>
+<td>高质量发展、区域发展、产业升级</td>
+</tr>
+<tr>
+<td><strong>治理方法论</strong></td>
+<td>"五个必须坚持"→"九个必须"</td>
+<td>实事求是、政绩观、治理能力、方法论</td>
+</tr>
+<tr>
+<td><strong>营商环境</strong></td>
+<td>"加减乘除四道算术题"、从拼政策到比环境</td>
+<td>改革开放、营商环境、政府职能转变</td>
+</tr>
+<tr>
+<td><strong>政策传导</strong></td>
+<td>中央定调→省委决定→政府方案→条块执行</td>
+<td>执行力、制度优势、政策落实</td>
+</tr>
+</tbody>
+</table>
+<p><strong>申论范文可用金句</strong>：
+- "实事求是、均衡发展、有所为有所不为"
+- "从拼政策转向比环境、比服务"
+- "以湖南一域之光为全国大局添彩"</p>
+<h3>5.2 行测常识考点（侧重省委/政治常识）</h3>
+<table>
+<thead>
+<tr>
+<th>考点</th>
+<th>关键信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>湖南省委书记</td>
+<td>沈晓明（2023年3月起，此前为海南省委书记）</td>
+</tr>
+<tr>
+<td>湖南省省长</td>
+<td>毛伟明（2021年起）</td>
+</tr>
+<tr>
+<td>湖南十二届省委</td>
+<td>对应二十届中央，2021年11月产生</td>
+</tr>
+<tr>
+<td>湖南"三高四新"</td>
+<td>先进制造业高地、科技创新高地、改革开放高地；新路子、新作为、新担当、新篇章</td>
+</tr>
+<tr>
+<td>岳麓峰会/岳麓大会</td>
+<td>互联网和数字经济领域年度盛会</td>
+</tr>
+<tr>
+<td>零基预算改革</td>
+<td>二十届三中全会提出，湖南列入首批12项重点改革</td>
+</tr>
+<tr>
+<td>省委全会频次</td>
+<td>每年约2次（年中专题+年末经济部署）</td>
+</tr>
+<tr>
+<td>长株潭三市</td>
+<td>长沙、株洲、湘潭</td>
+</tr>
+</tbody>
+</table>
+<h3>5.3 面试模拟题</h3>
+<p><strong>政策理解类（参考湖南省考面试风格）</strong></p>
+<blockquote>
+<p>从"八大行动"到"七大攻坚"，再到2026年强调"稳进高新"，湖南年度经济工作抓手不断演进。请分析这种变化的背后逻辑，并谈谈对你做好本职工作的启示。</p>
+</blockquote>
+<p><strong>参考要点</strong>：
+- 背后逻辑：从全面铺开（八大行动覆盖面广）→聚焦突破（七大攻坚更聚焦关键领域）→稳中求进（稳进高新更重实效），体现了工作从"大抓落实"到"攻坚突破"的深化
+- 启示：①实事求是，根据形势变化调整工作重心；②聚焦重点，不能平均用力；③注重实效，不搞形式主义</p>
+<hr />
+<h2>六、来源汇总</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>来源</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>省委十二届四次全会</td>
+<td><a href="http://www.hunan.gov.cn/hnyw/sy/hnyw1/202308/t20230831_29473048.html">湖南省政府</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>省委十二届五次全会（部署2024）</td>
+<td><a href="https://hn.rednet.cn/m/content/646756/63/13403534.html">红网</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>省委十二届七次全会（改革决定）</td>
+<td><a href="http://jgdj.changsha.gov.cn/ywyl/202409/t20240929_11609092.htm">长沙机关党建</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>省委十二届八次全会（部署2025）</td>
+<td><a href="https://hn.rednet.cn/content/646856/75/14592723.html">红网</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>省委十二届九次全会（十五五建议）</td>
+<td><a href="http://www.hunan.xinhua.org/20251130/b75450123dfa4190b73c09b629509155/c.html">新华网湖南</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>省委十二届十次全会（部署2026）</td>
+<td><a href="http://www.hnzy.gov.cn/content/646956/75/15583992.html">政协云</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>沈晓明"加减乘除"四道题</td>
+<td><a href="https://www.wenweipo.com/a/202503/08/AP67cbb248e4b042503af40bb1.html">香港文汇网</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>沈晓明常委会（2025.3.19）</td>
+<td><a href="http://www.hnzy.gov.cn/content/646947/64/14800241.html">政协云</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>湖南十四五成绩单</td>
+<td><a href="http://hn.people.com.cn/n2/2025/1016/c336521-41381558.html">人民网湖南</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td>2026年报告全文（含省委部署背景）</td>
+<td><a href="http://www.kaifu.gov.cn/zfxxgk/qtzz_18816/qgh/dtyw_19606/202602/t20260225_12319255.html">开福区政府转载</a></td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f08">
+    <div class="content-header">
+      <h2>08 · 集体学习与委员会</h2>
+      <h3>中央政治局集体学习与委员会会议</h3>
+      <button class="collapse-btn" onclick="toggleContent('f08')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f08">
+      <h1>中央政治局集体学习与委员会会议（2022-2026）</h1>
+<blockquote>
+<p>整理日期：2026-05-10
+覆盖：二十届中央政治局集体学习 · 中央财经委 · 中央深改委 · 中央国安委 · 中央金融委 · 中央科技委 · 区域协调发展领导小组
+考试重要度：★★★★★ / 覆盖：申论 · 面试 · 行测常识</p>
+</blockquote>
+<hr />
+<h2>一、制度定位</h2>
+<h3>1.1 中央政治局集体学习</h3>
+<p><strong>制度起源：</strong> 2002年12月26日，十六届中央政治局举行首次集体学习，此后形成制度，一般每40天左右举行一次。截至2026年5月，十六届以来累计集体学习超过180次。</p>
+<p><strong>学习形式（三种）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>形式</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>讲学</strong></td>
+<td>邀请各领域权威学者专题讲解，政治局委员提问讨论</td>
+<td>理论性、专业性较强的主题</td>
+</tr>
+<tr>
+<td><strong>研讨</strong></td>
+<td>无主讲人，由政治局委员和相关部门负责同志交流工作体会</td>
+<td>实践性、现实性较强的主题</td>
+</tr>
+<tr>
+<td><strong>参访</strong></td>
+<td>走出中南海，在社会一线开设"课堂"</td>
+<td>红色资源、科技创新等主题</td>
+</tr>
+</tbody>
+</table>
+<p><strong>考试价值：</strong> 集体学习的主题直接反映最高决策层当前最关注的方向，是理解政策优先级和预判下阶段工作重点的最直接窗口。习近平总书记的讲话核心观点经常出现在申论材料和面试热点中。</p>
+<h3>1.2 中央各类委员会</h3>
+<p><strong>制度定位：</strong> 党中央决策议事协调机构，是"党对重大工作集中统一领导"的具体制度安排。2023年3月《党和国家机构改革方案》新组建中央金融委员会、中央科技委员会等，标志着党对金融工作和科技工作的领导进一步加强。</p>
+<table>
+<thead>
+<tr>
+<th>委员会</th>
+<th>主任/主席</th>
+<th>职能定位</th>
+<th>设立/改革时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中央财经委员会</td>
+<td>习近平</td>
+<td>经济领域顶层设计、重大方针决策</td>
+<td>2018年（由中央财经领导小组升格）</td>
+</tr>
+<tr>
+<td>中央全面深化改革委员会</td>
+<td>习近平</td>
+<td>改革的总体设计、统筹协调、整体推进</td>
+<td>2018年（由中央深改组升格）</td>
+</tr>
+<tr>
+<td>中央国家安全委员会</td>
+<td>习近平（主席）</td>
+<td>国家安全工作的决策和议事协调</td>
+<td>2013年11月（十八届三中全会决定设立）</td>
+</tr>
+<tr>
+<td>中央金融委员会</td>
+<td>何立峰（办公室主任）</td>
+<td>金融稳定和发展的顶层设计、统筹协调</td>
+<td>2023年3月新组建</td>
+</tr>
+<tr>
+<td>中央科技委员会</td>
+<td>丁薛祥（主任）</td>
+<td>统筹推进国家创新体系建设和科技体制改革</td>
+<td>2023年3月新组建</td>
+</tr>
+<tr>
+<td>中央区域协调发展领导小组</td>
+<td>—</td>
+<td>统筹区域重大战略（京津冀、长三角、粤港澳、中部崛起、西部大开发等）</td>
+<td>2023年机构改革中设立</td>
+</tr>
+</tbody>
+</table>
+<p><strong>制度演变关键节点：</strong> 2018年党和国家机构改革中，多个"领导小组"升格为"委员会"，由"议事协调"升级为"决策议事协调"，标志着党的领导体制机制进一步完善。</p>
+<hr />
+<h2>二、二十届中央政治局集体学习（截至2026年5月）</h2>
+<h3>2.1 集体学习一览表</h3>
+<table>
+<thead>
+<tr>
+<th>次序</th>
+<th>时间</th>
+<th>主题</th>
+<th>讲解人（单位/职务）</th>
+<th>形式</th>
+<th>考试关联</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第1次</td>
+<td>2022.10.25</td>
+<td>学习贯彻党的二十大精神</td>
+<td>李强等6位常委发言</td>
+<td>研讨</td>
+<td>——</td>
+</tr>
+<tr>
+<td>第2次</td>
+<td>2023.01.31</td>
+<td>加快构建新发展格局</td>
+<td>尹力、刘国中、何立峰、张国清等发言</td>
+<td>研讨</td>
+<td>★★</td>
+</tr>
+<tr>
+<td><strong>第3次</strong></td>
+<td><strong>2023.02.21</strong></td>
+<td><strong>加强基础研究，夯实科技自立自强根基</strong></td>
+<td>龚旗煌（北京大学校长、中科院院士）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第4次</td>
+<td>2023.03.30</td>
+<td>学习贯彻习近平新时代中国特色社会主义思想</td>
+<td>刘国中、李干杰等发言</td>
+<td>研讨</td>
+<td>★★</td>
+</tr>
+<tr>
+<td><strong>第5次</strong></td>
+<td><strong>2023.05.29</strong></td>
+<td><strong>建设教育强国</strong></td>
+<td>邱勇（清华大学党委书记、中科院院士）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第6次</td>
+<td>2023.06.30</td>
+<td>开辟马克思主义中国化时代化新境界</td>
+<td>李文堂（中央党校副校长）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>第7次</td>
+<td>2023.07.24</td>
+<td>全面加强军事治理</td>
+<td>赵东斌（军事科学院军事法制研究院院长）</td>
+<td>讲学</td>
+<td>★</td>
+</tr>
+<tr>
+<td>第8次</td>
+<td>2023.09.27</td>
+<td>世界贸易组织规则与世贸组织改革</td>
+<td>顾学明（商务部研究院院长、研究员）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+<tr>
+<td><strong>第9次</strong></td>
+<td><strong>2023.10.27</strong></td>
+<td><strong>铸牢中华民族共同体意识</strong></td>
+<td>王延中（中国社科院民族学与人类学研究所所长）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第10次</td>
+<td>2023.11.27</td>
+<td>加强涉外法制建设</td>
+<td>黄惠康（武汉大学特聘教授）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+<tr>
+<td><strong>第11次</strong></td>
+<td><strong>2024.01.31</strong></td>
+<td><strong>加快发展新质生产力，扎实推进高质量发展</strong></td>
+<td>马兴瑞、何立峰等发言</td>
+<td><strong>研讨</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td><strong>第12次</strong></td>
+<td><strong>2024.02.29</strong></td>
+<td><strong>新能源技术与我国的能源安全</strong></td>
+<td>刘吉臻（中国工程院院士）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第13次</td>
+<td>—</td>
+<td><em>（公开资料未见记录，编号被跳过）</em></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>第14次</strong></td>
+<td><strong>2024.05.27</strong></td>
+<td><strong>促进高质量充分就业</strong></td>
+<td>莫荣（中国劳动和社会保障科学研究院院长）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第15次</td>
+<td>2024.06.27</td>
+<td>健全全面从严治党体系</td>
+<td>张景虎（中央组织部秘书长）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>第16次</td>
+<td>2024.07.30</td>
+<td>推进现代边海空防建设</td>
+<td>黄继忠（中央军委联合参谋部）</td>
+<td>讲学</td>
+<td>★</td>
+</tr>
+<tr>
+<td><strong>第17次</strong></td>
+<td><strong>2024.10.28</strong></td>
+<td><strong>建设文化强国</strong></td>
+<td>王博（北京大学副校长、教授）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第18次</td>
+<td>2024.12.09</td>
+<td>我国历史上的边疆治理</td>
+<td>李国强（中国社科院学部委员）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+<tr>
+<td><strong>第19次</strong></td>
+<td><strong>2025.02.28</strong></td>
+<td><strong>坚定不移贯彻总体国家安全观，建设更高水平平安中国</strong></td>
+<td>李燕（西南政法大学副校长、教授）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td><strong>第20次</strong></td>
+<td><strong>2025.04.25</strong></td>
+<td><strong>坚持自立自强，突出应用导向，推动人工智能健康有序发展</strong></td>
+<td>郑南宁（西安交通大学教授）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第21次</td>
+<td>2025.06.30</td>
+<td>健全落实中央八项规定精神长效机制</td>
+<td>赵保国（中央纪委国家监委）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>第22次</td>
+<td>2025.09.29</td>
+<td>系统推进我国宗教中国化</td>
+<td>张训谋（中央统战部宗教研究中心主任）</td>
+<td>讲学</td>
+<td>★</td>
+</tr>
+<tr>
+<td>第23次</td>
+<td>2025.11.28</td>
+<td>加强网络生态治理</td>
+<td>时建中（中国政法大学教授）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+<tr>
+<td><strong>第24次</strong></td>
+<td><strong>2026.01.30</strong></td>
+<td><strong>发挥比较优势，推动我国未来产业发展不断取得新突破</strong></td>
+<td>余晓晖（中国信息通信研究院）</td>
+<td><strong>讲学</strong></td>
+<td><strong>★★★</strong></td>
+</tr>
+<tr>
+<td>第25次</td>
+<td>2026.04.28</td>
+<td>着力提高防范应对自然灾害能力</td>
+<td>杨思全（应急管理部国家自然灾害防治研究院）</td>
+<td>讲学</td>
+<td>★★</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>关于第13次缺失：</strong> 人民网、中国机构编制网等权威来源的列表中，第十二次（2024.02.29）后直接跳至第十四次（2024.05.27）。2024年3月至5月间可能举行了第13次学习但未公开报道，或编号因特殊原因被调整。公考答题中建议回答"截至2026年5月，公开报道共举行了24次集体学习"。</p>
+</blockquote>
+<h3>2.2 重点学习专题详解（按公考相关度排序）</h3>
+<h4>专题一：新质生产力（第11次，2024.01.31）★★★</h4>
+<p><strong>背景：</strong> 2023年9月，习近平总书记在黑龙江考察调研期间首次提出"新质生产力"概念。仅4个月后，这一概念就成为中央政治局集体学习主题，可见其重要性。这是年度首次集体学习，也是习近平首次系统阐述新质生产力的理论内涵。</p>
+<p><strong>核心观点：</strong>
+- 新质生产力是<strong>创新起主导作用</strong>，摆脱传统经济增长方式、生产力发展路径，具有<strong>高科技、高效能、高质量</strong>特征，符合新发展理念的先进生产力质态
+- 核心标志：全要素生产率大幅提升
+- 特点是创新，关键在质优，<strong>本质是先进生产力</strong>
+- <strong>新质生产力本身就是绿色生产力</strong>（与"双碳"目标直接衔接）
+- 生产关系必须与生产力发展要求相适应，要深化经济体制、科技体制改革，形成<strong>新型生产关系</strong></p>
+<p><strong>公考关联：</strong> 申论高频命题方向。可关联"高质量发展""科技创新""绿色低碳转型""现代化产业体系"等话题。面试中可能问"谈对新质生产力的理解""如何培育新质生产力"等。</p>
+<hr />
+<h4>专题二：人工智能（第20次，2025.04.25）★★★</h4>
+<p><strong>背景：</strong> 在ChatGPT等大模型引发全球AI竞赛的背景下，这是中央政治局首次以"人工智能"为主题的集体学习。讲解人为西安交通大学郑南宁教授。</p>
+<p><strong>核心观点：</strong>
+- 坚持<strong>自立自强，突出应用导向</strong>，推动人工智能朝着有益、安全、公平方向健康有序发展
+- 集中力量攻克<strong>高端芯片、基础软件</strong>等核心技术，构建<strong>自主可控、协同运行</strong>的人工智能基础软硬件系统
+- 推动AI科技创新与产业创新深度融合，构建<strong>企业主导的产学研用协同创新体系</strong>
+- 统筹推进<strong>算力基础设施建设</strong>，深化数据资源开发利用和开放共享
+- 加紧制定完善法律法规、政策制度、应用规范、伦理准则，构建技术监测、风险预警、应急响应体系
+- 推动人工智能成为<strong>造福人类的国际公共产品</strong>，弥合全球智能鸿沟</p>
+<p><strong>公考关联：</strong> 行测常识和面试的重要热点。可关联"科技自立自强""数字经济""新质生产力""数据安全""科技伦理"等。面试可能考"AI发展利与弊""如何平衡AI创新与安全监管"等。</p>
+<hr />
+<h4>专题三：总体国家安全观（第19次，2025.02.28）★★★</h4>
+<p><strong>背景：</strong> 2024年是习近平总书记提出总体国家安全观十周年。讲解人为西南政法大学副校长李燕教授。</p>
+<p><strong>核心观点：</strong>
+- 平安中国建设<strong>只能加强，不能削弱</strong>
+- 树立<strong>发展是硬道理、安全也是硬道理</strong>的理念，自觉把发展和安全统一起来，共同谋划、一体部署、相互促进
+- 把<strong>捍卫国家政治安全</strong>摆在首位，坚定维护国家政权安全、制度安全、意识形态安全
+- 推动公共安全治理模式向<strong>事前预防转型</strong>（与第25次自然灾害防范形成呼应）
+- 坚持和发展新时代<strong>"枫桥经验"</strong>，推进信访工作法治化
+- 关注网络安全、<strong>人工智能安全</strong>、数据安全等新兴领域</p>
+<p><strong>公考关联：</strong> 申论和行测常识均可能涉及。可关联"平安中国""基层治理""枫桥经验""应急管理""公共安全"等话题。</p>
+<hr />
+<h4>专题四：新能源与能源安全（第12次，2024.02.29）★★★</h4>
+<p><strong>背景：</strong> 这是继十九届中央政治局第36次集体学习（2022.01.24，碳达峰碳中和）后，二十届中央再次聚焦能源议题。讲解人为中国工程院院士刘吉臻。</p>
+<p><strong>核心观点：</strong>
+- <strong>能源安全事关经济社会发展全局</strong>，出路就是大力发展新能源
+- 以更大力度推动新能源高质量发展，为共建清洁美丽世界作出更大贡献
+- 统筹好新能源发展和国家能源安全，处理好<strong>新能源与传统能源、全局与局部、政府与市场</strong>等关系
+- 把能源技术及其关联产业培育成带动产业升级的<strong>新增长点，促进新质生产力发展</strong></p>
+<p><strong>公考关联：</strong> 与能源安全、碳中和目标、"先立后破"等政策理念紧密相关。十九届第36次学习（双碳专题）也值得同步关注。</p>
+<hr />
+<h4>专题五：未来产业（第24次，2026.01.30）★★★</h4>
+<p><strong>背景：</strong> "十五五"开局之年首次集体学习即聚焦未来产业，体现了最高层对抢占未来竞争制高点的紧迫感。</p>
+<p><strong>核心观点：</strong>
+- 培育发展未来产业对<strong>发展新质生产力、建设现代化产业体系</strong>具有重要意义
+- 坚持"<strong>产业出题、科技答题</strong>"，加快科技成果转化应用
+- 处理好<strong>传统与新兴、科技与产业、放得活与管得好</strong>三对关系
+- 重点方向：<strong>量子科技、生物制造、氢能和核聚变能、脑机接口、具身智能、第六代移动通信</strong>等</p>
+<p><strong>公考关联：</strong> 这是"十五五"规划的重要议题方向。申论可能涉及"新旧动能转换""科技自立自强""现代化产业体系"等。</p>
+<hr />
+<h4>专题六：建设教育强国（第5次，2023.05.29）★★★</h4>
+<p><strong>背景：</strong> 习近平总书记强调"建设教育强国，是全面建成社会主义现代化强国的战略先导"。讲解人为清华大学党委书记邱勇院士。</p>
+<p><strong>公考关联：</strong> 教育强国、科技强国、人才强国三位一体，是二十大报告的核心部署之一。申论可能涉及"教育公平""职业教育""基础研究人才培养"等。</p>
+<hr />
+<h4>专题七：铸牢中华民族共同体意识（第9次，2023.10.27）★★★</h4>
+<p><strong>背景：</strong> 讲解人为中国社科院民族学与人类学研究所所长王延中。此次学习对民族工作作出全面部署。</p>
+<p><strong>公考关联：</strong> 民族工作在公考中频繁出现，尤其是湖南省考（湖南是多民族省份）。可关联"民族区域自治制度""民族团结进步创建"等。</p>
+<hr />
+<h4>专题八：促进高质量充分就业（第14次，2024.05.27）★★★</h4>
+<p><strong>背景：</strong> 这是二十届中央政治局首次以就业为主题的集体学习（以往多聚焦宏观战略）。讲解人为中国劳动和社会保障科学研究院院长莫荣研究员。</p>
+<p><strong>公考关联：</strong> 就业是最大的民生，年年是公考热点。可关联"高校毕业生就业""灵活就业""新就业形态""职业技能培训"等。</p>
+<hr />
+<h4>专题九：建设文化强国（第17次，2024.10.28）★★★</h4>
+<p><strong>背景：</strong> 讲解人为北京大学副校长王博教授。2023年6月文化传承发展座谈会后，文化议题持续升温。</p>
+<p><strong>公考关联：</strong> 可关联"第二个结合"（马克思主义与中华优秀传统文化相结合）、"文化自信""文化遗产保护"等。</p>
+<hr />
+<h3>2.3 集体学习的命题规律</h3>
+<p><strong>规律一：主题选择的时间窗口</strong></p>
+<table>
+<thead>
+<tr>
+<th>时间节点</th>
+<th>惯例主题方向</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每年第一次（1月底前后）</td>
+<td>经济/发展类重大战略</td>
+<td>2024→新质生产力；2026→未来产业</td>
+</tr>
+<tr>
+<td>"七一"前夕（6月底）</td>
+<td>党建相关</td>
+<td>2023→马克思主义中国化时代化；2024→全面从严治党；2025→八项规定</td>
+</tr>
+<tr>
+<td>"八一"前后（7月底）</td>
+<td>国防和军队建设</td>
+<td>2023→军事治理；2024→边海空防</td>
+</tr>
+<tr>
+<td>每年末（11-12月）</td>
+<td>法治/治理/制度类</td>
+<td>2023→涉外法制；2024→边疆治理；2025→网络生态治理</td>
+</tr>
+</tbody>
+</table>
+<p><strong>规律二：与中央全会/中央经济工作会议的衔接</strong></p>
+<ul>
+<li>集体学习主题往往<strong>提前3-6个月</strong>释放政策信号，为后续全会或重大会议做铺垫</li>
+<li>例：2024年1月学习"新质生产力"→同年7月三中全会《决定》详细部署</li>
+<li>例：2023年2月学习"基础研究"→持续铺垫科技体制改革</li>
+</ul>
+<p><strong>规律三：学习形式反映了主题的成熟度</strong></p>
+<ul>
+<li>邀请外部学者讲学 → 主题尚处于<strong>研究论证阶段</strong>，决策层在吸收专家意见</li>
+<li>政治局委员研讨 → 主题已进入<strong>形成共识阶段</strong>，将上升为政策部署</li>
+</ul>
+<p><strong>规律四：讲解人的学科/机构背景暗含政策侧重</strong></p>
+<ul>
+<li>高校学者居多 → 以学术中立角度提供专业支撑</li>
+<li>军方研究机构 → 国防军事议题的封闭性</li>
+<li>社科院/商务部研究院 → 政策实操导向</li>
+</ul>
+<hr />
+<h2>三、中央财经委员会会议</h2>
+<h3>3.1 历次会议（2023-2025）</h3>
+<p>中央财经委员会是党中央领导经济工作的最高议事协调机构，习近平总书记亲自主持。</p>
+<table>
+<thead>
+<tr>
+<th>次序</th>
+<th>时间</th>
+<th>主要议题</th>
+<th>核心部署</th>
+<th>公考角度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一次</td>
+<td>2023.05.05</td>
+<td>现代化产业体系 + 人口高质量发展</td>
+<td>审议通过委员会工作规则；以实体经济为支撑推进产业智能化、绿色化、融合化；实施积极应对人口老龄化国家战略</td>
+<td>★★★ 产业体系+"一老一小"是高频考点</td>
+</tr>
+<tr>
+<td>第二次</td>
+<td>2023.07.20</td>
+<td>耕地保护与盐碱地综合改造利用</td>
+<td>守住18亿亩耕地红线；盐碱地是"潜在粮仓"</td>
+<td>★★ 粮食安全+耕地保护</td>
+</tr>
+<tr>
+<td>第三次</td>
+<td>（未公开）</td>
+<td>——</td>
+<td>新闻通稿未发布</td>
+<td>——</td>
+</tr>
+<tr>
+<td>第四次</td>
+<td>2024.02.23</td>
+<td>大规模设备更新和消费品以旧换新 + 降低全社会物流成本</td>
+<td>"两新"行动：制定修订294项国家标准；打通物流堵点</td>
+<td>★★★ "两新"政策是2024-2025经济工作的重要抓手</td>
+</tr>
+<tr>
+<td>第五次</td>
+<td>（未公开）</td>
+<td>——</td>
+<td>新闻通稿未发布</td>
+<td>——</td>
+</tr>
+<tr>
+<td><strong>第六次</strong></td>
+<td><strong>2025.07.01</strong></td>
+<td><strong>全国统一大市场建设 + 海洋经济</strong></td>
+<td>首提"五统一、一开放"体系框架；破除"内卷式"竞争；发展海上风电、海洋生物医药等</td>
+<td><strong>★★★</strong> 超大考点</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 第六次会议详解（重点）</h3>
+<p><strong>"五统一、一开放"体系框架（首次明确提出）：</strong>
+1. 统一市场基础制度
+2. 统一市场基础设施
+3. 统一政府行为尺度
+4. 统一市场监管执法
+5. 统一要素资源市场
+6. 持续扩大对内对外开放</p>
+<p><strong>治理"内卷式"竞争：</strong> 规范政府采购和招投标、规范地方招商引资、推动内外贸一体化，这是中央层面首次在财经委会议上直面"内卷式竞争"问题。</p>
+<hr />
+<h2>四、中央全面深化改革委员会会议</h2>
+<h3>4.1 历次会议（2023-2024）</h3>
+<p>中央深改委是改革的"总指挥部"。主任为习近平总书记，副主任为李强、王沪宁、蔡奇。</p>
+<table>
+<thead>
+<tr>
+<th>次序</th>
+<th>时间</th>
+<th>通过的重要文件</th>
+<th>改革领域</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>第一次</strong></td>
+<td>2023.04.21</td>
+<td>《关于强化企业科技创新主体地位的意见》《关于加强和改进国有经济管理有力支持中国式现代化建设的意见》《关于促进民营经济发展壮大的意见》及委员会工作规则等</td>
+<td>科技体制、国有经济、民营经济</td>
+</tr>
+<tr>
+<td><strong>第二次</strong></td>
+<td>2023.07.11</td>
+<td>《关于建设更高水平开放型经济新体制促进构建新发展格局的意见》《深化农村改革实施方案》《关于推动能耗双控逐步转向碳排放双控的意见》等</td>
+<td>开放型经济、农村改革、绿色低碳</td>
+</tr>
+<tr>
+<td><strong>第三次</strong></td>
+<td>2023.11.07</td>
+<td>审议通过相关改革文件</td>
+<td>（公开信息有限）</td>
+</tr>
+<tr>
+<td><strong>第四次</strong></td>
+<td>2024.02.19</td>
+<td>《关于改革土地管理制度增强对优势地区高质量发展保障能力的意见》《关于促进经济社会发展全面绿色转型的意见》《关于进一步提升基层应急管理能力的意见》《关于加快形成支持全面创新的基础制度的意见》及2023年工作总结、2024年工作要点</td>
+<td>土地制度、绿色转型、应急管理、全面创新</td>
+</tr>
+<tr>
+<td><strong>第五次</strong></td>
+<td>2024.06.11</td>
+<td>《关于完善中国特色现代企业制度的意见》《关于健全种粮农民收益保障机制和粮食主产区利益补偿机制的指导意见》《关于建设具有全球竞争力的科技创新开放环境的若干意见》</td>
+<td>企业制度、粮食安全、科技开放</td>
+</tr>
+<tr>
+<td><strong>第六次</strong></td>
+<td>2024.08.29</td>
+<td><strong>《中央和国家机关有关部门贯彻实施党的二十届三中全会〈决定〉重要改革举措分工方案》</strong>《关于实施自由贸易试验区提升战略的意见》等</td>
+<td>三中全会改革落实、自贸区</td>
+</tr>
+</tbody>
+</table>
+<h3>4.2 与三中全会改革的"施工图"关系</h3>
+<ul>
+<li><strong>三中全会（2024.07）：</strong> 画出进一步全面深化改革的"路线图"（300多项重大改革举措）</li>
+<li><strong>深改委第六次会议（2024.08）：</strong> 即审议通过分工方案，将300多项改革举措分解落实到各部门，成为"施工队"</li>
+<li>这是"全会决定→深改委分派→各部门落实"的标准程序，体现了<strong>决策—执行—监督</strong>的改革推进机制</li>
+</ul>
+<h3>4.3 关于2025年</h3>
+<p>截至2026年5月，尚未查到2025年二十届中央深改委召开公开会议的记录。这可能与三中全会改革方案的落实周期有关（2024年8月刚完成分工部署，2025年为执行年）。</p>
+<hr />
+<h2>五、其他中央级委员会/领导小组会议</h2>
+<h3>5.1 中央国家安全委员会</h3>
+<p><strong>二十届中央国安委第一次会议（2023.05.30）</strong></p>
+<p>习近平总书记以中央国安委主席身份主持，李强、赵乐际、蔡奇出席。</p>
+<p><strong>核心要点：</strong>
+- 当前国家安全问题的复杂程度、艰巨程度明显加大，要坚持<strong>底线思维和极限思维</strong>
+- 准备经受"<strong>风高浪急甚至惊涛骇浪</strong>"的重大考验
+- 审议通过《加快建设国家安全风险监测预警体系的意见》《关于全面加强国家安全教育的意见》
+- 突出实战实用导向，推动<strong>发展和安全深度融合</strong></p>
+<p><strong>公考关联：</strong> 国家安全是总体国家安全观教育的核心，行测常识和面试均可能涉及。</p>
+<h3>5.2 中央金融委员会</h3>
+<p>2023年机构改革新组建。办公室主任何立峰（中央政治局委员）。</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>会议/活动</th>
+<th>核心内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024.12.13</td>
+<td>全国金融系统工作会议（首次）</td>
+<td>紧随中央经济工作会议后召开，部署2025年金融工作：防风险、强监管、促发展</td>
+</tr>
+<tr>
+<td>2025.04.29</td>
+<td>驻沪中央金融机构支持上海国际金融中心建设座谈会</td>
+<td>全面落实《关于支持加快建设上海国际金融中心的意见》</td>
+</tr>
+<tr>
+<td>2025.06.18</td>
+<td>印发《关于支持加快建设上海国际金融中心的意见》</td>
+<td>经五至十年基本建成与我国综合国力匹配的国际金融中心</td>
+</tr>
+<tr>
+<td>2025.10.24</td>
+<td>金融系统学习贯彻党的二十届四中全会精神会议</td>
+<td>谋划"十五五"金融重点工作</td>
+</tr>
+</tbody>
+</table>
+<p><strong>公考关联：</strong> 金融强国、防范化解金融风险是近年政策重点，与中央金融工作会议（2023.10）统筹理解。</p>
+<h3>5.3 中央科技委员会</h3>
+<p>2023年机构改革新组建。主任丁薛祥（中央政治局常委）。</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>会议</th>
+<th>核心内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025.01.13</td>
+<td>全国科技工作会议（丁薛祥首次以中央科技委主任身份出席）</td>
+<td>坚持全国"一盘棋"统筹；以新型举国体制开展关键核心技术攻关；推动科技创新与产业创新深度融合</td>
+</tr>
+<tr>
+<td>2025.01.14</td>
+<td>全国科技工作会议第二次全体会议</td>
+<td>研究编制"十五五"国家科技创新规划；部署科技体制改革；推进教育科技人才一体发展</td>
+</tr>
+</tbody>
+</table>
+<p><strong>公考关联：</strong> 科技自立自强、新型举国体制、教育科技人才一体化是重要考点。</p>
+<h3>5.4 中央区域协调发展领导小组</h3>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>核心内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024.05.27</td>
+<td>中央政治局会议审议《新时代推动中部地区加快崛起的若干政策措施》</td>
+<td>要求领导小组加强统筹协调，中部六省扛起主体责任（湖南考生重点！）</td>
+</tr>
+<tr>
+<td>2024.08.23</td>
+<td>中央政治局会议审议《进一步推动西部大开发形成新格局的若干政策措施》</td>
+<td>要求领导小组细化任务、推进落实</td>
+</tr>
+<tr>
+<td>2025.03.01</td>
+<td>中央区域办专题会议暨中部崛起工作推进会（湖北黄冈）</td>
+<td>总结2024年工作，部署2025年重点任务，强调中部六省加强互联互通</td>
+</tr>
+</tbody>
+</table>
+<p><strong>公考关联：</strong> 中部崛起战略是湖南考生必须掌握的区域政策，申论和面试均可能涉及。</p>
+<hr />
+<h2>六、与D轨其他文件的关联</h2>
+<h3>6.1 "决策→落实"传导链</h3>
+<pre><code>中央政治局集体学习 → 凝聚共识，确立政策方向（研究论证/信号释放）
+        ↓
+中央委员会全会 → 通过重大决定（顶层设计/制度定型）
+        ↓
+中央经济工作会议 → 年度经济工作部署（短期执行）
+        ↓
+中央财经委/深改委会议 → 分工落实（施工图/任务分解）
+        ↓
+全国两会 → 将党的主张转化为国家意志，预算/立法配套
+</code></pre>
+<p><strong>实例串联：</strong></p>
+<table>
+<thead>
+<tr>
+<th>环节</th>
+<th>新质生产力案例</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>首次提出</td>
+<td>习近平在黑龙江考察首次提出</td>
+<td>2023.09</td>
+</tr>
+<tr>
+<td>集体学习</td>
+<td>第11次集体学习系统阐述</td>
+<td>2024.01</td>
+</tr>
+<tr>
+<td>政府工作报告</td>
+<td>"加快发展新质生产力"列为年度首项任务</td>
+<td>2024.03</td>
+</tr>
+<tr>
+<td>三中全会</td>
+<td>《决定》详细部署健全相关体制机制</td>
+<td>2024.07</td>
+</tr>
+<tr>
+<td>深改委落实</td>
+<td>审议通过全面创新基础制度等文件</td>
+<td>2024.02/08</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 D轨文件快速跳转</h3>
+<table>
+<thead>
+<tr>
+<th>本文档章节</th>
+<th>关联的D轨文件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>集体学习（新质生产力、基础研究等）</td>
+<td><code>02-二十届中央全会（一至七中）.md</code>（三中全会决定）</td>
+</tr>
+<tr>
+<td>集体学习（构建新发展格局、高质量发展）</td>
+<td><code>04-中央经济工作会议（2022-2025）.md</code></td>
+</tr>
+<tr>
+<td>集体学习（就业、安全、边疆治理等）</td>
+<td><code>03-全国两会（2023-2026）.md</code>（政府工作报告）</td>
+</tr>
+<tr>
+<td>深改委会议（自贸区提升等）</td>
+<td><code>05-中央政治局会议（2023-2026·季度经济议题）.md</code></td>
+</tr>
+<tr>
+<td>中部崛起/湖南相关</td>
+<td><code>06-湖南省两会（2023-2026）.md</code> / <code>07-湖南省委全会与省委经济工作会议.md</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>七、考试视角</h2>
+<h3>7.1 申论价值</h3>
+<ul>
+<li><strong>集体学习主题 = 最重要的申论材料素材库：</strong> 习近平总书记在学习讲话中的核心观点（如"新质生产力本身就是绿色生产力""安全也是硬道理""先立后破"等），可直接作为申论大作文的<strong>论点句</strong>或<strong>过渡句</strong>。</li>
+<li><strong>委员会会议 = 政策执行层面的具体措施：</strong> 如"五统一、一开放""大规模设备更新和消费品以旧换新""事前预防转型"等，可作为<strong>对策段</strong>的具体举措素材。</li>
+<li><strong>高频主题排序：</strong> 新质生产力 ＞ 国家安全 ＞ 人工智能 ＞ 就业 ＞ 文化强国 ＞ 统一大市场 ＞ 教育强国 ＞ 边疆/民族 ＞ 新能源/双碳</li>
+</ul>
+<h3>7.2 行测常识</h3>
+<p>集体学习制度本身可能作为<strong>常识判断</strong>考点：</p>
+<ol>
+<li><strong>制度起源：</strong> 十六届（2002年12月26日首次）</li>
+<li><strong>学习形式：</strong> 讲学、研讨、参访三种</li>
+<li><strong>新组建的党中央决策议事协调机构：</strong> 中央金融委员会（何立峰）、中央科技委员会（丁薛祥）——2023年机构改革产物</li>
+<li><strong>集体学习与重要论述关联：</strong> "好学才能上进。中国共产党人依靠学习走到今天，也必然要依靠学习走向未来。"</li>
+<li><strong>中央财经委第六次会议"五统一、一开放"：</strong> 统一市场基础制度、基础设施、政府行为尺度、市场监管执法、要素资源市场 + 持续扩大对内对外开放</li>
+</ol>
+<h3>7.3 面试模拟题</h3>
+<p><strong>模拟题一：</strong></p>
+<blockquote>
+<p>二十届中央政治局第11次集体学习聚焦"加快发展新质生产力"。习近平总书记指出"新质生产力本身就是绿色生产力"。请你结合实际，谈谈对这句话的理解。</p>
+</blockquote>
+<p><strong>答题要点参考：</strong>
+- 阐述新质生产力的定义（创新起主导作用，高科技、高效能、高质量）
+- 解释"绿色生产力"内涵：绿色发展是高质量发展的底色，新质生产力必须符合新发展理念，淘汰落后产能本身就是发展新质生产力
+- 联系实际：产业结构绿色转型（新能源、新能源汽车等）、碳达峰碳中和目标</p>
+<p><strong>模拟题二：</strong></p>
+<blockquote>
+<p>中央财经委员会第六次会议提出要治理"内卷式"竞争，破除地方保护和市场分割，加快建设全国统一大市场。你如何看待这一问题？</p>
+</blockquote>
+<p><strong>答题要点参考：</strong>
+- "内卷式竞争"的表现：招商引资恶性竞争、低价无序竞争、地方保护主义
+- 危害：资源错配、产能过剩、阻碍全国统一大市场建设
+- 对策：统一市场基础制度规则、规范政府采购和招投标、推动内外贸一体化</p>
+<hr />
+<h2>八、来源汇总</h2>
+<h3>集体学习（主要来源）</h3>
+<ul>
+<li><a href="http://cpc.people.com.cn/GB/64162/448477/index.html">人民网·二十届中央政治局集体学习（资料中心）</a></li>
+<li><a href="https://www.scopsr.gov.cn/zlzx/zzjxx/20zzjxx/index.html">中国机构编制网·第二十届中央政治局集体学习</a></li>
+<li><a href="https://www.12371.cn/special/lnzzjjtxx/">共产党员网·中共中央政治局集体学习</a></li>
+<li><a href="https://www.studytimes.cn/llxxk/zyzzjjtxx/desjzyzzjjtxx/">学习时报网·二十届集体学习</a></li>
+<li><a href="https://www.xuexi.cn/9bc28239c691139fe0bdbd0f38126f8c/9a3668c13f6e303932b5e0e100fc248b.html">学习强国·集体学习专题</a></li>
+<li><a href="http://paper.people.com.cn/rmlt/pc/content/202412/02/content_30047230.html">人民论坛·党的十八大以来中央政治局集体学习的特征及实践探析</a></li>
+<li><a href="https://www.theorychina.org.cn/c/2022-05-03/1437220.shtml">理论中国网·十八大以来中央政治局如何开展集体学习</a></li>
+</ul>
+<h3>中央财经委</h3>
+<ul>
+<li><a href="http://cpc.people.com.cn/GB/64162/448542/457496/index.html">人民网·二十届中央财经委员会会议（资料中心）</a></li>
+<li><a href="https://www.studytimes.cn/llxxk/zycjwyhlchy/esjzycjwyhhy/202507/t20250702_81456.html">学习时报网·中央财经委第一次会议</a></li>
+<li><a href="https://news.qq.com/rain/a/20250701A09I7G00">新华社·中央财经委第六次会议报道</a></li>
+</ul>
+<h3>中央深改委</h3>
+<ul>
+<li><a href="https://www.studytimes.cn/llxxk/zyqmshggwyhlchy/zyqmshggwyhhy/">学习时报网·中央全面深化改革委员会会议</a></li>
+<li><a href="http://www.dt.gov.cn/dtszf/gwy/202402/5a5ae960e92047e1a690d336282f467d.shtml">新华社·深改委第四次会议</a></li>
+<li><a href="http://app.gdj.gansu.gov.cn/home/organ/detail/aid/40817.html">新华社·深改委第五次会议</a></li>
+<li><a href="https://www.dswxyjy.org.cn/n1/2024/0830/c423712-40309166.html">新华社·深改委第六次会议</a></li>
+</ul>
+<h3>中央国安委</h3>
+<ul>
+<li><a href="http://app.gdj.gansu.gov.cn/home/organ/detail/aid/36604.html">新华社·二十届中央国安委第一次会议</a></li>
+</ul>
+<h3>中央金融委</h3>
+<ul>
+<li><a href="https://m.21jingji.com/article/20241214/6a4ed9943a906635ae5c88ccc3d16560.html">21世纪经济报道·全国金融系统工作会议</a></li>
+<li><a href="https://flash.jin10.com/detail/20250429191341460800">金十数据·上海国际金融中心座谈会</a></li>
+</ul>
+<h3>中央科技委</h3>
+<ul>
+<li><a href="https://news.qq.com/rain/a/20250114A09IZO00">腾讯新闻·全国科技工作会议</a></li>
+<li><a href="https://kjj.wuhan.gov.cn/zzzq/zzzq_kjxw/202501/t20250115_2518206.shtml">武汉科技局·全国科技工作会议第二次全体会议</a></li>
+</ul>
+<h3>中央区域协调发展领导小组</h3>
+<ul>
+<li><a href="https://www.thepaper.cn/newsDetail_forward_27521139">新华社·政治局审议中部崛起政策措施</a></li>
+<li><a href="http://fgw.shanxi.gov.cn/xwfb/fgyw/202503/t20250306_9783069.shtml">山西省发改委·中部崛起工作推进会</a></li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>整理说明：</strong> 本文档基于2026年5月10日前公开的官方信息整理。集体学习场次和内容以人民网（cpc.people.com.cn）和中国机构编制网（scopsr.gov.cn）的权威列表为准。部分委员会会议未公开发布新闻通稿，以"未公开"标注。日期差异（1-2天）源于学习日期与报道日期的不同，本表以权威来源常用日期为准。</p>
+</blockquote>
+    </div>
+  </section>
+
+
+  <section class="content-section" id="content-f09">
+    <div class="content-header">
+      <h2>09 · 专题工作会议</h2>
+      <h3>专题中央工作会议</h3>
+      <button class="collapse-btn" onclick="toggleContent('f09')">收起 ▲</button>
+    </div>
+    <div class="content-body" id="body-f09">
+      <h1>专题中央工作会议（金融·农村·纪检·生态·科技·文化·政法·人才·统战·民族）</h1>
+<blockquote>
+<p>整理日期：2026-05-10
+覆盖：中央金融工作会议 · 中央农村工作会议 · 中央纪委全会 · 全国生态环境保护大会 · 全国科技大会 · 全国宣传思想文化工作会议 · 中央政法工作会议 · 中央人才工作会议 · 中央统战工作会议 · 中央民族工作会议
+考试重要度：★★★★★ / 覆盖：申论 · 面试 · 行测常识</p>
+</blockquote>
+<hr />
+<h2>一、制度定位</h2>
+<p>"中央XX工作会议"是除中央全会、两会、中央经济工作会议之外的重要专题部署机制。其命名中的"中央"二字意味着会议的规格由党中央直接主导，而非国务院或部委层面。</p>
+<h3>分类层级</h3>
+<table>
+<thead>
+<tr>
+<th>规格</th>
+<th>会议名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>冠名"中央"</strong></td>
+<td>中央金融工作、中央农村工作、中央政法工作、中央人才工作、中央统战工作、中央民族工作会议</td>
+<td>党中央直接召开，习近平出席并讲话</td>
+</tr>
+<tr>
+<td><strong>冠名"全国"</strong></td>
+<td>全国生态环境保护大会、全国科技大会、全国宣传思想文化工作会议</td>
+<td>以党中央、国务院名义召开，习近平出席并讲话</td>
+</tr>
+<tr>
+<td><strong>党内专题</strong></td>
+<td>中央纪委全会</td>
+<td>党章规定的党内监督专责机关全会</td>
+</tr>
+</tbody>
+</table>
+<h3>与中央全会、经济工作会议的"面—线—点"关系</h3>
+<pre><code>中央全会（面）：全面部署，定方向定基调
+    │
+    ├── 中央经济工作会议（线）：经济主线年度部署
+    │
+    └── 专题工作会议（点）：重点领域纵深突破
+         ├── 金融 ── 中央金融工作会议
+         ├── 三农 ── 中央农村工作会议
+         ├── 纪检 ── 中央纪委全会
+         ├── 生态 ── 全国生态环境保护大会
+         ├── 科技 ── 全国科技大会
+         ├── 文化 ── 全国宣传思想文化工作会议
+         ├── 政法 ── 中央政法工作会议
+         ├── 人才 ── 中央人才工作会议
+         ├── 统战 ── 中央统战工作会议
+         └── 民族 ── 中央民族工作会议
+</code></pre>
+<hr />
+<h2>二、习近平"六个思想"体系——专题工作会议的理论产出</h2>
+<p>专题工作会议是习近平系列重要思想的"诞生地"。截至2023年10月，已形成<strong>六大以"习近平"命名的思想体系</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>思想名称</th>
+<th>正式确立场合</th>
+<th>时间</th>
+<th>核心关键词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>习近平强军思想</strong></td>
+<td>党的十九大</td>
+<td>2017.10</td>
+<td>党在新时代的强军目标</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>习近平经济思想</strong></td>
+<td>中央经济工作会议</td>
+<td>2017.12</td>
+<td>新发展理念、高质量发展</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>习近平生态文明思想</strong></td>
+<td>全国生态环境保护大会</td>
+<td>2018.05</td>
+<td>绿水青山就是金山银山</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>习近平外交思想</strong></td>
+<td>中央外事工作会议</td>
+<td>2018.06</td>
+<td>构建人类命运共同体</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>习近平法治思想</strong></td>
+<td>中央全面依法治国工作会议</td>
+<td>2020.11</td>
+<td>十一个坚持</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>习近平文化思想</strong></td>
+<td>全国宣传思想文化工作会议</td>
+<td>2023.10</td>
+<td>七个着力、建设中华民族现代文明</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>行测常识必考点</strong>：六大思想按时间排序（强军→经济→生态→外交→法治→文化）；六大思想与"五位一体"总体布局的对应关系；每个思想的标志性会议和首次提出场合。</p>
+</blockquote>
+<hr />
+<h2>三、中央金融工作会议（2023年10月30-31日）★★★</h2>
+<blockquote>
+<p>来源：<a href="https://www.xinhuanet.com/">新华网</a> | <a href="https://m.21jingji.com/article/20231031/herald/c4bb68a38f8faa684d441f33f071d8a0_zaker.html">21世纪经济报道</a> | <a href="https://m.jrj.com.cn/madapter/finance/2023/10/31215038184260.shtml">金融界</a> | <a href="http://dangjian.cn/jdcd/2025/01/16/detail_202501167007393.html">央广网</a></p>
+</blockquote>
+<h3>3.1 历史性升级</h3>
+<ul>
+<li>从"<strong>全国</strong>金融工作会议"升格为"<strong>中央</strong>金融工作会议"，属历史首次</li>
+<li>信号：金融工作从国务院主管上升为<strong>党中央直接领导</strong></li>
+<li>此前五次会议（1997/2002/2007/2012/2017）均称"全国金融工作会议"</li>
+</ul>
+<h3>3.2 核心部署</h3>
+<p><strong>总目标：首次提出"加快建设金融强国"</strong></p>
+<ul>
+<li>定位：金融是<strong>国民经济的血脉</strong>，是国家核心竞争力的重要组成部分</li>
+<li>现实判断：我国金融体系总体上"大而不强"</li>
+<li>路径：坚定不移走<strong>中国特色金融发展之路</strong></li>
+</ul>
+<p><strong>"五篇大文章"——金融服务高质量发展的五大重点领域</strong></p>
+<table>
+<thead>
+<tr>
+<th>领域</th>
+<th>核心方向</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>科技金融</strong></td>
+<td>为科技企业提供全链条、全生命周期金融服务</td>
+<td>"迎难而上、聚焦重点"</td>
+</tr>
+<tr>
+<td><strong>绿色金融</strong></td>
+<td>完善绿色金融政策/标准/产品体系，助力"双碳"</td>
+<td>"乘势而上、先立后破"</td>
+</tr>
+<tr>
+<td><strong>普惠金融</strong></td>
+<td>中小微企业、民营企业融资支持，覆盖农民、城镇低收入群体</td>
+<td>"雪中送炭、服务民生"</td>
+</tr>
+<tr>
+<td><strong>养老金融</strong></td>
+<td>健康产业、养老产业、银发经济，发展第三支柱养老保险</td>
+<td>"健全体系、增进福祉"</td>
+</tr>
+<tr>
+<td><strong>数字金融</strong></td>
+<td>金融机构数字化转型，降低服务成本，提升监管能力</td>
+<td>"把握机遇、重视安全"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三大重点任务</strong></p>
+<ol>
+<li><strong>为经济社会发展提供高质量服务</strong>：跨周期和逆周期调节；优化融资结构；活跃资本市场；培育一流投资银行和投资机构；支持国有大型金融机构做优做强</li>
+<li><strong>全面加强金融监管，有效防范化解金融风险</strong>：机构监管、行为监管、功能监管、穿透式监管、持续监管"五大监管"；建立防范化解地方债务风险长效机制；一视同仁满足不同所有制房地产企业合理融资需求</li>
+<li><strong>加强党中央对金融工作的集中统一领导</strong>：发挥好中央金融委员会、中央金融工委作用</li>
+</ol>
+<p><strong>与2017年会议的关键变化</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>2017年全国金融工作会议</th>
+<th>2023年中央金融工作会议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会议规格</td>
+<td>"全国"</td>
+<td>升格为"中央"</td>
+</tr>
+<tr>
+<td>总体目标</td>
+<td>服务实体经济、防控风险、深化改革</td>
+<td>首次提出"加快建设金融强国"</td>
+</tr>
+<tr>
+<td>重点领域</td>
+<td>小微、三农、精准脱贫</td>
+<td>科技、绿色、普惠、养老、数字金融</td>
+</tr>
+<tr>
+<td>机构定位</td>
+<td>"大力发展中小金融机构"</td>
+<td>"支持国有大型金融机构做优做强"</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 公考视角</h3>
+<p><strong>申论角度</strong>：金融强国与实体经济的关系、防范金融风险与高质量发展的平衡、五篇大文章的落地路径。</p>
+<p><strong>常识考点</strong>：
+- 全国→中央的名称升级与党管金融的强化
+- 五篇大文章的内容及各自关键词
+- 金融强国目标首次提出的会议和时间</p>
+<p><strong>面试模拟</strong>：如何理解"金融是国民经济的血脉"？五篇大文章中哪一篇与你报考岗位最相关？</p>
+<hr />
+<h2>四、中央农村工作会议（年度：2022.12 / 2023.12 / 2024.12 / 2025.12）</h2>
+<blockquote>
+<p>来源：<a href="https://www.chinanews.com/gsztc/2024/12-20/10339666.shtml">中国新闻网</a> | <a href="https://www.xinhuanet.com/">新华网</a> | <a href="https://epaper.zsnews.cn/epaper/zsrb/paperdate/20251231/part/3/articleid/5.html">中山日报</a> | <a href="https://www.nfncb.cn/">农民日报</a> | <a href="http://www.71.cn/2026/0311/1286109.shtml">求是网</a></p>
+</blockquote>
+<h3>4.1 历年核心部署对比</h3>
+<table>
+<thead>
+<tr>
+<th>年份</th>
+<th>召开时间</th>
+<th>核心主题</th>
+<th>讨论稿标题</th>
+<th>对应一号文件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022</td>
+<td>12月23-24日</td>
+<td>农业强国</td>
+<td>《关于做好2023年全面推进乡村振兴重点工作的意见》</td>
+<td>2023年一号文件</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>12月19-20日</td>
+<td>千万工程+粮食安全</td>
+<td>《关于学习运用"千村示范、万村整治"工程经验有力有效推进乡村全面振兴的意见》</td>
+<td>2024年一号文件</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>12月17-18日</td>
+<td>深化农村改革</td>
+<td>《关于进一步深化农村改革、扎实推进乡村全面振兴的意见》</td>
+<td>2025年一号文件</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>12月29-30日</td>
+<td>农业农村现代化</td>
+<td>《关于锚定农业农村现代化、扎实推进乡村全面振兴的意见》</td>
+<td>2026年一号文件（预计）</td>
+</tr>
+</tbody>
+</table>
+<h3>4.2 核心政策框架演进</h3>
+<p><strong>2023年会议（部署2024年）：确立"2+3"工作框架</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">两个确保</th>
+<th style="text-align: left;">三个提升</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">确保国家粮食安全</td>
+<td style="text-align: left;">提升乡村产业发展水平</td>
+</tr>
+<tr>
+<td style="text-align: left;">确保不发生规模性返贫</td>
+<td style="text-align: left;">提升乡村建设水平</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">提升乡村治理水平</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>粮食安全：全面落实党政同责，"稳面积、增单产"两手发力；确保粮食产量保持1.3万亿斤以上</li>
+<li>树立大农业观、大食物观，农林牧渔并举</li>
+<li>守住耕地命根子，加大高标准农田建设投入</li>
+<li>探索建立粮食产销区省际横向利益补偿机制</li>
+<li>学习运用"千万工程"经验；强化科技和改革双轮驱动</li>
+</ul>
+<p><strong>2024年会议（部署2025年）：深化改革抓落实</strong></p>
+<ul>
+<li>2024年粮食总产量首次迈上1.4万亿斤新台阶（14130亿斤）</li>
+<li>深入推进粮油作物大面积单产提升行动</li>
+<li>完善农产品贸易与生产协调机制，推动粮价保持在合理水平</li>
+<li>启动实施中央统筹下的粮食产销区省际横向利益补偿</li>
+<li>因地制宜发展<strong>农业新质生产力</strong></li>
+<li>有序推进第二轮土地承包到期后再延长三十年试点</li>
+<li>"千方百计推动农业增效益、农村增活力、农民增收入"</li>
+<li>做好"土特产"文章，壮大县域经济</li>
+</ul>
+<p><strong>2025年会议（部署2026年）：锚定农业农村现代化</strong></p>
+<ul>
+<li>2025年粮食总产量14297.5亿斤，单产提升贡献率达90%以上</li>
+<li>加力实施新一轮千亿斤粮食产能提升行动（2024-2030年，目标新增千亿斤以上）</li>
+<li>推动粮食品种培优和品质提升，主攻玉米和大豆</li>
+<li>严守耕地红线，加强黑土地保护和盐碱地综合利用</li>
+<li>从"有序推进试点"升级为"全面开展整省试点"（二轮延包已覆盖7个整省、221个整县、349个整乡镇）</li>
+</ul>
+<h3>4.3 趋势关键词链</h3>
+<pre><code>农业强国（2022) → 千万工程+粮食安全（2023）→ 深化农村改革（2024）→ 农业农村现代化（2025）
+</code></pre>
+<h3>4.4 公考视角</h3>
+<p><strong>申论角度</strong>：粮食安全与国家安全的关系、城乡融合发展路径、第二轮土地承包延包的政策逻辑。</p>
+<p><strong>常识考点</strong>：
+- 中央农村工作会议与次年一号文件的关系（讨论稿→正式文件）
+- 粮食产量数据演变（1.3→1.4→1.43万亿斤）
+- "2+3"工作框架的内容
+- 新一轮千亿斤粮食产能提升行动</p>
+<p><strong>面试模拟</strong>："千万工程"经验对于推进乡村全面振兴有何启示？</p>
+<hr />
+<h2>五、二十届中央纪委全会（二次/三次/四次/五次）</h2>
+<blockquote>
+<p>来源：<a href="https://www.ccdi.gov.cn/">中央纪委国家监委网站</a> | <a href="https://www.xinhuanet.com/">新华社</a> | <a href="https://news.cctv.cn/">央视新闻</a></p>
+</blockquote>
+<h3>5.1 历次全会一览</h3>
+<table>
+<thead>
+<tr>
+<th>全会</th>
+<th>时间</th>
+<th>习近平讲话主题</th>
+<th>李希工作报告</th>
+<th>纪委委员/列席</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>二次</td>
+<td>2023.1.9-10</td>
+<td>在新征程上坚定不移推进全面从严治党</td>
+<td>《深入学习贯彻党的二十大精神，在新征程上坚定不移推进全面从严治党》</td>
+<td>127人/207人</td>
+</tr>
+<tr>
+<td>三次</td>
+<td>2024.1.8-10</td>
+<td><strong>深入推进党的自我革命</strong> 坚决打赢反腐败斗争攻坚战持久战</td>
+<td>《深入学习贯彻习近平总书记关于党的自我革命的重要思想，纵深推进新征程纪检监察工作高质量发展》</td>
+<td>132人/238人</td>
+</tr>
+<tr>
+<td>四次</td>
+<td>2025.1.6-8</td>
+<td>坚持用改革精神和严的标准管党治党</td>
+<td>《深入推进党风廉政建设和反腐败斗争，以全面从严治党新成效为推进中国式现代化提供坚强保障》</td>
+<td>131人/247人</td>
+</tr>
+<tr>
+<td>五次</td>
+<td>2026.1.12-14</td>
+<td><strong>以更高标准更实举措推进全面从严治党</strong></td>
+<td>《以更高标准、更实举措推进全面从严治党，为实现"十五五"时期目标任务提供坚强保障》</td>
+<td>120人/265人</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 "党的自我革命"重要思想脉络</h3>
+<p><strong>三次全会（2024年1月）是里程碑</strong>：习近平首次系统阐述"习近平总书记关于党的自我革命的重要思想"，将其确立为新时代新征程纪检监察工作的根本遵循。</p>
+<p><strong>五次全会（2026年1月）新论断</strong>：</p>
+<ul>
+<li>"党的自我革命重在治权"——把权力关进制度笼子是新时代全面从严治党的重要任务</li>
+<li>制度要"密而不繁、有效管用"，"确保制度规定真正成为带电的高压线"</li>
+<li>重申"两个仍然"：反腐败斗争形势<strong>仍然严峻复杂</strong>，铲除腐败滋生土壤和条件任务<strong>仍然艰巨繁重</strong></li>
+<li>聚焦"三个更加"：更加坚决有力地贯彻落实党中央重大决策部署；更加科学有效地把权力关进制度笼子；更加清醒坚定地推进反腐败斗争</li>
+<li>2025年数据：前11个月查处违反八项规定问题25万多起、处分22万余人；1-9月立案78.9万件、处分67.7万人；追回外逃人员782人、追赃236.57亿元</li>
+<li>"四硬"标准锻造铁军：政治过硬、能力过硬、作风过硬、廉洁过硬</li>
+</ul>
+<h3>5.3 公考视角</h3>
+<p><strong>申论角度</strong>：自我革命与跳出历史周期率的"第二个答案"、全面从严治党与现代化建设的关系。</p>
+<p><strong>常识考点</strong>：
+- 自我革命思想在哪次全会上正式确立（三次全会，2024年1月）
+- "第二个答案"：自我革命（第一个答案是人民监督）
+- 中央纪委全会每年年初召开的传统
+- "两个仍然"的判断</p>
+<p><strong>面试模拟</strong>：如何理解"全面从严治党永远在路上，党的自我革命永远在路上"？</p>
+<hr />
+<h2>六、全国生态环境保护大会（2023年7月17-18日）★★★</h2>
+<blockquote>
+<p>来源：<a href="http://hn.people.com.cn/n2/2023/0722/c195196-40503548.html">人民网</a> | <a href="http://stzg.china.com.cn/m/2023-07/21/content_42455286.htm">中国网</a> | <a href="https://hb.rednet.cn/content/646741/68/12890402.html">生态环境部</a> | <a href="http://ztjy.people.cn/n1/2023/1030/c457340-40106198.html">求是网</a></p>
+</blockquote>
+<h3>6.1 大会定位</h3>
+<p>这是继2018年大会正式确立<strong>习近平生态文明思想</strong>后，时隔五年再次召开。大会对习近平生态文明思想进行了<strong>创新、丰富和发展</strong>。主要内容可用"<strong>4561</strong>"概括。</p>
+<h3>6.2 "四个重大转变"——新时代生态文明建设的历史性成就</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>重大转变</th>
+<th>内涵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>由重点整治到系统治理</strong></td>
+<td>从解决突出环境问题入手，注重点面结合、标本兼治（如祁连山从"千疮百孔"到"满山苍绿"）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>由被动应对到主动作为</strong></td>
+<td>转变观念、压实责任，"绿水青山就是金山银山"理念深入人心</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>由全球环境治理参与者到引领者</strong></td>
+<td>推动COP15通过"昆明—蒙特利尔全球生物多样性框架"</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>由实践探索到科学理论指导</strong></td>
+<td>形成习近平生态文明思想，实现规律性认识深化</td>
+</tr>
+</tbody>
+</table>
+<h3>6.3 "五个重大关系"——新征程上需要正确处理的辩证关系</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>重大关系</th>
+<th>核心内涵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>高质量发展和高水平保护</strong></td>
+<td>以高水平保护塑造发展新动能新优势</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>重点攻坚和协同治理</strong></td>
+<td>系统观念，强化目标/多污染物/部门/区域/政策协同</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>自然恢复和人工修复</strong></td>
+<td>综合适用两种手段，坚持山水林田湖草沙一体化保护</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>外部约束和内生动力</strong></td>
+<td>最严格制度最严密法治+激发全社会共同呵护内生动力</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>"双碳"承诺和自主行动</strong></td>
+<td>目标确定不移，但路径/节奏/力度自己作主，决不受他人左右</td>
+</tr>
+</tbody>
+</table>
+<h3>6.4 与2024年《关于全面推进美丽中国建设的意见》的关系</h3>
+<p>2023年大会部署"全面推进美丽中国建设"，2024年1月中共中央、国务院正式印发《关于全面推进美丽中国建设的意见》，明确了美丽中国建设的"三步走"战略目标和七大战略任务。</p>
+<h3>6.5 公考视角</h3>
+<p><strong>申论角度</strong>："五个重大关系"的辩证思维是极佳的分析框架，适用于生态类、发展类议论文。</p>
+<p><strong>常识考点</strong>：
+- 全国生态环境保护大会共召开几次（2018年首次、2023年第二次）
+- 习近平生态文明思想在哪次大会上确立（2018年第一次大会）
+- "四个重大转变""五个重大关系"分别是什么
+- "双碳"承诺和自主行动关系的核心——路径/节奏/力度自己作主</p>
+<p><strong>面试模拟</strong>：如何理解"绿水青山就是金山银山"在新时代的发展实践？</p>
+<hr />
+<h2>七、全国科技大会（2024年6月24日）★★★</h2>
+<blockquote>
+<p>来源：<a href="http://big5.www.gov.cn/gate/big5/www.gov.cn/gongbao/2024/issue_11466/202407/content_6963180.html">中国政府网</a> | <a href="http://politics.people.com.cn/BIG5/n1/2024/0626/c1001-40264216.html">人民网</a> | <a href="https://www.xinhuanet.com/">新华社</a></p>
+</blockquote>
+<h3>7.1 会议概况</h3>
+<p>2024年6月24日，<strong>全国科技大会、国家科学技术奖励大会、两院院士大会</strong>（中国科学院第二十一次院士大会、中国工程院第十七次院士大会）在人民大会堂隆重召开。</p>
+<ul>
+<li>习近平出席并发表重要讲话，为2023年度国家最高科学技术奖获得者颁奖</li>
+<li>最高科技奖授予：<strong>李德仁院士</strong>（武汉大学，遥感领域）、<strong>薛其坤院士</strong>（清华大学，量子科学领域）</li>
+<li>习近平评价：这是"在以中国式现代化全面推进强国建设、民族复兴伟业关键时期召开的一次科技盛会"</li>
+</ul>
+<h3>7.2 核心内容</h3>
+<p><strong>锚定2035年建成科技强国目标</strong></p>
+<ul>
+<li>"科技兴则民族兴，科技强则国家强"</li>
+<li>距离建成科技强国目标只有11年时间，要以"十年磨一剑"的决心和意志</li>
+<li>关键论断："关键核心技术是要不来、买不来、讨不来的"</li>
+</ul>
+<p><strong>科技强国五个基本要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>内涵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强大的基础研究和原始创新能力</td>
+<td>持续产出重大原创性、颠覆性科技成果</td>
+</tr>
+<tr>
+<td>强大的关键核心技术攻关能力</td>
+<td>支撑高质量发展和高水平安全</td>
+</tr>
+<tr>
+<td>强大的国际影响力和引领力</td>
+<td>成为世界重要科学中心和創新高地</td>
+</tr>
+<tr>
+<td>强大的高水平科技人才培养和集聚能力</td>
+<td>壮大国际顶尖科技人才队伍</td>
+</tr>
+<tr>
+<td>强大的科技治理体系和治理能力</td>
+<td>形成世界一流的创新生态和科研环境</td>
+</tr>
+</tbody>
+</table>
+<p><strong>"八个坚持"重要经验</strong></p>
+<p>坚持党的全面领导；坚持走中国特色自主创新道路；坚持创新引领发展；坚持"四个面向"战略导向；坚持以深化改革激发创新活力；坚持推动教育科技人才良性循环；坚持培育创新文化；坚持科技开放合作造福人类。</p>
+<p><strong>五方面战略部署</strong></p>
+<ol>
+<li>充分发挥<strong>新型举国体制</strong>优势，加快推进高水平科技自立自强</li>
+<li>推动<strong>科技创新和产业创新深度融合</strong>，助力发展新质生产力（聚焦集成电路、工业母机、基础软件、先进材料、核心种源等瓶颈制约）</li>
+<li>全面深化科技体制机制改革，坚持"破四唯"和"立新标"相结合</li>
+<li><strong>一体推进教育科技人才事业发展</strong>，构筑人才竞争优势</li>
+<li>推动科技开放合作，构建人类命运共同体</li>
+</ol>
+<h3>7.3 与"新质生产力""高水平科技自立自强"的衔接</h3>
+<ul>
+<li>2023年9月习近平在黑龙江考察时首提"新质生产力"</li>
+<li>2024年政府工作报告将"加快发展新质生产力"列为首要任务</li>
+<li>全国科技大会进一步明确"科技创新和产业创新深度融合"是发展新质生产力的基本路径</li>
+</ul>
+<h3>7.4 公考视角</h3>
+<p><strong>申论角度</strong>：科技自立自强与新质生产力的关系、新型举国体制在科技攻关中的应用、教育科技人才一体化。</p>
+<p><strong>常识考点</strong>：
+- 2023年度国家最高科学技术奖获得者：李德仁、薛其坤
+- "八个坚持"是哪次会议提出的（全国科技大会）
+- 科技强国五个基本要素
+- "破四唯"（唯论文、唯职称、唯学历、唯奖项）→"立新标"</p>
+<p><strong>面试模拟</strong>：如何理解"关键核心技术是要不来、买不来、讨不来的"？这对我国科技工作有什么启示？</p>
+<hr />
+<h2>八、全国宣传思想文化工作会议（2023年10月7-8日）★★★</h2>
+<blockquote>
+<p>来源：<a href="http://news.youth.cn/gn/202310/t20231011_14839596.htm">央视新闻</a> | <a href="https://www.xinhuanet.com/">新华网</a> | <a href="http://www.wenming.cn/sxll/20231010/f866ab371170489d99a5143248a043df/c.html">党建网</a> | <a href="http://www.qstheory.cn/">求是网</a> | <a href="http://cq12380.12371.gov.cn/Item/637989.aspx">12371共产党员网</a></p>
+</blockquote>
+<h3>8.1 历史性突破</h3>
+<ul>
+<li>会议名称<strong>首次增加"文化"二字</strong>（此前称"全国宣传思想工作会议"）</li>
+<li><strong>首次正式提出并系统阐述"习近平文化思想"</strong></li>
+<li>这是继习近平强军思想、经济思想、生态文明思想、外交思想、法治思想之后的<strong>第六个以"习近平"命名的思想体系</strong></li>
+<li>构成"<strong>习近平新时代中国特色社会主义思想的文化篇</strong>"</li>
+<li>标志着我们党对中国特色社会主义文化建设规律的认识达到了<strong>新高度</strong>，历史自信、文化自信达到了<strong>新高度</strong></li>
+</ul>
+<h3>8.2 "七个着力"的实践要求</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>着力方向</th>
+<th>核心要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>加强党对宣传思想文化工作的领导</strong></td>
+<td>政治方向根本保证</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>建设具有强大凝聚力和引领力的社会主义意识形态</strong></td>
+<td>意识形态工作极端重要</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>培育和践行社会主义核心价值观</strong></td>
+<td>凝魂聚气、强基固本</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>提升新闻舆论传播力引导力影响力公信力</strong></td>
+<td>主流舆论新格局</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>赓续中华文脉、推动中华优秀传统文化创造性转化和创新性发展</strong></td>
+<td>"两创"方针</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>推动文化事业和文化产业繁荣发展</strong></td>
+<td>满足人民精神文化需求</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>加强国际传播能力建设、促进文明交流互鉴</strong></td>
+<td>讲好中国故事</td>
+</tr>
+</tbody>
+</table>
+<h3>8.3 "三个事关"——宣传思想文化工作的极端重要性</h3>
+<p>宣传思想文化工作<strong>事关党的前途命运，事关国家长治久安，事关民族凝聚力和向心力</strong>，是一项极端重要的工作。</p>
+<h3>8.4 新时代新的文化使命</h3>
+<p>在新的历史起点上继续推动文化繁荣、建设文化强国、<strong>建设中华民族现代文明</strong>。</p>
+<p>特点："<strong>明体达用、体用贯通</strong>"——既有理论创新，又有实践部署，是"不断展开的、开放式的思想体系"。</p>
+<h3>8.5 "第二个结合"的深化</h3>
+<p>习近平文化思想深刻阐述了"把马克思主义基本原理同中华优秀传统文化相结合"（第二个结合），强调"第二个结合是又一次的思想解放"。</p>
+<h3>8.6 公考视角（行测常识必考点）</h3>
+<p><strong>必考清单</strong>：
+- 习近平文化思想首次提出的会议和时间（全国宣传思想文化工作会议，2023年10月）
+- 六大思想的名称和排序（强军→经济→生态→外交→法治→文化）
+- "七个着力"的内容
+- "三个事关"的内容
+- 新的文化使命：建设中华民族现代文明
+- "第二个结合"：马克思主义与中华优秀传统文化相结合</p>
+<p><strong>申论角度</strong>："第二个结合"与文化自信、传统文化的创造性转化和创新性发展。</p>
+<hr />
+<h2>九、中央政法工作会议（年度）</h2>
+<blockquote>
+<p>来源：<a href="http://news.youth.cn/gn/202501/t20250115_15773067.htm">中国青年网</a> | <a href="https://news.gmw.cn/2025-01/15/content_37797943.htm">光明网</a> | <a href="https://www.spp.gov.cn/spp/zdgz/202501/t20250115_679680.shtml">最高人民检察院</a></p>
+</blockquote>
+<h3>9.1 2025年中央政法工作会议（2025年1月12-13日）</h3>
+<p>陈文清（中央政法委书记）讲话，王小洪主持，张军（最高法院长）、应勇（最高检检察长）出席。</p>
+<p><strong>2024年工作成效</strong>：
+- 全国刑事案件同比下降25.7%（创本世纪以来最低）
+- 检察机关受理审查起诉同比下降14.3%
+- 登记群众信访同比下降29.1%
+- 醉驾刑事立案同比下降56%
+- 首次开展常态化扫黑除恶中央督导
+- 全面推进信访工作法治化</p>
+<p><strong>2025年核心部署——五大板块</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>板块</th>
+<th>核心内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>维护国家安全</strong></td>
+<td>落实国家安全责任制、维护社会稳定责任制；推进社会安全风险监测预警体系</td>
+</tr>
+<tr>
+<td><strong>社会治安防控</strong></td>
+<td>惩（重大恶性犯罪快侦快诉快判）、防（重点场所巡防巡控）、管（未成年人犯罪预防、刑满释放人员帮教）；推进县级综治中心规范化</td>
+</tr>
+<tr>
+<td><strong>法治中国建设</strong></td>
+<td>科学立法（启动看守所法/司法鉴定法论证）、严格执法（行政执法监督条例）、公正司法（审判权与执行权分离）、全民守法（"九五"普法规划）</td>
+</tr>
+<tr>
+<td><strong>党管政法</strong></td>
+<td>"第一议题"制度、请示报告、督查督办、政治监督；"法定职责必须为、法无授权不可为"</td>
+</tr>
+<tr>
+<td><strong>政法铁军</strong></td>
+<td>防止干预司法"三个规定"；跨部门大数据办案平台</td>
+</tr>
+</tbody>
+</table>
+<h3>9.2 公考视角</h3>
+<p><strong>常识考点</strong>：
+- 中央政法工作会议每年年初召开
+- "枫桥经验"的核心内涵（小事不出村、大事不出镇、矛盾不上交）
+- 防止干预司法"三个规定"</p>
+<p><strong>申论/面试角度</strong>：法治中国与平安中国的关系、基层社会治理现代化。</p>
+<hr />
+<h2>十、中央人才工作会议（2021年9月27-28日）</h2>
+<blockquote>
+<p>来源：<a href="http://www.news.cn/politics/leaders/2021-09/28/c_1127913654.htm">新华网</a> | <a href="https://china.huanqiu.com/article/44zbPmWCkZC">学习强国</a> | <a href="http://dangshi.people.com.cn/BIG5/n1/2021/0929/c436975-32241201.html">人民网</a></p>
+</blockquote>
+<h3>10.1 历史定位</h3>
+<ul>
+<li>新中国历史上<strong>首次以"中央"名义召开</strong>的人才工作会议，规格极高</li>
+<li>习近平讲话被定位为"指导新时代人才工作的纲领性文献"</li>
+<li>核心论断：<strong>"国家发展靠人才，民族振兴靠人才"，"综合国力竞争说到底是人才竞争"</strong></li>
+</ul>
+<h3>10.2 "八个坚持"——新时代人才工作新理念</h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>坚持方向</th>
+<th>定位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>党对人才工作的全面领导</td>
+<td>根本保证</td>
+</tr>
+<tr>
+<td>2</td>
+<td>人才引领发展的战略地位</td>
+<td>重大战略</td>
+</tr>
+<tr>
+<td>3</td>
+<td>面向世界科技前沿、经济主战场、国家重大需求、人民生命健康</td>
+<td>目标方向</td>
+</tr>
+<tr>
+<td>4</td>
+<td>全方位培养用好人才</td>
+<td>重点任务</td>
+</tr>
+<tr>
+<td>5</td>
+<td>深化人才发展体制机制改革</td>
+<td>重要保障</td>
+</tr>
+<tr>
+<td>6</td>
+<td>聚天下英才而用之</td>
+<td>基本要求</td>
+</tr>
+<tr>
+<td>7</td>
+<td>营造识才爱才敬才用才的环境</td>
+<td>社会条件</td>
+</tr>
+<tr>
+<td>8</td>
+<td>弘扬科学家精神</td>
+<td>精神引领</td>
+</tr>
+</tbody>
+</table>
+<h3>10.3 战略目标</h3>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>到2025年</td>
+<td>顶尖科学家集聚水平明显提高，关键核心技术领域拥有一大批战略科技人才和创新团队</td>
+</tr>
+<tr>
+<td>到2030年</td>
+<td>人才制度体系基本形成，主要科技领域有领跑者</td>
+</tr>
+<tr>
+<td>到2035年</td>
+<td>国家战略科技力量和高水平人才队伍位居世界前列</td>
+</tr>
+</tbody>
+</table>
+<h3>10.4 战略布局</h3>
+<ul>
+<li><strong>高水平人才高地</strong>：北京、上海、粤港澳大湾区</li>
+<li><strong>改革核心</strong>：向用人主体充分授权；为人才松绑（赋予科学家更大技术路线决定权、更大经费支配权、更大资源调度权）；完善评价体系（破除"四唯"）</li>
+<li><strong>战略人才力量</strong>：战略科学家→一流科技领军人才→青年科技人才（政策重心所在）→卓越工程师</li>
+<li><strong>机制创新</strong>："揭榜挂帅""赛马"制度；允许失败、宽容失败</li>
+</ul>
+<h3>10.5 与教育科技人才一体化推进的关系（二十大新提法）</h3>
+<ul>
+<li>党的二十大首次将教育、科技、人才<strong>三位一体</strong>集中部署，列为全面建设社会主义现代化国家的基础性、战略性支撑</li>
+<li>2024年全国科技大会进一步强调"一体推进教育科技人才事业发展"</li>
+<li>二十届三中全会将"教育科技人才体制机制一体改革"作为重要改革任务</li>
+</ul>
+<h3>10.6 公考视角</h3>
+<p><strong>常识考点</strong>：首次以"中央"命名的人才工作会议时间（2021年9月）、"八个坚持"、四个面向。</p>
+<p><strong>申论/面试</strong>：教育科技人才一体化的政策逻辑。</p>
+<hr />
+<h2>十一、中央统战工作会议（2022年7月29-30日）</h2>
+<blockquote>
+<p>来源：<a href="https://www.zytzb.gov.cn/zytzb/2022-09/28/article_2025042809102123959.shtml">新华社</a> | <a href="https://www.chinanews.com/">中国新闻网</a> | <a href="http://www.qstheory.cn/">求是网</a></p>
+</blockquote>
+<h3>11.1 历史背景</h3>
+<ul>
+<li>2022年是中国共产党明确提出统一战线政策<strong>100周年</strong></li>
+<li>本次会议是继2015年中央统战工作会议后，时隔7年再次召开</li>
+</ul>
+<h3>11.2 核心论断："十二个必须"</h3>
+<p>"十二个必须"系统阐述了关于做好新时代党的统一战线工作的重要思想，涵盖：充分发挥统一战线重要法宝作用；解决好人心和力量问题；正确处理一致性和多样性关系；坚持好发展好完善好中国新型政党制度；以铸牢中华民族共同体意识为民族工作主线；坚持我国宗教中国化方向；做好党外知识分子和新阶层人士工作；促进非公有制经济"两个健康"；发挥港澳台和海外统战争取人心作用；加强党外代表人士队伍建设；把握统战工作规律；加强党对统战工作的全面领导。</p>
+<h3>11.3 三个"更加重要"（新时代统战工作的历史方位）</h3>
+<ul>
+<li>在维护国家主权、安全、发展利益上的作用<strong>更加重要</strong></li>
+<li>在围绕中心、服务大局上的作用<strong>更加重要</strong></li>
+<li>在增强党的阶级基础、扩大党的群众基础上的作用<strong>更加重要</strong></li>
+</ul>
+<h3>11.4 四个"要把握好"（辩证关系）</h3>
+<ol>
+<li><strong>固守圆心和扩大共识</strong>——真正把全体中华儿女都团结起来</li>
+<li><strong>潜绩和显绩</strong>——坚持正确政绩观，行稳致远</li>
+<li><strong>原则性和灵活性</strong>——站稳政治立场又具体问题具体分析</li>
+<li><strong>团结和斗争</strong>——善于斗争形成牢不可破的真团结</li>
+</ol>
+<h3>11.5 核心金句</h3>
+<blockquote>
+<p>"统战工作的本质要求是大团结大联合，解决的就是<strong>人心和力量</strong>问题。"</p>
+<p>"关键是要坚持求同存异，发扬'团结—批评—团结'的优良传统，在尊重多样性中寻求一致性，找到<strong>最大公约数、画出最大同心圆</strong>。"</p>
+</blockquote>
+<h3>11.6 公考视角</h3>
+<p><strong>常识考点</strong>：统战工作会议召开年份（2015年首次、2022年第二次）、"十二个必须"的核心、"大团结大联合"的本质定位。</p>
+<p><strong>面试/申论</strong>：如何理解"找到最大公约数、画出最大同心圆"？</p>
+<hr />
+<h2>十二、中央民族工作会议（2021年8月27-28日）</h2>
+<blockquote>
+<p>来源：<a href="https://5g.dahe.cn/news/20210829892072">央视新闻</a> | <a href="https://www.neac.gov.cn/">国家民委</a> | <a href="http://www.cppcc.gov.cn/">人民政协网</a> | <a href="https://www.mzb.com.cn/">中国民族报</a></p>
+</blockquote>
+<h3>12.1 主线确立</h3>
+<ul>
+<li><strong>铸牢中华民族共同体意识</strong>被确立为新时代党的民族工作的"纲"</li>
+<li>2023年进一步明确：既是民族工作的主线，也是<strong>民族地区各项工作的主线</strong></li>
+<li>已写入党的十九大报告和党章（2017年），在2021年会议上全面系统阐述</li>
+</ul>
+<h3>12.2 "四个与共"——铸牢中华民族共同体意识的核心理念</h3>
+<p>引导各族人民牢固树立<strong>休戚与共、荣辱与共、生死与共、命运与共</strong>的共同体理念。</p>
+<h3>12.3 "十二个必须"——习近平总书记关于加强和改进民族工作的重要思想</h3>
+<p>核心条目：从中华民族伟大复兴战略高度把握历史方位；推动各民族为全面建设社会主义现代化国家共同奋斗；以铸牢中华民族共同体意识为主线；坚持正确的中华民族历史观；坚持各民族一律平等；高举中华民族大团结旗帜；坚持和完善民族区域自治制度；构筑中华民族共有精神家园；促进各民族广泛交往交流交融；坚持依法治理民族事务；坚决维护国家主权安全发展利益；坚持党对民族工作的领导。</p>
+<h3>12.4 四个重大关系</h3>
+<table>
+<thead>
+<tr>
+<th>关系</th>
+<th>核心要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>共同性和差异性</td>
+<td>共同性是主导，差异性不能削弱和危害共同性</td>
+</tr>
+<tr>
+<td>中华民族共同体意识和各民族意识</td>
+<td>本民族意识要服从和服务于中华民族共同体意识</td>
+</tr>
+<tr>
+<td>中华文化和各民族文化</td>
+<td>中华文化是主干，各民族文化是枝叶，根深干壮才能枝繁叶茂</td>
+</tr>
+<tr>
+<td>物质和精神</td>
+<td>物质和精神相辅相成，经济社会发展并不自然而然带来民族团结</td>
+</tr>
+</tbody>
+</table>
+<h3>12.5 "五个认同"</h3>
+<p>推动各民族坚定对<strong>伟大祖国、中华民族、中华文化、中国共产党、中国特色社会主义</strong>的高度认同。</p>
+<h3>12.6 工作方法论</h3>
+<ul>
+<li>"各项工作都要往实里抓、往细里做，要有形、有感、有效"</li>
+<li>"既要做看得见、摸得着的工作，也要做大量'润物细无声'的事情"</li>
+<li>"促进各民族在中华民族大家庭中像<strong>石榴籽一样紧紧抱在一起</strong>"</li>
+</ul>
+<h3>12.7 公考视角</h3>
+<p><strong>常识考点</strong>：铸牢中华民族共同体意识首次提出的会议、"四个与共"、"五个认同"、"石榴籽"比喻的含义。</p>
+<hr />
+<h2>十三、跨会议关联分析</h2>
+<h3>13.1 横向关联：专题工作会议与三中全会部署的对应</h3>
+<table>
+<thead>
+<tr>
+<th>政策领域</th>
+<th>三中全会部署</th>
+<th>专题工作会议</th>
+<th>年度推进平台</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>金融</td>
+<td>完善金融体制</td>
+<td>中央金融工作会议（2023）</td>
+<td>政府工作报告</td>
+</tr>
+<tr>
+<td>三农</td>
+<td>城乡融合发展</td>
+<td>中央农村工作会议（年度）</td>
+<td>一号文件</td>
+</tr>
+<tr>
+<td>纪检</td>
+<td>完善监督体系</td>
+<td>中央纪委全会（年度）</td>
+<td>巡视工作</td>
+</tr>
+<tr>
+<td>生态</td>
+<td>生态文明体制改革</td>
+<td>全国生态环境保护大会（2023）</td>
+<td>美丽中国意见</td>
+</tr>
+<tr>
+<td>科技</td>
+<td>科技体制改革</td>
+<td>全国科技大会（2024）</td>
+<td>政府工作报告</td>
+</tr>
+<tr>
+<td>文化</td>
+<td>文化体制改革</td>
+<td>全国宣传思想文化工作会议（2023）</td>
+<td>文化强国规划</td>
+</tr>
+<tr>
+<td>政法</td>
+<td>法治体系建设</td>
+<td>中央政法工作会议（年度）</td>
+<td>立法规划</td>
+</tr>
+<tr>
+<td>人才</td>
+<td>教育科技人才一体</td>
+<td>中央人才工作会议（2021）</td>
+<td>人才发展规划</td>
+</tr>
+<tr>
+<td>统战</td>
+<td>协商民主</td>
+<td>中央统战工作会议（2022）</td>
+<td>政协工作</td>
+</tr>
+<tr>
+<td>民族</td>
+<td>铸牢共同体意识</td>
+<td>中央民族工作会议（2021）</td>
+<td>民族团结进步创建</td>
+</tr>
+</tbody>
+</table>
+<h3>13.2 六大思想体系的覆盖领域</h3>
+<pre><code>习近平强军思想 ── 国防和军队建设
+习近平经济思想 ── 经济建设
+习近平生态文明思想 ── 生态文明建设
+习近平外交思想 ── 外交工作
+习近平法治思想 ── 全面依法治国
+习近平文化思想 ── 宣传思想文化工作
+
+六大思想覆盖&quot;五位一体&quot;+国防外交+法治，构成完整理论体系
+</code></pre>
+<h3>13.3 D轨完整会议地图</h3>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>会议类型</th>
+<th>具体会议</th>
+<th>周期性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>顶层</strong></td>
+<td>全国党代会</td>
+<td>二十大（2022）→ 二十一大（2027）</td>
+<td>5年</td>
+</tr>
+<tr>
+<td><strong>战略层</strong></td>
+<td>中央全会</td>
+<td>二十届一中至七中全会</td>
+<td>~每年2次</td>
+</tr>
+<tr>
+<td></td>
+<td>全国两会</td>
+<td>十四届全国人大/政协（2023-2028）</td>
+<td>每年3月</td>
+</tr>
+<tr>
+<td><strong>主线层</strong></td>
+<td>中央经济工作会议</td>
+<td>年度经济部署</td>
+<td>每年12月</td>
+</tr>
+<tr>
+<td></td>
+<td>中央农村工作会议</td>
+<td>年度三农部署</td>
+<td>每年12月</td>
+</tr>
+<tr>
+<td></td>
+<td>中央纪委全会</td>
+<td>年度纪检部署</td>
+<td>每年1月</td>
+</tr>
+<tr>
+<td></td>
+<td>中央政法工作会议</td>
+<td>年度政法部署</td>
+<td>每年1月</td>
+</tr>
+<tr>
+<td><strong>专题层</strong></td>
+<td>中央金融工作会议</td>
+<td>金融强国</td>
+<td>约5-6年</td>
+</tr>
+<tr>
+<td></td>
+<td>全国生态环境保护大会</td>
+<td>美丽中国</td>
+<td>约5年（2018/2023）</td>
+</tr>
+<tr>
+<td></td>
+<td>全国科技大会</td>
+<td>科技强国</td>
+<td>约3-5年</td>
+</tr>
+<tr>
+<td></td>
+<td>全国宣传思想文化工作会议</td>
+<td>文化思想</td>
+<td>约5年</td>
+</tr>
+<tr>
+<td></td>
+<td>中央人才工作会议</td>
+<td>人才强国</td>
+<td>不定（2021年首次）</td>
+</tr>
+<tr>
+<td></td>
+<td>中央统战工作会议</td>
+<td>统一战线</td>
+<td>约7年（2015/2022）</td>
+</tr>
+<tr>
+<td></td>
+<td>中央民族工作会议</td>
+<td>民族工作</td>
+<td>约7年（2014/2021）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十四、考试视角整合</h2>
+<h3>14.1 行测常识——会议与"首次提出"速记表</h3>
+<table>
+<thead>
+<tr>
+<th>首次提出</th>
+<th>会议</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>金融强国目标</td>
+<td>中央金融工作会议</td>
+<td>2023.10</td>
+</tr>
+<tr>
+<td>习近平文化思想</td>
+<td>全国宣传思想文化工作会议</td>
+<td>2023.10</td>
+</tr>
+<tr>
+<td>党的自我革命重要思想</td>
+<td>二十届中央纪委三次全会</td>
+<td>2024.01</td>
+</tr>
+<tr>
+<td>新质生产力（考察首提）</td>
+<td>黑龙江考察</td>
+<td>2023.09</td>
+</tr>
+<tr>
+<td>科技强国五要素</td>
+<td>全国科技大会</td>
+<td>2024.06</td>
+</tr>
+<tr>
+<td>四个重大转变+五个重大关系</td>
+<td>全国生态环境保护大会</td>
+<td>2023.07</td>
+</tr>
+<tr>
+<td>"七个着力"</td>
+<td>全国宣传思想文化工作会议</td>
+<td>2023.10</td>
+</tr>
+<tr>
+<td>"十二个必须"（统战）</td>
+<td>中央统战工作会议</td>
+<td>2022.07</td>
+</tr>
+<tr>
+<td>"十二个必须"（民族）</td>
+<td>中央民族工作会议</td>
+<td>2021.08</td>
+</tr>
+<tr>
+<td>"八个坚持"（人才）</td>
+<td>中央人才工作会议</td>
+<td>2021.09</td>
+</tr>
+<tr>
+<td>"八个坚持"（科技）</td>
+<td>全国科技大会</td>
+<td>2024.06</td>
+</tr>
+</tbody>
+</table>
+<h3>14.2 申论写作素材</h3>
+<p><strong>"金融"专题</strong>：金融是国民经济的血脉 → 金融服务实体经济的论述</p>
+<p><strong>"生态"专题</strong>：五个重大关系的辩证思维 → 可迁移至任何需要分析"关系"的作文（发展与保护、攻坚与协同、外部与内生）</p>
+<p><strong>"文化"专题</strong>：第二个结合、"明体达用、体用贯通" → 文化自信类作文的深层论证</p>
+<p><strong>"科技"专题</strong>：新型举国体制、关键核心技术自主可控 → 科技自立自强类作文</p>
+<p><strong>"人才"专题</strong>：教育科技人才一体化、"聚天下英才而用之" → 人才强国类作文</p>
+<p><strong>"统战/民族"专题</strong>："最大公约数""最大同心圆""石榴籽" → 团结类议论文</p>
+<h3>14.3 面试模拟题库</h3>
+<ol>
+<li>中央金融工作会议提出做好"五篇大文章"，你最关注哪一篇？为什么？</li>
+<li>从"千万工程"到乡村全面振兴，基层干部应该怎么做？</li>
+<li>"全面从严治党永远在路上，党的自我革命永远在路上"，你如何理解？</li>
+<li>"绿水青山就是金山银山"，请结合实际谈谈你的理解。</li>
+<li>如何理解"关键核心技术是要不来、买不来、讨不来的"？</li>
+<li>"第二个结合"为什么是"又一次的思想解放"？</li>
+<li>你如何理解"找到最大公约数、画出最大同心圆"？</li>
+<li>铸牢中华民族共同体意识，基层应该怎样做？</li>
+</ol>
+<hr />
+<h2>十五、来源汇总</h2>
+<table>
+<thead>
+<tr>
+<th>会议</th>
+<th>主要来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中央金融工作会议</td>
+<td>新华网、21世纪经济报道、金融界、央广网、求是网</td>
+</tr>
+<tr>
+<td>中央农村工作会议</td>
+<td>新华网、中国新闻网、农民日报、中山日报、求是网</td>
+</tr>
+<tr>
+<td>中央纪委全会</td>
+<td>中央纪委国家监委网站、新华社、央视新闻</td>
+</tr>
+<tr>
+<td>全国生态环境保护大会</td>
+<td>人民网、中国网、生态环境部、求是网</td>
+</tr>
+<tr>
+<td>全国科技大会</td>
+<td>中国政府网、人民网、新华社、国务院公报</td>
+</tr>
+<tr>
+<td>全国宣传思想文化工作会议</td>
+<td>央视新闻、新华网、共产党员网、光明网、党建网</td>
+</tr>
+<tr>
+<td>中央政法工作会议</td>
+<td>中国青年网、光明网、最高人民检察院、法治日报</td>
+</tr>
+<tr>
+<td>中央人才工作会议</td>
+<td>新华网、人民网、学习强国</td>
+</tr>
+<tr>
+<td>中央统战工作会议</td>
+<td>新华社、中央统战部网站、求是网</td>
+</tr>
+<tr>
+<td>中央民族工作会议</td>
+<td>央视新闻、国家民委、中国民族报、人民政协网</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p><strong>维护说明</strong>：本文件为2026年5月10日基于公开报道整理。各年度性会议（农村/纪委/政法）随年度更新，专题性会议（金融/生态/科技/文化）在下次召开时更新。金融/生态/文化三章为高频考点，建议优先掌握。</p>
+</blockquote>
+    </div>
+  </section>
+
+
+<script>
+function toggleContent(fid) {
+  const section = document.getElementById('content-' + fid);
+  section.classList.toggle('content-collapsed');
+  const btn = section.querySelector('.collapse-btn');
+  if (section.classList.contains('content-collapsed')) {
+    btn.textContent = '展开 ▼';
+  } else {
+    btn.textContent = '收起 ▲';
+  }
+}
+</script>
+
+</main>
+</body>
+</html>

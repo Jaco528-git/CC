@@ -1,6 +1,6 @@
----
+﻿---
 name: research-paper-writer
-description: Creates formal academic research papers for social sciences and humanities (especially human geography, demography, economics, GIS, and interdisciplinary fields), following Chinese core journal standards with proper structure, author-year citations, and scholarly writing style. Use when the user asks to write a research paper, academic paper, journal article, or conference paper.
+description: Creates formal academic research paper drafts for social sciences and humanities, especially human geography, demography, economics, GIS, and interdisciplinary fields. Use when the user has a concrete topic, research question, outline, data, or source material and asks to draft a paper, journal article, or conference paper in Chinese core journal style. For broad research planning, literature reviews, peer review, or full research pipelines, prefer academic-research-suite.
 ---
 
 # 学术论文写作助手
@@ -254,3 +254,4 @@ Autor, A. A., & Author, B. B. (Year). Title of article. Title of Periodical, vol
 - **学术诚信**：用户提供研究数据和核心发现，本 skill 负责结构化与学术表达，不编造数据
 - **保持客观**：不夸大研究意义，诚实面对局限性和不确定性
 - **引用充分**：中文核心期刊通常要求 30+ 参考文献
+

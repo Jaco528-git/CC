@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>长沙市居民社区绿地感知与使用满意度调查分析</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+/* ── 设计系统 ── */
+:root {
+  --bg: #f8f6f2; --card: #ffffff; --text: #2c2c2c; --muted: #8c8c8c;
+  --border: #e0ddd8; --accent: #8b3a3a; --accent2: #3a6b8f; --accent3: #3d7a5a;
+  --accent4: #c97d3a; --accent5: #6b4c8a;
+  --shadow: 0 2px 8px rgba(0,0,0,0.05);
+  --font-sans: "PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; font-family: var(--font-sans); background: var(--bg); color: var(--text); }
+.deck { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+
+/* ═══ 幻灯片基础 ═══ */
+.slide {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  padding: 5% 6%; opacity: 0; transform: scale(0.96);
+  transition: opacity .45s ease, transform .45s ease;
+  pointer-events: none; overflow-y: auto;
+  display: flex; flex-direction: column;
+  justify-content: flex-start; align-items: stretch;
+}
+.slide.active { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 10; }
+.slide.center { justify-content: center; align-items: center; }
+
+.slide h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 700; letter-spacing: 3px; margin-bottom: .3em; text-align: center; }
+.slide h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 600; margin-bottom: .35em; text-align: center; }
+.slide .sub { font-size: clamp(1rem, 1.6vw, 1.3rem); color: var(--muted); text-align: center; max-width: min(80vw, 900px); margin: 0 auto; line-height: 1.7; }
+
+/* ── 内容容器 ── */
+.content { width: min(92vw, 1200px); margin: 0 auto; flex: 1; }
+
+/* ── 卡片 ── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px 22px; box-shadow: var(--shadow);
+}
+
+/* ── 网格 ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; width: 100%; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; width: 100%; }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; width: 100%; }
+
+/* ── 大数字 ── */
+.stat-number { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.1; }
+.stat-label { font-size: clamp(0.95rem, 1.4vw, 1.2rem); color: var(--muted); margin-top: 6px; }
+
+/* ── 页面指示器 ── */
+.pager { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; gap: 8px; align-items: center; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.12); cursor: pointer; transition: all .3s; }
+.dot.active { background: var(--accent); width: 26px; border-radius: 4px; }
+.page-num { font-size: 13px; color: rgba(0,0,0,0.25); letter-spacing: 1px; margin-left: 8px; user-select: none; }
+
+/* ── 翻页提示箭头 ── */
+.nav-hint { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 50; opacity: 0.15; pointer-events: none; }
+.nav-hint svg { width: 28px; height: 28px; }
+
+/* ── 进度条 ── */
+.progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 200; transition: width .45s ease; }
+
+/* ── 印刷 ── */
+@media print {
+  @page { margin: 0.8cm; }
+  body { background: white; }
+  .slide { position: relative; opacity: 1 !important; transform: none !important; pointer-events: none; page-break-after: always; display: flex; }
+  .slide.active { z-index: auto; }
+  .pager, .dot, .page-num, .nav-hint, .progress-bar { display: none; }
+}
+
+/* ── 自定义辅助 ── */
+.badge { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+.badge-red { background: rgba(139,58,58,0.12); color: var(--accent); }
+.badge-blue { background: rgba(58,107,143,0.12); color: var(--accent2); }
+.badge-green { background: rgba(61,122,90,0.12); color: var(--accent3); }
+.badge-orange { background: rgba(201,125,58,0.12); color: var(--accent4); }
+
+.circle-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+<div class="progress-bar" id="progressBar"></div>
+<div class="nav-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第1页：封面（.center）                      -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide center" style="background:radial-gradient(ellipse at 50% 30%,rgba(139,58,58,0.06) 0%,transparent 65%),var(--bg);">
+  <h1 style="font-size:clamp(2rem,4.8vw,3.8rem);font-weight:700;letter-spacing:4px;text-align:center;line-height:1.3;padding:0 4%;">长沙市居民社区绿地<br>感知与使用满意度调查分析</h1>
+  <div style="width:56px;height:3px;background:var(--accent);margin:18px auto;border-radius:2px;"></div>
+  <p style="font-size:clamp(1rem,1.8vw,1.3rem);color:var(--muted);text-align:center;line-height:1.7;">
+    有效样本 <strong style="color:var(--text);">N=386</strong> &nbsp;·&nbsp; 长沙市五区实地调研
+  </p>
+  <p style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--muted);text-align:center;margin-top:4px;">
+    2025年12月 — 2026年2月
+  </p>
+  <p style="font-size:0.8rem;color:rgba(0,0,0,0.25);margin-top:36px;">点击 / 方向键翻页</p>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第2页：核心数据速览                       -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:10px;">核心数据速览</h2>
+  <p class="sub" style="margin-bottom:16px;">386 份有效问卷 · 五大维度指标</p>
+
+  <div class="content">
+    <!-- 第一行：3个大数字 -->
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;margin-bottom:16px;width:100%;">
+      <div class="card" style="text-align:center;padding:28px 16px;display:flex;flex-direction:column;justify-content:center;">
+        <div class="stat-number" style="color:var(--accent);">4.52<span style="font-size:0.45em;color:var(--muted);">/5</span></div>
+        <div class="stat-label">总体满意度</div>
+        <div style="font-size:0.85rem;color:#b0a8a0;margin-top:4px;">高于全国城市绿地平均水平</div>
+      </div>
+      <div class="card" style="text-align:center;padding:28px 16px;display:flex;flex-direction:column;justify-content:center;">
+        <div class="stat-number" style="color:var(--accent2);">41.2%</div>
+        <div class="stat-label">步行 5-10 分钟可达</div>
+      </div>
+      <div class="card" style="text-align:center;padding:28px 16px;display:flex;flex-direction:column;justify-content:center;">
+        <div class="stat-number" style="color:var(--accent3);">38.9%</div>
+        <div class="stat-label">每周使用 3-4 次</div>
+      </div>
+    </div>
+
+    <!-- 第二行：占比与样本 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;">
+      <div class="card" style="text-align:center;padding:20px 16px;">
+        <div class="stat-number" style="font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--accent4);">45.6%</div>
+        <div class="stat-label">认为绿地数量 "充足" 或 "非常充足"</div>
+      </div>
+      <div class="card" style="display:flex;align-items:center;gap:18px;padding:20px 22px;">
+        <div class="circle-icon" style="background:var(--accent2);width:48px;height:48px;font-size:1.3rem;">N</div>
+        <div>
+          <div style="font-size:clamp(1rem,1.5vw,1.2rem);font-weight:600;">样本构成</div>
+          <div style="font-size:clamp(0.85rem,1.1vw,0.95rem);color:var(--muted);margin-top:2px;line-height:1.6;">
+            男 47.2% · 女 52.8%<br>
+            18-30岁 32.1% · 31-45岁 38.6%<br>
+            46-60岁 21.2% · 60+岁 8.1%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第3页：各维度满意度（柱状图 + 卡片）       -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:6px;">各维度满意度评分</h2>
+  <p class="sub" style="margin-bottom:14px;font-size:clamp(0.85rem,1.2vw,1rem);">Likert 5 点量表 · 均值由高到低排列</p>
+  <div class="content" style="display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:center;">
+    <!-- 左：柱状图 -->
+    <div class="card" style="padding:18px 16px;">
+      <canvas id="dimChart" style="max-height:320px;"></canvas>
+    </div>
+    <!-- 右：评分卡片列表 -->
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-red" style="min-width:72px;text-align:center;">安全性</span>
+        <div style="flex:1;height:10px;background:#e8e5e0;border-radius:5px;overflow:hidden;">
+          <div style="width:88.2%;height:100%;background:var(--accent);border-radius:5px;"></div>
+        </div>
+        <span style="font-weight:700;font-size:1.1rem;min-width:40px;text-align:right;">4.41</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-green" style="min-width:72px;text-align:center;">植被景观</span>
+        <div style="flex:1;height:10px;background:#e8e5e0;border-radius:5px;overflow:hidden;">
+          <div style="width:87%;height:100%;background:var(--accent3);border-radius:5px;"></div>
+        </div>
+        <span style="font-weight:700;font-size:1.1rem;min-width:40px;text-align:right;">4.35</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-blue" style="min-width:72px;text-align:center;">可达性</span>
+        <div style="flex:1;height:10px;background:#e8e5e0;border-radius:5px;overflow:hidden;">
+          <div style="width:84.6%;height:100%;background:var(--accent2);border-radius:5px;"></div>
+        </div>
+        <span style="font-weight:700;font-size:1.1rem;min-width:40px;text-align:right;">4.23</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-orange" style="min-width:72px;text-align:center;">卫生维护</span>
+        <div style="flex:1;height:10px;background:#e8e5e0;border-radius:5px;overflow:hidden;">
+          <div style="width:81.6%;height:100%;background:var(--accent4);border-radius:5px;"></div>
+        </div>
+        <span style="font-weight:700;font-size:1.1rem;min-width:40px;text-align:right;">4.08</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge" style="min-width:72px;text-align:center;background:rgba(107,76,138,0.12);color:var(--accent5);">设施完善</span>
+        <div style="flex:1;height:10px;background:#e8e5e0;border-radius:5px;overflow:hidden;">
+          <div style="width:77.4%;height:100%;background:var(--accent5);border-radius:5px;"></div>
+        </div>
+        <span style="font-weight:700;font-size:1.1rem;min-width:40px;text-align:right;">3.87</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge" style="min-width:72px;text-align:center;background:rgba(180,80,80,0.1);color:#b45050;">活动空间</span>
+        <div style="flex:1;height:10px;background:#e8e5e0;border-radius:5px;overflow:hidden;">
+          <div style="width:73%;height:100%;background:#b45050;border-radius:5px;"></div>
+        </div>
+        <span style="font-weight:700;font-size:1.1rem;min-width:40px;text-align:right;">3.65</span>
+      </div>
+      <div style="margin-top:6px;font-size:0.8rem;color:var(--muted);text-align:center;">
+        <span style="color:var(--accent);">●</span> 安全性最优 &nbsp;&nbsp;
+        <span style="color:#b45050;">●</span> 活动空间为短板
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第4页：关键发现 1 — 步行距离影响          -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:8px;">关键发现 ①</h2>
+  <p class="sub" style="margin-bottom:20px;font-weight:500;font-size:clamp(1.1rem,1.8vw,1.5rem);">步行距离是影响使用频率的最显著因素</p>
+  <div class="content" style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;">
+    <!-- 左：关注点 -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card" style="padding:22px;text-align:center;border-left:4px solid var(--accent);">
+        <div style="font-size:clamp(2rem,4vw,3.5rem);font-weight:800;color:var(--accent);">r = -0.42</div>
+        <div style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--muted);margin-top:4px;">步行距离与使用频率的 Pearson 相关系数</div>
+      </div>
+      <div class="card" style="padding:18px 20px;display:flex;align-items:center;gap:12px;">
+        <div class="circle-icon" style="background:var(--accent);width:36px;height:36px;font-size:1rem;flex-shrink:0;">p</div>
+        <div><span style="font-weight:600;">p &lt; 0.001</span><span style="color:var(--muted);margin-left:8px;">· 统计极显著</span></div>
+      </div>
+      <div class="card" style="padding:16px 20px;background:rgba(139,58,58,0.04);border:1px dashed rgba(139,58,58,0.2);">
+        <div style="font-size:clamp(0.9rem,1.2vw,1.05rem);line-height:1.7;color:var(--text);">
+          <strong>解读：</strong>居民与社区绿地的步行距离越长，使用频率越低。二者呈中等程度的负相关，表明<strong style="color:var(--accent);">可达性是提升绿地使用率的关键杠杆</strong>。
+        </div>
+      </div>
+    </div>
+    <!-- 右：分布圆环 -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card" style="padding:18px;text-align:center;">
+        <div style="font-size:clamp(0.95rem,1.3vw,1.1rem);font-weight:600;margin-bottom:10px;">步行可达时间分布</div>
+        <canvas id="walkChart" style="max-height:220px;"></canvas>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;">
+        <div class="card" style="text-align:center;padding:14px 10px;">
+          <div style="font-size:clamp(1rem,1.8vw,1.5rem);font-weight:700;color:var(--accent3);">&lt;5 min</div>
+          <div style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">26.4%</div>
+        </div>
+        <div class="card" style="text-align:center;padding:14px 10px;">
+          <div style="font-size:clamp(1rem,1.8vw,1.5rem);font-weight:700;color:var(--accent2);">5-10 min</div>
+          <div style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">41.2%</div>
+        </div>
+        <div class="card" style="text-align:center;padding:14px 10px;">
+          <div style="font-size:clamp(1rem,1.8vw,1.5rem);font-weight:700;color:var(--accent4);">10-15 min</div>
+          <div style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">20.7%</div>
+        </div>
+        <div class="card" style="text-align:center;padding:14px 10px;">
+          <div style="font-size:clamp(1rem,1.8vw,1.5rem);font-weight:700;color:#b45050;">&gt;15 min</div>
+          <div style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">11.7%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:10px;">控制变量：性别、年龄、收入水平</p>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第5页：关键发现 2 — 年龄差异              -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:8px;">关键发现 ②</h2>
+  <p class="sub" style="margin-bottom:20px;font-weight:500;font-size:clamp(1.1rem,1.8vw,1.5rem);">老年群体对活动空间满意度显著偏低</p>
+  <div class="content" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
+    <!-- 左：对比条形图 -->
+    <div class="card" style="padding:18px 16px;display:flex;flex-direction:column;">
+      <div style="font-size:clamp(0.95rem,1.3vw,1.1rem);font-weight:600;margin-bottom:10px;text-align:center;">活动空间满意度 · 年龄组对比</div>
+      <canvas id="ageChart" style="max-height:300px;"></canvas>
+    </div>
+    <!-- 右：解读 -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card" style="padding:22px;text-align:center;border-left:4px solid var(--accent4);">
+        <div style="font-size:clamp(1.5rem,3vw,2.5rem);font-weight:800;color:var(--accent4);">p &lt; 0.05</div>
+        <div style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--muted);margin-top:4px;">独立样本 t 检验 · 差异具有统计学意义</div>
+      </div>
+      <div class="card" style="padding:18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center;">
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;">
+          <div class="circle-icon" style="background:var(--accent3);width:34px;height:34px;font-size:0.9rem;">O</div>
+          <div>
+            <div style="font-weight:600;">年轻群体（18-45岁）</div>
+            <div style="color:var(--muted);font-size:0.95rem;">活动空间满意度均值 <strong style="color:var(--text);">3.82</strong></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;">
+          <div class="circle-icon" style="background:var(--accent4);width:34px;height:34px;font-size:0.9rem;">O</div>
+          <div>
+            <div style="font-weight:600;">老年群体（60+岁）</div>
+            <div style="color:var(--muted);font-size:0.95rem;">活动空间满意度均值 <strong style="color:var(--accent4);">3.18</strong></div>
+          </div>
+        </div>
+        <div style="font-size:0.9rem;color:var(--muted);padding-top:8px;border-top:1px solid var(--border);line-height:1.6;">
+          <strong>可能原因：</strong>现有绿地中适老设施（座椅、无障碍通道、遮阳亭）不足，健身区与休憩区比例失衡。
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:10px;">* 60+ 岁组样本占比 8.1%（n=31），建议后续扩大老年样本量</p>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第6页：关键发现 3 — 区域差异              -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:8px;">关键发现 ③</h2>
+  <p class="sub" style="margin-bottom:20px;font-weight:500;font-size:clamp(1.1rem,1.8vw,1.5rem);">岳麓区 / 雨花区满意度显著高于芙蓉区 / 天心区</p>
+  <div class="content" style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:stretch;">
+    <!-- 左：区域柱状图 -->
+    <div class="card" style="padding:18px 16px;">
+      <canvas id="districtChart" style="max-height:340px;"></canvas>
+    </div>
+    <!-- 右：解读 -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card" style="padding:22px;text-align:center;border-left:4px solid var(--accent2);">
+        <div style="font-size:clamp(1.5rem,3vw,2.5rem);font-weight:800;color:var(--accent2);">p &lt; 0.01</div>
+        <div style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--muted);margin-top:4px;">单因素方差分析 (ANOVA) · 区域间差异极显著</div>
+      </div>
+      <div class="card" style="padding:18px 20px;flex:1;">
+        <div style="font-weight:600;margin-bottom:8px;">满意度排名</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent3);">1</span>
+            <span style="font-size:0.95rem;">岳麓区</span>
+            <span style="margin-left:auto;font-weight:600;color:var(--accent3);">4.72</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent2);">2</span>
+            <span style="font-size:0.95rem;">雨花区</span>
+            <span style="margin-left:auto;font-weight:600;color:var(--accent2);">4.65</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent);">3</span>
+            <span style="font-size:0.95rem;">开福区</span>
+            <span style="margin-left:auto;font-weight:600;color:var(--accent);">4.48</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent4);">4</span>
+            <span style="font-size:0.95rem;">芙蓉区</span>
+            <span style="margin-left:auto;font-weight:600;color:var(--accent4);">4.31</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:0.85rem;font-weight:700;color:#b45050;">5</span>
+            <span style="font-size:0.95rem;">天心区</span>
+            <span style="margin-left:auto;font-weight:600;color:#b45050;">4.22</span>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:0.85rem;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);padding-top:10px;">
+          <strong>可能原因：</strong>岳麓区拥有梅溪湖、西湖公园等大型绿地，规划配套完善；芙蓉区、天心区为老城区，绿地密度低、设施老旧。
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:10px;">事后多重比较 (LSD) 确认岳麓区 &gt; 芙蓉区 / 天心区 (p&lt;0.01)</p>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第7页：满意度使用频率交叉分析             -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:8px;">使用频率与满意度交叉分析</h2>
+  <p class="sub" style="margin-bottom:18px;font-size:clamp(0.85rem,1.2vw,1rem);">不同使用频率群体的各维度满意度对比</p>
+  <div class="content" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;">
+    <div class="card" style="padding:18px 16px;">
+      <canvas id="freqChart" style="max-height:320px;"></canvas>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card" style="padding:16px 18px;display:flex;align-items:center;gap:14px;border-left:4px solid var(--accent3);">
+        <div>
+          <div style="font-size:clamp(1.2rem,2vw,1.8rem);font-weight:700;color:var(--accent3);">38.9%</div>
+          <div style="font-size:0.85rem;color:var(--muted);">每周 3-4 次</div>
+        </div>
+        <div style="font-size:0.9rem;color:var(--muted);line-height:1.5;">
+          中高频用户群体，各维度满意度均达到 <strong style="color:var(--text);">4.0+</strong>，尤其安全性达到 4.55
+        </div>
+      </div>
+      <div class="card" style="padding:16px 18px;display:flex;align-items:center;gap:14px;border-left:4px solid var(--accent4);">
+        <div>
+          <div style="font-size:clamp(1.2rem,2vw,1.8rem);font-weight:700;color:var(--accent4);">24.3%</div>
+          <div style="font-size:0.85rem;color:var(--muted);">每周 1-2 次</div>
+        </div>
+        <div style="font-size:0.9rem;color:var(--muted);line-height:1.5;">
+          中低频用户，活动空间满意度明显下滑至 <strong style="color:var(--accent4);">3.42</strong>
+        </div>
+      </div>
+      <div class="card" style="padding:16px 18px;display:flex;align-items:center;gap:14px;border-left:4px solid #b45050;">
+        <div>
+          <div style="font-size:clamp(1.2rem,2vw,1.8rem);font-weight:700;color:#b45050;">18.5%</div>
+          <div style="font-size:0.85rem;color:var(--muted);">每月 1-3 次</div>
+        </div>
+        <div style="font-size:0.9rem;color:var(--muted);line-height:1.5;">
+          低频用户，设施完善度满意度最低 <strong style="color:#b45050;">3.21</strong>
+        </div>
+      </div>
+      <div class="card" style="padding:16px 18px;background:rgba(139,58,58,0.03);border:1px dashed var(--border);">
+        <div style="font-size:0.9rem;color:var(--muted);line-height:1.6;">
+          <strong>趋势小结：</strong>使用频率越高，各维度满意度评分越高 —— 可能存在 "使用-满意" 的良性循环效应，或高满意度群体更倾向频繁使用。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第8页：研究结论与建议                     -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide">
+  <h2 style="margin-bottom:14px;">研究结论与规划建议</h2>
+  <div class="content" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <!-- 左栏：结论 -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card" style="padding:18px 20px;border-left:4px solid var(--accent);">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div class="circle-icon" style="background:var(--accent);width:30px;height:30px;font-size:0.85rem;">1</div>
+          <div>
+            <div style="font-weight:600;margin-bottom:2px;">可达性主导使用行为</div>
+            <div style="font-size:0.9rem;color:var(--muted);line-height:1.5;">步行距离与使用频率显著负相关（r=-0.42），缩短 "最后一公里" 是提升绿地利用率的核心抓手。</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="padding:18px 20px;border-left:4px solid var(--accent4);">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div class="circle-icon" style="background:var(--accent4);width:30px;height:30px;font-size:0.85rem;">2</div>
+          <div>
+            <div style="font-weight:600;margin-bottom:2px;">适老设施存在短板</div>
+            <div style="font-size:0.9rem;color:var(--muted);line-height:1.5;">老年群体活动空间满意度（3.18）显著低于年轻群体（3.82），需增设适老化设施。</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="padding:18px 20px;border-left:4px solid var(--accent2);">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div class="circle-icon" style="background:var(--accent2);width:30px;height:30px;font-size:0.85rem;">3</div>
+          <div>
+            <div style="font-weight:600;margin-bottom:2px;">区域发展不均衡</div>
+            <div style="font-size:0.9rem;color:var(--muted);line-height:1.5;">岳麓/雨花区满意度显著优于芙蓉/天心区（p&lt;0.01），老城区绿地更新改造亟待推进。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 右栏：建议 -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card" style="padding:18px 20px;background:rgba(61,122,90,0.05);border:1px solid rgba(61,122,90,0.2);">
+        <div style="font-weight:600;color:var(--accent3);margin-bottom:8px;">规划建议</div>
+        <ul style="list-style:none;font-size:clamp(0.85rem,1.1vw,0.95rem);color:var(--muted);line-height:1.8;">
+          <li style="margin-bottom:6px;">✓ 优化老城区 "口袋公园" 布局，缩短步行距离</li>
+          <li style="margin-bottom:6px;">✓ 增设适老化设施（无障碍通道、座椅、遮阳亭）</li>
+          <li style="margin-bottom:6px;">✓ 提升设施完善度：健身器材、儿童游乐区、照明</li>
+          <li style="margin-bottom:6px;">✓ 芙蓉区、天心区优先纳入城市绿地更新计划</li>
+        </ul>
+      </div>
+      <div style="font-size:0.8rem;color:var(--muted);line-height:1.6;text-align:center;padding:8px;">
+        <strong>研究局限：</strong>横截面设计，无法推断因果；样本集中在五区，需谨慎推广至全市。
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;">
+        <div class="card" style="text-align:center;padding:12px 8px;background:var(--bg);">
+          <div style="font-size:1.3rem;font-weight:700;color:var(--accent);">4.52</div>
+          <div style="font-size:0.75rem;color:var(--muted);">总体满意度</div>
+        </div>
+        <div class="card" style="text-align:center;padding:12px 8px;background:var(--bg);">
+          <div style="font-size:1.3rem;font-weight:700;color:var(--accent3);">3.65</div>
+          <div style="font-size:0.75rem;color:var(--muted);">最需改进: 活动空间</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:rgba(0,0,0,0.2);text-align:center;margin-top:10px;">数据来源：长沙市社区绿地感知与使用问卷调查（2026年）N=386</p>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 第9页：致谢（.center）                     -->
+<!-- ══════════════════════════════════════════ -->
+<section class="slide center" style="background:radial-gradient(ellipse at 50% 40%,rgba(139,58,58,0.05) 0%,transparent 60%),var(--bg);">
+  <h1 style="font-size:clamp(2.5rem,5vw,4rem);">感谢聆听</h1>
+  <div style="width:50px;height:3px;background:var(--accent);margin:20px auto;border-radius:2px;"></div>
+  <p class="sub" style="font-size:clamp(1rem,1.6vw,1.3rem);">欢迎批评指正</p>
+  <p style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--muted);margin-top:12px;">
+    长沙市居民社区绿地感知与使用满意度调查
+  </p>
+  <p style="font-size:0.8rem;color:rgba(0,0,0,0.25);margin-top:32px;">问卷数据 · 2025.12 — 2026.02 &nbsp;|&nbsp; N = 386</p>
+</section>
+
+</div><!-- /deck -->
+
+<!-- ═══ 页面指示器 ═══ -->
+<div class="pager" id="pager">
+  <div class="dot active" data-goto="0"></div>
+  <div class="dot" data-goto="1"></div>
+  <div class="dot" data-goto="2"></div>
+  <div class="dot" data-goto="3"></div>
+  <div class="dot" data-goto="4"></div>
+  <div class="dot" data-goto="5"></div>
+  <div class="dot" data-goto="6"></div>
+  <div class="dot" data-goto="7"></div>
+  <div class="dot" data-goto="8"></div>
+  <span class="page-num" id="pageNum">01 / 09</span>
+</div>
+
+<!-- ═══ 图表脚本 ═══ -->
+<script>
+(function(){
+  var ss = document.querySelectorAll('.slide'),
+      dots = document.querySelectorAll('.dot'),
+      pn = document.getElementById('pageNum'),
+      pb = document.getElementById('progressBar'),
+      ci = 0,
+      total = ss.length;
+
+  function go(n){
+    ss[ci].classList.remove('active');
+    dots[ci].classList.remove('active');
+    ci = (n + total) % total;
+    ss[ci].classList.add('active');
+    dots[ci].classList.add('active');
+    if(pn) pn.textContent = String(ci+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+    if(pb) pb.style.width = ((ci+1)/total*100) + '%';
+  }
+
+  var nxt = function(){ go(ci+1); };
+  var prv = function(){ go(ci-1); };
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' '){
+      e.preventDefault(); nxt();
+    }
+    if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+      e.preventDefault(); prv();
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    if(e.target.closest('.pager')) return;
+    if(e.clientX / window.innerWidth < 0.25) prv();
+    else nxt();
+  });
+
+  var wt = null;
+  document.addEventListener('wheel', function(e){
+    e.preventDefault();
+    if(wt) return;
+    wt = setTimeout(function(){ wt = null; }, 600);
+    if(e.deltaY > 0) nxt();
+    else prv();
+  }, {passive: false});
+
+  for(var i=0; i<dots.length; i++){
+    dots[i].addEventListener('click', function(){
+      go(parseInt(this.dataset.goto));
+    });
+  }
+
+  go(0);
+})();
+</script>
+
+<script>
+// 当所有图表 canvas 可见后再初始化
+(function initCharts(){
+  // ── 维度满意度柱状图 ──
+  var dimCtx = document.getElementById('dimChart');
+  if(dimCtx){
+    new Chart(dimCtx, {
+      type: 'bar',
+      data: {
+        labels: ['安全性','植被景观','可达性','卫生维护','设施完善','活动空间'],
+        datasets: [{
+          label: '满意度均值',
+          data: [4.41, 4.35, 4.23, 4.08, 3.87, 3.65],
+          backgroundColor: ['#8b3a3a','#3d7a5a','#3a6b8f','#c97d3a','#6b4c8a','#b45050'],
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function(ctx){ return ctx.parsed.y + '/5'; } } }
+        },
+        scales: {
+          y: { min: 3, max: 5, ticks: { stepSize: 0.5 } },
+          x: { ticks: { font: { size: 11 } } }
+        }
+      }
+    });
+  }
+
+  // ── 步行距离饼图 ──
+  var walkCtx = document.getElementById('walkChart');
+  if(walkCtx){
+    new Chart(walkCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['<5 min', '5-10 min', '10-15 min', '>15 min'],
+        datasets: [{
+          data: [26.4, 41.2, 20.7, 11.7],
+          backgroundColor: ['#3d7a5a','#3a6b8f','#c97d3a','#b45050'],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8 } },
+          tooltip: { callbacks: { label: function(ctx){ return ctx.label + ': ' + ctx.parsed + '%'; } } }
+        },
+        cutout: '55%',
+      }
+    });
+  }
+
+  // ── 年龄组对比柱状图 ──
+  var ageCtx = document.getElementById('ageChart');
+  if(ageCtx){
+    new Chart(ageCtx, {
+      type: 'bar',
+      data: {
+        labels: ['活动空间','设施完善','卫生维护','可达性','植被景观','安全性'],
+        datasets: [
+          {
+            label: '18-45岁',
+            data: [3.82, 3.95, 4.12, 4.28, 4.38, 4.45],
+            backgroundColor: 'rgba(61,122,90,0.8)',
+            borderRadius: 3,
+          },
+          {
+            label: '60+岁',
+            data: [3.18, 3.45, 3.82, 4.05, 4.18, 4.28],
+            backgroundColor: 'rgba(201,125,58,0.8)',
+            borderRadius: 3,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 10 } } },
+        },
+        scales: {
+          y: { min: 2.5, max: 5, ticks: { stepSize: 0.5 } },
+          x: { ticks: { font: { size: 10 } } }
+        }
+      }
+    });
+  }
+
+  // ── 区域柱状图 ──
+  var distCtx = document.getElementById('districtChart');
+  if(distCtx){
+    new Chart(distCtx, {
+      type: 'bar',
+      data: {
+        labels: ['岳麓区','雨花区','开福区','芙蓉区','天心区'],
+        datasets: [{
+          label: '总体满意度',
+          data: [4.72, 4.65, 4.48, 4.31, 4.22],
+          backgroundColor: ['#3d7a5a','#3a6b8f','#8b3a3a','#c97d3a','#b45050'],
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { display: false },
+        },
+        scales: {
+          y: { min: 3.8, max: 5, ticks: { stepSize: 0.2 } },
+          x: { ticks: { font: { size: 11 } } }
+        }
+      }
+    });
+  }
+
+  // ── 使用频率交叉分析雷达图 ──
+  var freqCtx = document.getElementById('freqChart');
+  if(freqCtx){
+    new Chart(freqCtx, {
+      type: 'radar',
+      data: {
+        labels: ['安全性','植被景观','可达性','卫生维护','设施完善','活动空间'],
+        datasets: [
+          {
+            label: '高频 (3-4次/周)',
+            data: [4.55, 4.42, 4.38, 4.28, 4.12, 3.95],
+            borderColor: '#3d7a5a',
+            backgroundColor: 'rgba(61,122,90,0.12)',
+            pointBackgroundColor: '#3d7a5a',
+          },
+          {
+            label: '中频 (1-2次/周)',
+            data: [4.32, 4.25, 4.15, 3.98, 3.72, 3.42],
+            borderColor: '#3a6b8f',
+            backgroundColor: 'rgba(58,107,143,0.10)',
+            pointBackgroundColor: '#3a6b8f',
+          },
+          {
+            label: '低频 (≤月)',
+            data: [4.05, 3.95, 3.88, 3.65, 3.21, 3.15],
+            borderColor: '#b45050',
+            backgroundColor: 'rgba(180,80,80,0.08)',
+            pointBackgroundColor: '#b45050',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 9 }, padding: 6 } },
+        },
+        scales: {
+          r: { min: 2.5, max: 5, ticks: { stepSize: 0.5, font: { size: 9 } } }
+        }
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

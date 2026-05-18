@@ -4,6 +4,7 @@
       "Bash(winget install *)",
       "Bash(winget search *)",
       "WebSearch",
+      "WebFetch",
       "Bash(curl *)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(gh repo *)",
@@ -38,8 +39,46 @@
       "Bash(mv /c/Users/31070/.claude/skills/__TRACKED_VAR__ /c/Users/31070/Documents/CC/.claude/skills/__TRACKED_VAR__)",
       "Bash(bash --version)",
       "Skill(keybindings-help)",
+      "Skill(daily-policy-briefing)",
       "Bash(python *)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(pip install *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(echo *)",
+      "Bash(rm *)",
+      "Bash(wc *)",
+      "Bash(cat *)",
+      "Bash(cd *)",
+      "WebFetch(domain:www.youtube.com)",
+      "Write(C:\\\\Users\\\\31070\\\\Documents\\\\CC\\\\备考日报\\\\**)",
+      "Edit(C:\\\\Users\\\\31070\\\\.claude\\\\skills\\\\daily-policy-briefing\\\\SKILL.md)",
+      "Edit(C:\\\\Users\\\\31070\\\\Documents\\\\CC\\\\.claude\\\\settings.local.json)",
+      "Agent(daily-policy-briefing)",
+      "Bash(claude *)",
+      "Bash(python3 *)",
+      "Bash(cp *)",
+      "Skill(html-report)",
+      "Bash(start *)",
+      "Bash(bun *)",
+      "Bash(pip list *)",
+      "Bash(npx playwright-cli *)",
+      "Bash(py --version)",
+      "Bash(rm -rf .claude/skills/academic-research-skills/.git)",
+      "Bash(rm -rf .claude/skills/humanizer-zh/.git)"
     ]
-  }
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import winsound; winsound.MessageBeep()\""
+          }
+        ]
+      }
+    ]
+  },
+  "outputStyle": "default"
 }

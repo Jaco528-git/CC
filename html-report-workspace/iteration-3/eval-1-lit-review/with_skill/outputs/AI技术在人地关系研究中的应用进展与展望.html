@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI技术在人地关系研究中的应用进展与展望</title>
+<style>
+  /* ── 设计系统 ── */
+  :root {
+    --bg: #f8f6f2; --card: #ffffff; --text: #2c2c2c; --muted: #8c8c8c;
+    --border: #e0ddd8; --accent: #8b3a3a; --accent2: #3a6b8f; --accent3: #3d7a5a;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06);
+    --font-sans: "PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; font-family: var(--font-sans); background: var(--bg); color: var(--text); }
+  .deck { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+
+  /* ═══ 幻灯片基础 ═══ */
+  .slide {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    padding: 5% 6%; opacity: 0; transform: scale(0.96);
+    transition: opacity .4s ease, transform .4s ease;
+    pointer-events: none; overflow-y: auto;
+    display: flex; flex-direction: column;
+    justify-content: flex-start; align-items: stretch;
+  }
+  .slide.active { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 10; }
+  .slide.center { justify-content: center; align-items: center; }
+
+  .slide h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 700; letter-spacing: 2px; margin-bottom: .3em; text-align: center; }
+  .slide h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 600; margin-bottom: .5em; text-align: center; }
+  .slide .sub { font-size: clamp(1rem, 1.6vw, 1.3rem); color: var(--muted); text-align: center; max-width: min(80vw, 900px); margin: 0 auto; line-height: 1.7; }
+
+  /* ── 内容容器 ── */
+  .content { width: min(92vw, 1200px); margin: 0 auto; }
+
+  /* ── 卡片网格 ── */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 20px; box-shadow: var(--shadow);
+  }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; width: 100%; }
+
+  /* ── 大数字 ── */
+  .stat-number { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.1; }
+  .stat-label { font-size: clamp(0.9rem, 1.4vw, 1.15rem); color: var(--muted); margin-top: 4px; }
+
+  /* ── 标签 ── */
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: clamp(0.7rem, 1vw, 0.8rem); font-weight: 500; white-space: nowrap; }
+  .tag-red { background: rgba(139,58,58,0.1); color: var(--accent); }
+  .tag-blue { background: rgba(58,107,143,0.1); color: var(--accent2); }
+  .tag-green { background: rgba(61,122,90,0.1); color: var(--accent3); }
+
+  /* ── 页面指示器 ── */
+  .pager { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; gap: 8px; align-items: center; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(0,0,0,0.12); cursor: pointer; transition: all .3s; }
+  .dot.active { background: var(--accent); width: 24px; border-radius: 3px; }
+  .page-num { font-size: 12px; color: rgba(0,0,0,0.25); letter-spacing: 1px; margin-left: 6px; }
+
+  /* ── 印刷 ── */
+  @media print {
+    @page { margin: 1cm; }
+    body { background: white; }
+    .slide { position: relative; opacity: 1 !important; transform: none !important; pointer-events: none; page-break-after: always; display: flex; }
+    .slide.active { z-index: auto; }
+    .pager, .dot, .page-num { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- ═══ 第1页：封面 ═══ -->
+  <section class="slide center" style="background:radial-gradient(ellipse at 50% 30%,rgba(139,58,58,0.05) 0%,transparent 60%),var(--bg);">
+    <h1 style="font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;letter-spacing:3px;text-align:center;line-height:1.35;padding:0 4%;">人工智能技术在人地关系<br>研究中的应用进展与展望</h1>
+    <div style="width:50px;height:3px;background:var(--accent);margin:20px auto;border-radius:2px;"></div>
+    <p style="font-size:1rem;color:var(--muted);text-align:center;line-height:1.6;">文献综述报告</p>
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:4px;">2026年5月</p>
+    <p style="font-size:0.8rem;color:rgba(0,0,0,0.3);margin-top:28px;">点击 / 方向键翻页</p>
+  </section>
+
+  <!-- ═══ 第2页：汇报纲要 + 核心速览 ═══ -->
+  <section class="slide">
+    <h2 style="margin-bottom:14px;">汇报纲要与核心速览</h2>
+    <div style="width:min(92vw,1100px);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;">
+      <div class="card" style="text-align:center;padding:18px 16px;">
+        <div style="font-size:1.6rem;font-weight:700;color:var(--accent);">01</div>
+        <div style="font-size:1rem;margin-top:6px;font-weight:500;">四大应用方向</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-top:2px;">人口流动 · 土地利用 · 社会感知 · 环境正义</div>
+      </div>
+      <div class="card" style="text-align:center;padding:18px 16px;">
+        <div style="font-size:1.6rem;font-weight:700;color:var(--accent2);">02</div>
+        <div style="font-size:1rem;margin-top:6px;font-weight:500;">方法体系对比</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-top:2px;">深度学习 · 集成学习 · 传统统计</div>
+      </div>
+      <div class="card" style="text-align:center;padding:18px 16px;">
+        <div style="font-size:1.6rem;font-weight:700;color:var(--accent3);">03</div>
+        <div style="font-size:1rem;margin-top:6px;font-weight:500;">挑战与展望</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-top:2px;">数据隐私 · 可解释性 · 尺度匹配</div>
+      </div>
+    </div>
+    <div style="width:min(92vw,1100px);margin:14px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;">
+      <div class="card" style="text-align:center;padding:16px 12px;">
+        <div class="stat-number" style="font-size:clamp(1.8rem,3.5vw,3rem);color:var(--accent);">91.3%</div>
+        <div class="stat-label">人口流动预测精度 (LSTM/Transformer)</div>
+      </div>
+      <div class="card" style="text-align:center;padding:16px 12px;">
+        <div class="stat-number" style="font-size:clamp(1.8rem,3.5vw,3rem);color:var(--accent2);">+15%</div>
+        <div class="stat-label">土地利用模拟精度提升 (GAN)</div>
+      </div>
+      <div class="card" style="text-align:center;padding:16px 12px;">
+        <div class="stat-number" style="font-size:clamp(1.8rem,3.5vw,3rem);color:var(--accent3);">BERT</div>
+        <div class="stat-label">社会感知文本分析模型</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 第3页：四大应用方向 ═══ -->
+  <section class="slide">
+    <h2 style="margin-bottom:10px;">四大应用方向</h2>
+    <p class="sub" style="font-size:0.9rem;margin-bottom:14px;">AI技术在人地关系研究中的核心应用领域</p>
+    <div style="width:min(92vw,1200px);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <!-- 方向1 -->
+      <div class="card" style="padding:20px;border-top:4px solid var(--accent);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">
+          <h3 style="font-size:clamp(1.05rem,1.6vw,1.35rem);font-weight:600;">人口流动与行为模拟</h3>
+          <span class="tag tag-red">LSTM / Transformer</span>
+        </div>
+        <p style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--muted);line-height:1.7;margin-bottom:8px;">基于手机信令 + 社交媒体数据，深度学习模型预测人口流动精度达 <strong style="color:var(--accent);">91.3%</strong></p>
+        <p style="font-size:0.8rem;color:rgba(0,0,0,0.35);">Wang L et al. Applied Geography, 2023</p>
+      </div>
+      <!-- 方向2 -->
+      <div class="card" style="padding:20px;border-top:4px solid var(--accent2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">
+          <h3 style="font-size:clamp(1.05rem,1.6vw,1.35rem);font-weight:600;">土地利用变化模拟</h3>
+          <span class="tag tag-blue">GAN</span>
+        </div>
+        <p style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--muted);line-height:1.7;margin-bottom:8px;">生成对抗网络替代传统 CA-Markov 模型，模拟精度提升 <strong style="color:var(--accent2);">15%+</strong></p>
+        <p style="font-size:0.8rem;color:rgba(0,0,0,0.35);">Chen Y et al. CEUS, 2024</p>
+      </div>
+      <!-- 方向3 -->
+      <div class="card" style="padding:20px;border-top:4px solid var(--accent3);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">
+          <h3 style="font-size:clamp(1.05rem,1.6vw,1.35rem);font-weight:600;">社会感知与空间分异</h3>
+          <span class="tag tag-green">BERT</span>
+        </div>
+        <p style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--muted);line-height:1.7;margin-bottom:8px;">BERT 模型分析微博地理标签文本，刻画城市内部空间情感分异格局</p>
+        <p style="font-size:0.8rem;color:rgba(0,0,0,0.35);">李婷等 地理科学, 2024</p>
+      </div>
+      <!-- 方向4 -->
+      <div class="card" style="padding:20px;border-top:4px solid var(--accent);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">
+          <h3 style="font-size:clamp(1.05rem,1.6vw,1.35rem);font-weight:600;">环境正义与资源分配</h3>
+          <span class="tag tag-red">RF / XGBoost</span>
+        </div>
+        <p style="font-size:clamp(0.9rem,1.3vw,1.05rem);color:var(--muted);line-height:1.7;margin-bottom:8px;">随机森林 / XGBoost 识别公共服务配置不均衡，揭示环境正义的空间维度</p>
+        <p style="font-size:0.8rem;color:rgba(0,0,0,0.35);">多源数据融合分析</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 第4页：方法体系对比 ═══ -->
+  <section class="slide">
+    <h2 style="margin-bottom:10px;">方法体系对比</h2>
+    <p class="sub" style="font-size:0.9rem;margin-bottom:18px;">不同方法在人地关系研究中的适用性与特点</p>
+    <div style="width:min(92vw,1200px);margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;">
+      <div class="card" style="padding:24px 18px;text-align:center;border-top:4px solid var(--accent);">
+        <div style="font-size:clamp(1.2rem,1.8vw,1.5rem);font-weight:700;color:var(--accent);margin-bottom:4px;">深度学习</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">Deep Learning</div>
+        <div style="font-size:clamp(0.85rem,1.3vw,1rem);text-align:left;line-height:2;">
+          <div style="margin-bottom:8px;">✓ 适合非结构化数据</div>
+          <div style="margin-bottom:8px;">✓ 自动特征提取</div>
+          <div style="margin-bottom:8px;">✓ 预测精度高</div>
+          <div>✗ 需大量标注数据</div>
+        </div>
+      </div>
+      <div class="card" style="padding:24px 18px;text-align:center;border-top:4px solid var(--accent2);">
+        <div style="font-size:clamp(1.2rem,1.8vw,1.5rem);font-weight:700;color:var(--accent2);margin-bottom:4px;">集成学习</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">Ensemble Learning</div>
+        <div style="font-size:clamp(0.85rem,1.3vw,1rem);text-align:left;line-height:2;">
+          <div style="margin-bottom:8px;">✓ 适合结构化数据</div>
+          <div style="margin-bottom:8px;">✓ 可解释性较好</div>
+          <div style="margin-bottom:8px;">✓ 特征重要性可量化</div>
+          <div>✗ 高维数据表现有限</div>
+        </div>
+      </div>
+      <div class="card" style="padding:24px 18px;text-align:center;border-top:4px solid var(--accent3);">
+        <div style="font-size:clamp(1.2rem,1.8vw,1.5rem);font-weight:700;color:var(--accent3);margin-bottom:4px;">传统统计</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">Traditional Statistics</div>
+        <div style="font-size:clamp(0.85rem,1.3vw,1rem);text-align:left;line-height:2;">
+          <div style="margin-bottom:8px;">✓ 可解释性最强</div>
+          <div style="margin-bottom:8px;">✓ 理论基础成熟</div>
+          <div style="margin-bottom:8px;">✓ 小样本适用</div>
+          <div>✗ 高维数据处理能力有限</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 第5页：挑战与展望 + 参考文献 ═══ -->
+  <section class="slide">
+    <h2 style="margin-bottom:14px;">挑战与展望</h2>
+    <div style="width:min(92vw,1100px);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+      <!-- 挑战 -->
+      <div class="card" style="padding:20px;">
+        <h3 style="font-size:clamp(1rem,1.5vw,1.2rem);font-weight:600;color:var(--accent);margin-bottom:12px;">核心挑战</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent);min-width:22px;">01</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">数据隐私</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">手机信令、社交媒体数据涉及个人隐私，获取与共享受限</span></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent2);min-width:22px;">02</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">模型可解释性</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">深度学习"黑箱"问题制约在地理学中的应用可信度</span></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent3);min-width:22px;">03</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">时空尺度匹配</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">AI模型尺度与地理时空尺度之间的匹配仍待解决</span></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:0.85rem;font-weight:700;color:#b0a090;min-width:22px;">04</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">跨区域迁移</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">模型在不同区域的泛化能力有待验证</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 展望 -->
+      <div class="card" style="padding:20px;">
+        <h3 style="font-size:clamp(1rem,1.5vw,1.2rem);font-weight:600;color:var(--accent2);margin-bottom:12px;">未来展望</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="color:var(--accent2);font-size:1.1rem;">▸</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">隐私计算赋能地理数据</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">联邦学习、差分隐私等隐私计算技术赋能敏感地理数据应用</span></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="color:var(--accent2);font-size:1.1rem;">▸</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">可解释AI增强透明度</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">XAI 技术增强地理学模型的可解释性与可信度</span></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="color:var(--accent2);font-size:1.1rem;">▸</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">多模态数据融合</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">遥感 + 文本 + 轨迹数据融合拓展人地关系研究边界</span></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <span style="color:var(--accent2);font-size:1.1rem;">▸</span>
+            <div><strong style="font-size:clamp(0.85rem,1.2vw,0.95rem);">大语言模型新范式</strong><br><span style="font-size:clamp(0.75rem,1vw,0.85rem);color:var(--muted);">LLM 为地理空间推理与知识发现提供全新范式</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width:min(92vw,1100px);margin:12px auto 0;padding:10px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;">
+      <p style="font-size:clamp(0.65rem,0.9vw,0.8rem);color:var(--muted);line-height:1.7;">
+        <strong>参考文献：</strong> Wang L et al. Deep learning for human mobility prediction. <em>Applied Geography</em>, 2023 &nbsp;|&nbsp; Chen Y et al. GAN-based land use change simulation. <em>CEUS</em>, 2024 &nbsp;|&nbsp; 李婷等. 基于BERT的城市空间情感分异研究. <em>地理科学</em>, 2024
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ 第6页：致谢 ═══ -->
+  <section class="slide center" style="background:radial-gradient(ellipse at 50% 40%,rgba(139,58,58,0.04) 0%,transparent 60%),var(--bg);">
+    <h1 style="font-size:clamp(2.5rem,5vw,4rem);">感谢聆听</h1>
+    <div style="width:50px;height:3px;background:var(--accent);margin:20px auto;border-radius:2px;"></div>
+    <p class="sub">欢迎批评指正 · 深入交流</p>
+    <p style="font-size:0.85rem;color:rgba(0,0,0,0.3);margin-top:32px;">人工智能技术在人地关系研究中的应用进展与展望</p>
+    <p style="font-size:0.75rem;color:rgba(0,0,0,0.18);margin-top:6px;">文献综述报告 · 2026年5月</p>
+  </section>
+
+</div>
+
+<div class="pager">
+  <div class="dot" data-goto="0"></div>
+  <div class="dot" data-goto="1"></div>
+  <div class="dot" data-goto="2"></div>
+  <div class="dot" data-goto="3"></div>
+  <div class="dot" data-goto="4"></div>
+  <div class="dot" data-goto="5"></div>
+  <span class="page-num" id="pageNum">01 / 06</span>
+</div>
+
+<script>
+(function(){
+  var ss = document.querySelectorAll('.slide'), dots = document.querySelectorAll('.dot'), pn = document.getElementById('pageNum'), ci = 0;
+  function go(n){ ss[ci].classList.remove('active'); dots[ci].classList.remove('active'); ci = (n+ss.length)%ss.length; ss[ci].classList.add('active'); dots[ci].classList.add('active'); if(pn) pn.textContent = String(ci+1).padStart(2,'0')+' / '+String(ss.length).padStart(2,'0'); }
+  var nxt=function(){go(ci+1);}, prv=function(){go(ci-1);};
+  document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();nxt();}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prv();}});
+  document.addEventListener('click',function(e){if(e.target.closest('.pager')) return; if(e.clientX/window.innerWidth<0.25) prv(); else nxt();});
+  var wt=null; document.addEventListener('wheel',function(e){e.preventDefault();if(wt)return;wt=setTimeout(function(){wt=null;},500);if(e.deltaY>0)nxt();else prv();},{passive:false});
+  for(var i=0;i<dots.length;i++) dots[i].addEventListener('click',function(){go(parseInt(this.dataset.goto));});
+  go(0);
+})();
+</script>
+</body>
+</html>
